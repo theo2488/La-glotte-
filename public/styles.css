@@ -1,36 +1,40 @@
 /*
-  Deux tons de gris, deux voix.
-  Les articles s'écrivent en graphite sur gris clair, dans un caractère sans empattement.
-  Les éditos s'écrivent en gris clair sur anthracite, dans un caractère à empattements.
-  Chaque ton définit quatre gris : --fond, --encre, --encre-douce (dates, mentions) et --trait (filets).
-  Le texte est volontairement aéré : interligne large, paragraphes espacés, lignes courtes.
+  Noir et blanc de bande dessinée : deux encres, des trames, des explosions maîtrisées.
+  Les articles s'écrivent à l'encre noire sur papier blanc, dans un caractère sans empattement.
+  Les éditos s'écrivent en blanc sur aplat noir, dans un caractère à empattements.
+  Pas de gris en aplat : les valeurs intermédiaires viennent de trames de points, comme à l'impression.
+  Chaque ton définit --fond, --encre et --encre-douce (dates, mentions, résumés).
+  Le texte courant reste aéré : interligne large, paragraphes espacés, lignes courtes.
 */
 
 :root {
   --sans: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
   --serif: Georgia, "Noto Serif", "Times New Roman", serif;
+  --titre: "Arial Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --noir: #000;
+  --blanc: #fff;
   --marge: clamp(1.25rem, 5vw, 4rem);
   --mesure: 60ch;
-  --filet: 1px;
-  --filet-fort: 2px;
+  --filet: 2px;
+  --trait: 4px;
+  --ombre: 8px;
   --interligne: 1.8;
   --paragraphe: 1.6em;
+  --point: 8px;
 }
 
 /* ---------- Tons ---------- */
 
 .ton-blanc {
-  --fond: #efeeec;
-  --encre: #262626;
-  --encre-douce: #626262;
-  --trait: #c9c8c6;
+  --fond: var(--blanc);
+  --encre: var(--noir);
+  --encre-douce: #333;
 }
 
 .ton-noir {
-  --fond: #2b2b2b;
-  --encre: #e6e6e4;
-  --encre-douce: #a3a3a1;
-  --trait: #4a4a4a;
+  --fond: var(--noir);
+  --encre: var(--blanc);
+  --encre-douce: #d0d0d0;
 }
 
 .ton-blanc,
@@ -39,14 +43,15 @@
   color: var(--encre);
 }
 
-.ton-blanc ::selection {
-  background: #3a3a3a;
-  color: #f4f4f2;
+.ton-noir .texte,
+.ton-noir .une-titre,
+.ton-noir .publication-titre {
+  color: #f4f4f4;
 }
 
-.ton-noir ::selection {
-  background: #d6d6d4;
-  color: #1f1f1f;
+::selection {
+  background: var(--encre);
+  color: var(--fond);
 }
 
 /* ---------- Voix ---------- */
@@ -93,18 +98,19 @@ p {
 
 a {
   color: inherit;
-  text-decoration-thickness: 1px;
-  text-decoration-color: var(--encre-douce);
-  text-underline-offset: 0.22em;
+  text-decoration-thickness: var(--filet);
+  text-underline-offset: 0.2em;
 }
 
+/* Au survol, le lien passe en réserve : encre et papier s'inversent. */
 a:hover {
-  text-decoration-color: currentColor;
-  text-decoration-thickness: var(--filet-fort);
+  background: var(--encre);
+  color: var(--fond);
+  text-decoration: none;
 }
 
 :focus-visible {
-  outline: var(--filet-fort) solid currentColor;
+  outline: var(--trait) solid currentColor;
   outline-offset: 3px;
 }
 
@@ -135,64 +141,99 @@ a:hover {
 .entete {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 0.5rem 2rem;
-  padding: 1.5rem var(--marge);
-  border-bottom: var(--filet) solid var(--trait);
+  padding: 1.25rem var(--marge);
+  border-bottom: var(--trait) solid var(--noir);
   font-family: var(--sans);
 }
 
+.ton-noir .entete {
+  border-bottom-color: var(--blanc);
+}
+
 .entete-nom {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: 0;
+  font-family: var(--titre);
+  font-size: 1.375rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
   text-decoration: none;
 }
 
 .menu {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 2rem;
+  gap: 0.25rem 0.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .menu a {
-  color: var(--encre-douce);
+  display: block;
+  padding: 0.2rem 0.65rem;
+  border: var(--filet) solid transparent;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   text-decoration: none;
 }
 
-.menu a:hover,
-.menu a[aria-current="page"] {
+.menu a:hover {
+  border-color: var(--encre);
+  background: transparent;
   color: var(--encre);
 }
 
-.menu a:hover,
 .menu a[aria-current="page"] {
-  text-decoration: underline;
-  text-decoration-thickness: var(--filet-fort);
-  text-underline-offset: 0.4em;
+  background: var(--encre);
+  color: var(--fond);
 }
 
-/* Le pied de page est un gris moyen, le même sous les articles et sous les éditos. */
+/* Le pied de page est un aplat noir, annoncé par une bande de trame qui se dissout. */
 .pied {
-  --encre-douce: #c4c4c2;
+  --fond: var(--noir);
+  --encre: var(--blanc);
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.75rem 2rem;
+  margin-top: 2.5rem;
   padding: 2.5rem var(--marge);
-  background: #4f4f4f;
-  color: #ececea;
+  background: var(--noir);
+  color: var(--blanc);
   font-family: var(--sans);
   font-size: 0.9375rem;
   line-height: 1.6;
 }
 
+.pied::before {
+  content: "";
+  position: absolute;
+  inset: -2.5rem 0 100%;
+  background: radial-gradient(circle, var(--noir) 42%, transparent 46%) 0 0 / var(--point) var(--point);
+  -webkit-mask-image: linear-gradient(to top, #000, transparent);
+  mask-image: linear-gradient(to top, #000, transparent);
+}
+
+.ton-noir .pied {
+  margin-top: 0;
+  border-top: var(--trait) solid var(--blanc);
+}
+
+.ton-noir .pied::before {
+  display: none;
+}
+
 .pied-nom {
   margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .pied-liens {
@@ -206,37 +247,99 @@ a:hover {
 
 /* ---------- Bandes ---------- */
 
-/* Chaque bande trace un filet fin, dans le gris de trait de son ton. */
+/* Chaque bande est une case : un trait d'encre noire épais la sépare de la suivante. */
 .bande {
   padding: clamp(3rem, 8vw, 6.5rem) var(--marge);
-  border-top: var(--filet) solid var(--trait);
+  border-top: var(--trait) solid var(--noir);
 }
 
-/* ---------- Bloc « une » ---------- */
+/* ---------- Bloc « une » : l'explosion ---------- */
 
+.une {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Lignes de vitesse qui rayonnent depuis l'explosion, et s'effacent avant le titre. */
+.une::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: repeating-conic-gradient(from 3deg at 80% 50%, var(--encre) 0deg 0.9deg, transparent 0.9deg 8deg);
+  -webkit-mask-image: radial-gradient(circle at 80% 50%, transparent 0 8rem, #000 9.5rem 13rem, transparent 21rem);
+  mask-image: radial-gradient(circle at 80% 50%, transparent 0 8rem, #000 9.5rem 13rem, transparent 21rem);
+  opacity: 0.7;
+}
+
+/* L'explosion : une étoile tramée, dense au cœur, qui se dissout vers ses pointes. */
+.une::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 80%;
+  z-index: -1;
+  width: clamp(12rem, 30vw, 24rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  clip-path: polygon(50% 0%, 57.3% 17.8%, 71.7% 5%, 73.7% 20.3%, 89.1% 18.8%, 79.7% 35.7%, 98.7% 38.9%, 88% 50%, 98.7% 61.1%, 79.7% 64.3%, 89.1% 81.2%, 73.7% 79.7%, 71.7% 95%, 57.3% 82.2%, 50% 100%, 41.5% 87%, 28.3% 95%, 29.4% 75.8%, 10.9% 81.2%, 15.8% 66.5%, 1.3% 61.1%, 17% 50%, 1.3% 38.9%, 15.8% 33.5%, 10.9% 18.8%, 29.4% 24.2%, 28.3% 5%, 41.5% 13%);
+  background: radial-gradient(circle, var(--encre) 40%, transparent 44%) 0 0 / 10px 10px;
+  -webkit-mask-image: radial-gradient(circle, #000 18%, rgb(0 0 0 / 0.55) 48%, transparent 72%);
+  mask-image: radial-gradient(circle, #000 18%, rgb(0 0 0 / 0.55) 48%, transparent 72%);
+}
+
+/* Sur petit écran, l'explosion se range dans le coin pour laisser le titre lisible. */
+@media (max-width: 51.99rem) {
+  .une::before {
+    background: repeating-conic-gradient(from 0deg at 100% 0%, var(--encre) 0deg 1.6deg, transparent 1.6deg 7deg);
+    -webkit-mask-image: radial-gradient(circle at 100% 0%, transparent 0 4rem, #000 4.5rem 8rem, transparent 14rem);
+    mask-image: radial-gradient(circle at 100% 0%, transparent 0 4rem, #000 4.5rem 8rem, transparent 14rem);
+    opacity: 0.5;
+  }
+
+  .une::after {
+    top: 0;
+    left: 100%;
+    width: 12rem;
+    opacity: 0.7;
+  }
+}
+
+/* Le petit cartouche, comme un récitatif de bande dessinée. */
 .une-meta {
-  margin: 0 0 1.75rem;
-  color: var(--encre-douce);
+  display: inline-block;
+  margin: 0 0 2rem;
+  padding: 0.35rem 0.8rem;
+  border: var(--filet) solid var(--encre);
+  background: var(--fond);
   font-family: var(--sans);
-  font-size: 0.9375rem;
-  letter-spacing: 0.04em;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 var(--encre);
 }
 
 .une-titre {
   max-width: 16ch;
   margin: 0 0 2.25rem;
-  font-size: clamp(2.5rem, 9vw, 6.5rem);
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.025em;
+  font-family: var(--titre);
+  font-size: clamp(2.5rem, 8.5vw, 6.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   overflow-wrap: break-word;
 }
 
 .voix-edito .une-titre {
+  font-family: var(--serif);
   font-style: italic;
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  text-transform: none;
 }
 
 .une-titre a {
@@ -244,29 +347,35 @@ a:hover {
 }
 
 .une-titre a:hover {
+  background: none;
+  color: inherit;
   text-decoration: underline;
-  text-decoration-thickness: 0.06em;
-  text-underline-offset: 0.12em;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.1em;
 }
 
 .une-resume {
   max-width: 38ch;
   margin: 0;
-  color: var(--encre-douce);
   font-size: 1.375rem;
   line-height: 1.55;
 }
 
-/* ---------- Duo : articles sur gris clair, éditos sur anthracite ---------- */
+/* ---------- Duo : deux cases côte à côte, article sur papier, édito en aplat ---------- */
 
 .duo {
   display: grid;
   grid-template-columns: 1fr;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  padding: clamp(1.75rem, 4vw, 3rem) var(--marge) calc(clamp(1.75rem, 4vw, 3rem) + var(--ombre));
+  border-top: var(--trait) solid var(--noir);
+  background: var(--blanc);
 }
 
 .duo-colonne {
-  padding: clamp(2.75rem, 7vw, 5.5rem) var(--marge);
-  border-top: var(--filet) solid var(--trait);
+  padding: clamp(1.75rem, 4.5vw, 3.5rem);
+  border: var(--trait) solid var(--noir);
+  box-shadow: var(--ombre) var(--ombre) 0 var(--noir);
 }
 
 @media (min-width: 52rem) {
@@ -277,22 +386,29 @@ a:hover {
 
 .duo-titre {
   margin: 0 0 2.75rem;
+  font-family: var(--titre);
   font-size: clamp(1.75rem, 3.6vw, 2.5rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .voix-edito .duo-titre {
+  font-family: var(--serif);
   font-style: italic;
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: -0.01em;
+  text-transform: none;
 }
 
 .duo-suite {
   margin: 3rem 0 0;
   font-family: var(--sans);
   font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 /* ---------- Listes de textes ---------- */
@@ -309,15 +425,17 @@ a:hover {
   margin: 0;
   color: var(--encre-douce);
   font-family: var(--sans);
-  font-size: 0.875rem;
-  letter-spacing: 0.04em;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .element-titre {
   max-width: 24ch;
   margin: 0.5rem 0 0.75rem;
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -325,17 +443,12 @@ a:hover {
 .voix-edito .element-titre {
   font-size: 1.625rem;
   font-style: italic;
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0;
 }
 
 .element-titre a {
   text-decoration: none;
-}
-
-.element-titre a:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
 }
 
 .element-resume {
@@ -352,14 +465,24 @@ a:hover {
 
 .bloc-titre {
   margin: 0 0 2rem;
+  font-family: var(--titre);
   font-size: clamp(1.75rem, 3.6vw, 2.5rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .bloc .texte {
   margin-top: 0;
+}
+
+/* Un bloc sur aplat noir reçoit une trame blanche qui monte du bas, comme un dégradé imprimé. */
+.bloc.ton-noir {
+  background:
+    linear-gradient(var(--noir) 55%, transparent),
+    radial-gradient(circle, #555 40%, transparent 44%) 0 0 / var(--point) var(--point),
+    var(--noir);
 }
 
 .integration {
@@ -383,9 +506,11 @@ a:hover {
 /* ---------- Fil d'Ariane ---------- */
 
 .fil {
-  color: var(--encre-douce);
   font-family: var(--sans);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .fil ol {
@@ -408,25 +533,28 @@ a:hover {
 .publication-titre {
   max-width: 18ch;
   margin: 0 0 1.75rem;
+  font-family: var(--titre);
   font-size: clamp(2.25rem, 6.5vw, 4.5rem);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
   overflow-wrap: break-word;
 }
 
 .voix-edito .publication-titre {
+  font-family: var(--serif);
   font-style: italic;
-  font-weight: 400;
-  line-height: 1.1;
+  font-weight: 700;
+  line-height: 1.08;
   letter-spacing: -0.01em;
+  text-transform: none;
 }
 
 .page-chapo,
 .publication-resume {
   max-width: 40ch;
   margin: 0 0 1.75rem;
-  color: var(--encre-douce);
   font-size: 1.375rem;
   line-height: 1.55;
 }
@@ -439,11 +567,12 @@ a:hover {
   max-width: var(--mesure);
   margin: 0;
   padding-top: 1.25rem;
-  border-top: var(--filet) solid var(--trait);
-  color: var(--encre-douce);
+  border-top: var(--trait) solid var(--encre);
   font-family: var(--sans);
-  font-size: 0.9375rem;
-  letter-spacing: 0.02em;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 /* ---------- Texte courant ---------- */
@@ -476,6 +605,7 @@ a:hover {
 .texte h2 {
   margin: 3.75rem 0 1.25rem;
   font-size: 1.75rem;
+  font-weight: 800;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -489,7 +619,7 @@ a:hover {
 .voix-edito .texte h2,
 .voix-edito .texte h3 {
   font-style: italic;
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0;
 }
 
@@ -502,13 +632,44 @@ a:hover {
   margin-top: 0.6rem;
 }
 
+/* La citation devient une bulle. */
 .texte blockquote {
-  margin: 2.75rem 0;
-  padding-left: 1.5rem;
-  border-left: var(--filet-fort) solid var(--trait);
-  color: var(--encre-douce);
+  position: relative;
+  margin: 2.75rem 0 3.5rem;
+  padding: 1.5rem 1.75rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 1.75rem;
+  background: var(--fond);
   font-size: 1.25rem;
   line-height: 1.65;
+}
+
+/* La pointe de la bulle : un triangle d'encre, évidé par un triangle de papier. */
+.texte blockquote::before,
+.texte blockquote::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-right-style: solid;
+  border-right-color: transparent;
+  border-top-style: solid;
+}
+
+.texte blockquote::before {
+  left: 2.25rem;
+  bottom: -1.75rem;
+  border-top-width: 1.75rem;
+  border-top-color: var(--encre);
+  border-right-width: 1.5rem;
+}
+
+.texte blockquote::after {
+  left: calc(2.25rem + var(--trait));
+  bottom: calc(-1.75rem + var(--trait) * 2.3);
+  border-top-width: 1.2rem;
+  border-top-color: var(--fond);
+  border-right-width: 1rem;
 }
 
 .texte blockquote p:last-child {
@@ -522,6 +683,10 @@ a:hover {
   height: auto;
 }
 
+.texte img {
+  border: var(--trait) solid var(--noir);
+}
+
 .texte code {
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.88em;
@@ -531,7 +696,8 @@ a:hover {
   margin: 0 0 var(--paragraphe);
   padding: 1.25rem 1.5rem;
   overflow-x: auto;
-  border: 1px solid var(--trait);
+  border: var(--filet) solid var(--encre);
+  box-shadow: 5px 5px 0 var(--encre);
   font-size: 0.9375rem;
   line-height: 1.6;
 }
@@ -546,19 +712,25 @@ a:hover {
 .texte th,
 .texte td {
   padding: 0.75rem 1rem 0.75rem 0;
-  border-bottom: 1px solid var(--trait);
+  border-bottom: var(--filet) solid var(--encre);
   text-align: left;
   vertical-align: top;
 }
 
 .texte th {
-  border-bottom: var(--filet-fort) solid var(--encre-douce);
+  border-bottom-width: var(--trait);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
+/* Le séparateur : une bande de trame qui se dissout des deux côtés. */
 .texte hr {
+  height: 1.25rem;
   margin: 3.5rem 0;
   border: 0;
-  border-top: var(--filet) solid var(--trait);
+  background: radial-gradient(circle, var(--encre) 40%, transparent 44%) 0 0 / var(--point) var(--point);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 30% 70%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 30% 70%, transparent);
 }
 
 /* ---------- Plan du site ---------- */
@@ -584,20 +756,25 @@ a:hover {
   .entete nav,
   .pied-liens,
   .fil,
-  .evitement {
+  .evitement,
+  .une::before,
+  .une::after,
+  .pied::before {
     display: none;
   }
 
   .ton-blanc,
-  .ton-noir {
+  .ton-noir,
+  .pied,
+  .bloc.ton-noir {
     --fond: #fff;
     --encre: #000;
-    --encre-douce: #444;
-    --trait: #999;
-  }
-
-  .pied {
+    --encre-douce: #333;
     background: #fff;
     color: #000;
+  }
+
+  .duo-colonne {
+    box-shadow: none;
   }
 }
