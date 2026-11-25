@@ -1,6 +1,6 @@
 # Site d'articles et d'éditos
 
-Un site en HTML et CSS, en noir et blanc. Les articles s'affichent en noir sur blanc, les éditos en blanc sur noir.
+Un site en HTML et CSS, en nuances de gris. Les articles s’affichent en graphite sur gris clair, les éditos en gris clair sur anthracite.
 
 Le site publié ne contient que du HTML et du CSS : aucun JavaScript, aucun cookie, aucune police ou ressource chargée depuis un autre site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
 

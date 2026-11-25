@@ -1,28 +1,36 @@
 /*
-  Deux couleurs, deux voix.
-  Les articles s'écrivent en noir sur blanc, dans un caractère sans empattement.
-  Les éditos s'écrivent en blanc sur noir, dans un caractère à empattements.
-  Tout le site repose sur deux variables : --fond et --encre.
+  Deux tons de gris, deux voix.
+  Les articles s'écrivent en graphite sur gris clair, dans un caractère sans empattement.
+  Les éditos s'écrivent en gris clair sur anthracite, dans un caractère à empattements.
+  Chaque ton définit quatre gris : --fond, --encre, --encre-douce (dates, mentions) et --trait (filets).
+  Le texte est volontairement aéré : interligne large, paragraphes espacés, lignes courtes.
 */
 
 :root {
   --sans: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
   --serif: Georgia, "Noto Serif", "Times New Roman", serif;
   --marge: clamp(1.25rem, 5vw, 4rem);
-  --mesure: 64ch;
-  --filet: 3px;
+  --mesure: 60ch;
+  --filet: 1px;
+  --filet-fort: 2px;
+  --interligne: 1.8;
+  --paragraphe: 1.6em;
 }
 
 /* ---------- Tons ---------- */
 
 .ton-blanc {
-  --fond: #fff;
-  --encre: #000;
+  --fond: #efeeec;
+  --encre: #262626;
+  --encre-douce: #626262;
+  --trait: #c9c8c6;
 }
 
 .ton-noir {
-  --fond: #000;
-  --encre: #fff;
+  --fond: #2b2b2b;
+  --encre: #e6e6e4;
+  --encre-douce: #a3a3a1;
+  --trait: #4a4a4a;
 }
 
 .ton-blanc,
@@ -32,13 +40,13 @@
 }
 
 .ton-blanc ::selection {
-  background: #000;
-  color: #fff;
+  background: #3a3a3a;
+  color: #f4f4f2;
 }
 
 .ton-noir ::selection {
-  background: #fff;
-  color: #000;
+  background: #d6d6d4;
+  color: #1f1f1f;
 }
 
 /* ---------- Voix ---------- */
@@ -68,7 +76,9 @@ body {
   margin: 0;
   font-family: var(--sans);
   font-size: 1.125rem;
-  line-height: 1.55;
+  line-height: var(--interligne);
+  letter-spacing: 0.005em;
+  word-spacing: 0.03em;
 }
 
 h1,
@@ -84,15 +94,17 @@ p {
 a {
   color: inherit;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
+  text-decoration-color: var(--encre-douce);
+  text-underline-offset: 0.22em;
 }
 
 a:hover {
-  text-decoration-thickness: var(--filet);
+  text-decoration-color: currentColor;
+  text-decoration-thickness: var(--filet-fort);
 }
 
 :focus-visible {
-  outline: var(--filet) solid currentColor;
+  outline: var(--filet-fort) solid currentColor;
   outline-offset: 3px;
 }
 
@@ -126,49 +138,57 @@ a:hover {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem 2rem;
-  padding: 1.1rem var(--marge);
+  padding: 1.5rem var(--marge);
+  border-bottom: var(--filet) solid var(--trait);
   font-family: var(--sans);
 }
 
 .entete-nom {
   font-size: 1.25rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   text-decoration: none;
 }
 
 .menu {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 1.75rem;
+  gap: 0.25rem 2rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .menu a {
+  color: var(--encre-douce);
   text-decoration: none;
 }
 
 .menu a:hover,
 .menu a[aria-current="page"] {
-  text-decoration: underline;
-  text-decoration-thickness: var(--filet);
-  text-underline-offset: 0.35em;
+  color: var(--encre);
 }
 
-/* Le pied de page prend toujours le ton inverse de la page. */
+.menu a:hover,
+.menu a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: var(--filet-fort);
+  text-underline-offset: 0.4em;
+}
+
+/* Le pied de page est un gris moyen, le même sous les articles et sous les éditos. */
 .pied {
+  --encre-douce: #c4c4c2;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.75rem 2rem;
-  padding: 2rem var(--marge);
-  border-top: var(--filet) solid var(--fond);
-  background: var(--encre);
-  color: var(--fond);
+  padding: 2.5rem var(--marge);
+  background: #4f4f4f;
+  color: #ececea;
   font-family: var(--sans);
   font-size: 0.9375rem;
+  line-height: 1.6;
 }
 
 .pied-nom {
@@ -186,36 +206,37 @@ a:hover {
 
 /* ---------- Bandes ---------- */
 
-/* Chaque bande trace son propre filet haut, dans sa couleur d'encre :
-   visible entre deux bandes du même ton, fondu dans la bande voisine quand le ton change. */
+/* Chaque bande trace un filet fin, dans le gris de trait de son ton. */
 .bande {
-  padding: clamp(2.5rem, 7vw, 5.5rem) var(--marge);
-  border-top: var(--filet) solid var(--encre);
+  padding: clamp(3rem, 8vw, 6.5rem) var(--marge);
+  border-top: var(--filet) solid var(--trait);
 }
 
 /* ---------- Bloc « une » ---------- */
 
 .une-meta {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.75rem;
+  color: var(--encre-douce);
   font-family: var(--sans);
   font-size: 0.9375rem;
+  letter-spacing: 0.04em;
 }
 
 .une-titre {
   max-width: 16ch;
-  margin: 0 0 1.75rem;
+  margin: 0 0 2.25rem;
   font-size: clamp(2.5rem, 9vw, 6.5rem);
   font-weight: 700;
-  line-height: 0.96;
-  letter-spacing: -0.035em;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
   overflow-wrap: break-word;
 }
 
 .voix-edito .une-titre {
   font-style: italic;
   font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.015em;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
 }
 
 .une-titre a {
@@ -231,11 +252,12 @@ a:hover {
 .une-resume {
   max-width: 38ch;
   margin: 0;
+  color: var(--encre-douce);
   font-size: 1.375rem;
-  line-height: 1.35;
+  line-height: 1.55;
 }
 
-/* ---------- Duo : articles sur blanc, éditos sur noir ---------- */
+/* ---------- Duo : articles sur gris clair, éditos sur anthracite ---------- */
 
 .duo {
   display: grid;
@@ -243,8 +265,8 @@ a:hover {
 }
 
 .duo-colonne {
-  padding: clamp(2.25rem, 6vw, 4.5rem) var(--marge);
-  border-top: var(--filet) solid var(--encre);
+  padding: clamp(2.75rem, 7vw, 5.5rem) var(--marge);
+  border-top: var(--filet) solid var(--trait);
 }
 
 @media (min-width: 52rem) {
@@ -254,11 +276,11 @@ a:hover {
 }
 
 .duo-titre {
-  margin: 0 0 2.25rem;
+  margin: 0 0 2.75rem;
   font-size: clamp(1.75rem, 3.6vw, 2.5rem);
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .voix-edito .duo-titre {
@@ -268,7 +290,7 @@ a:hover {
 }
 
 .duo-suite {
-  margin: 2.5rem 0 0;
+  margin: 3rem 0 0;
   font-family: var(--sans);
   font-size: 0.9375rem;
 }
@@ -277,7 +299,7 @@ a:hover {
 
 .liste {
   display: grid;
-  gap: 2.25rem;
+  gap: 3rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -285,17 +307,19 @@ a:hover {
 
 .element-meta {
   margin: 0;
+  color: var(--encre-douce);
   font-family: var(--sans);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
 }
 
 .element-titre {
   max-width: 24ch;
-  margin: 0.3rem 0 0.5rem;
+  margin: 0.5rem 0 0.75rem;
   font-size: 1.5rem;
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .voix-edito .element-titre {
@@ -315,8 +339,9 @@ a:hover {
 }
 
 .element-resume {
-  max-width: 46ch;
+  max-width: 44ch;
   margin: 0;
+  color: var(--encre-douce);
 }
 
 .vide {
@@ -326,11 +351,11 @@ a:hover {
 /* ---------- Blocs libres de l'accueil ---------- */
 
 .bloc-titre {
-  margin: 0 0 1.5rem;
+  margin: 0 0 2rem;
   font-size: clamp(1.75rem, 3.6vw, 2.5rem);
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .bloc .texte {
@@ -358,6 +383,7 @@ a:hover {
 /* ---------- Fil d'Ariane ---------- */
 
 .fil {
+  color: var(--encre-douce);
   font-family: var(--sans);
   font-size: 0.9375rem;
 }
@@ -366,7 +392,7 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 0 0.5rem;
-  margin: 0 0 clamp(2rem, 5vw, 3.5rem);
+  margin: 0 0 clamp(2.5rem, 6vw, 4.5rem);
   padding: 0;
   list-style: none;
 }
@@ -381,27 +407,28 @@ a:hover {
 .page-titre,
 .publication-titre {
   max-width: 18ch;
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.75rem;
   font-size: clamp(2.25rem, 6.5vw, 4.5rem);
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.035em;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   overflow-wrap: break-word;
 }
 
 .voix-edito .publication-titre {
   font-style: italic;
   font-weight: 400;
-  line-height: 1.04;
-  letter-spacing: -0.015em;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 .page-chapo,
 .publication-resume {
   max-width: 40ch;
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.75rem;
+  color: var(--encre-douce);
   font-size: 1.375rem;
-  line-height: 1.35;
+  line-height: 1.55;
 }
 
 .page-chapo {
@@ -409,21 +436,26 @@ a:hover {
 }
 
 .publication-meta {
+  max-width: var(--mesure);
   margin: 0;
+  padding-top: 1.25rem;
+  border-top: var(--filet) solid var(--trait);
+  color: var(--encre-douce);
   font-family: var(--sans);
   font-size: 0.9375rem;
+  letter-spacing: 0.02em;
 }
 
 /* ---------- Texte courant ---------- */
 
 .texte {
   max-width: var(--mesure);
-  margin-top: clamp(2.25rem, 5vw, 3.5rem);
+  margin-top: clamp(2.75rem, 6vw, 4.5rem);
 }
 
 .voix-edito .texte {
   font-size: 1.1875rem;
-  line-height: 1.7;
+  line-height: 1.9;
 }
 
 .texte > :first-child {
@@ -438,20 +470,20 @@ a:hover {
 .texte ul,
 .texte ol,
 .texte table {
-  margin: 0 0 1.25rem;
+  margin: 0 0 var(--paragraphe);
 }
 
 .texte h2 {
-  margin: 2.75rem 0 0.75rem;
+  margin: 3.75rem 0 1.25rem;
   font-size: 1.75rem;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .texte h3 {
-  margin: 2rem 0 0.5rem;
+  margin: 2.75rem 0 1rem;
   font-size: 1.3125rem;
-  line-height: 1.25;
+  line-height: 1.35;
 }
 
 .voix-edito .texte h2,
@@ -467,15 +499,16 @@ a:hover {
 }
 
 .texte li + li {
-  margin-top: 0.35rem;
+  margin-top: 0.6rem;
 }
 
 .texte blockquote {
-  margin: 2rem 0;
-  padding-left: 1.25rem;
-  border-left: var(--filet) solid var(--encre);
+  margin: 2.75rem 0;
+  padding-left: 1.5rem;
+  border-left: var(--filet-fort) solid var(--trait);
+  color: var(--encre-douce);
   font-size: 1.25rem;
-  line-height: 1.45;
+  line-height: 1.65;
 }
 
 .texte blockquote p:last-child {
@@ -495,12 +528,12 @@ a:hover {
 }
 
 .texte pre {
-  margin: 0 0 1.25rem;
-  padding: 1rem 1.25rem;
+  margin: 0 0 var(--paragraphe);
+  padding: 1.25rem 1.5rem;
   overflow-x: auto;
-  border: 1px solid var(--encre);
+  border: 1px solid var(--trait);
   font-size: 0.9375rem;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .texte table {
@@ -512,20 +545,20 @@ a:hover {
 
 .texte th,
 .texte td {
-  padding: 0.5rem 0.75rem 0.5rem 0;
-  border-bottom: 1px solid var(--encre);
+  padding: 0.75rem 1rem 0.75rem 0;
+  border-bottom: 1px solid var(--trait);
   text-align: left;
   vertical-align: top;
 }
 
 .texte th {
-  border-bottom-width: var(--filet);
+  border-bottom: var(--filet-fort) solid var(--encre-douce);
 }
 
 .texte hr {
-  margin: 2.5rem 0;
+  margin: 3.5rem 0;
   border: 0;
-  border-top: var(--filet) solid var(--encre);
+  border-top: var(--filet) solid var(--trait);
 }
 
 /* ---------- Plan du site ---------- */
@@ -542,7 +575,7 @@ a:hover {
 }
 
 .plan li + li {
-  margin-top: 0.4rem;
+  margin-top: 0.6rem;
 }
 
 /* ---------- Impression ---------- */
@@ -555,8 +588,16 @@ a:hover {
     display: none;
   }
 
+  .ton-blanc,
   .ton-noir {
     --fond: #fff;
     --encre: #000;
+    --encre-douce: #444;
+    --trait: #999;
+  }
+
+  .pied {
+    background: #fff;
+    color: #000;
   }
 }
