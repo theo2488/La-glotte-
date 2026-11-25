@@ -1,8 +1,8 @@
 # Site d'articles et d'éditos
 
-Un site en HTML et CSS, en noir et blanc de bande dessinée au crayon gras : explosions hachurées, taches d’encre, grain de graphite. Les articles s’affichent en noir sur blanc, les éditos en blanc sur noir.
+Un site en HTML et CSS, façon graffiti des années 90 en noir et blanc : titres tagués à la bombe, étiquettes au feutre, articles tapés à la machine, lignes de travers, explosions hachurées et taches d’encre. Les articles s’affichent en noir sur blanc, les éditos en blanc sur noir.
 
-Le site publié ne contient que du HTML et du CSS : aucun JavaScript, aucun cookie, aucune police ou ressource chargée depuis un autre site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
+Le site publié ne contient que du HTML et du CSS : aucun JavaScript, aucun cookie, aucune police ou ressource chargée depuis un autre site : les polices sont hébergées avec le site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
 
 ## Ce que contient le dépôt
 
@@ -17,6 +17,7 @@ contenu/
 gabarits/page.html    le squelette commun à toutes les pages (en-tête, menu, pied de page)
 public/               les fichiers copiés tels quels : styles.css, favicon.svg, images
   crayon/             les motifs dessinés (explosions, hachures, taches, gribouillis, grain)
+  polices/            les trois polices du site et leurs licences (Sedgwick Ave Display, Permanent Marker, Special Elite)
 build.mjs             le script qui assemble le site dans dist/
 ```
 

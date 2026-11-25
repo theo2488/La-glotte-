@@ -1,4 +1,26 @@
+/* Polices hébergées avec le site (licences dans public/polices/). */
+@font-face {
+  font-family: "Sedgwick Ave Display";
+  src: url("polices/sedgwick-ave-display.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Permanent Marker";
+  src: url("polices/permanent-marker.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Special Elite";
+  src: url("polices/special-elite.woff2") format("woff2");
+  font-display: swap;
+}
+
 /*
+  Graffiti des années 90 : tags à la bombe pour les titres, feutre pour les étiquettes,
+  machine à écrire de fanzine pour les articles, et des lignes qui ne tiennent pas en place.
+
   Noir et blanc de bande dessinée, au crayon gras : deux encres, des hachures, des explosions,
   du grain et quelques taches. Les motifs dessinés sont dans public/crayon/ et prennent la
   couleur d'encre du ton grâce à mask-image : un même dessin sert sur papier et sur aplat noir.
@@ -12,7 +34,9 @@
 :root {
   --sans: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
   --serif: Georgia, "Noto Serif", "Times New Roman", serif;
-  --titre: "Arial Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --titre: "Sedgwick Ave Display", "Arial Black", Impact, sans-serif;
+  --marqueur: "Permanent Marker", "Comic Sans MS", "Marker Felt", cursive;
+  --machine: "Special Elite", "Courier New", Courier, monospace;
   --noir: #000;
   --blanc: #fff;
   --marge: clamp(1.25rem, 5vw, 4rem);
@@ -998,6 +1022,381 @@ a:hover {
   margin-top: 0.6rem;
 }
 
+
+/* =====================================================================
+   Graffiti 90 : on décadre.
+   Tout ce qui suit défait l'alignement : titres de travers et débordants,
+   lignes de texte décalées, étiquettes au feutre, résumés collés en bandes.
+   ===================================================================== */
+
+/* Les voix : les articles tapés à la machine, les éditos gardent leur caractère à empattements. */
+.voix-article .texte,
+.voix-article .element-resume,
+.texte table {
+  font-family: var(--machine);
+}
+
+.voix-article .texte {
+  font-size: 1.125rem;
+  letter-spacing: 0;
+}
+
+/* --- Étiquettes au feutre --- */
+
+.menu a,
+.une-meta,
+.element-meta,
+.publication-meta,
+.fil,
+.duo-suite,
+.pied,
+.pied-nom,
+.texte th {
+  font-family: var(--marqueur);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+
+.menu a {
+  font-size: 1.125rem;
+}
+
+.menu li:nth-child(odd) a {
+  transform: rotate(-4deg);
+}
+
+.menu li:nth-child(even) a {
+  transform: rotate(3deg) translateY(3px);
+}
+
+.element-meta {
+  font-size: 0.9375rem;
+}
+
+.element-titre,
+.texte h2,
+.texte h3 {
+  font-family: var(--marqueur);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.01em;
+}
+
+.voix-edito .element-titre,
+.voix-edito .texte h2,
+.voix-edito .texte h3 {
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* --- Titres à la bombe --- */
+
+.entete-nom,
+.une-titre,
+.duo-titre,
+.bloc-titre,
+.page-titre,
+.publication-titre {
+  font-family: var(--titre);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+.entete-nom {
+  font-size: 1.875rem;
+  transform: rotate(-5deg) translateY(4px);
+}
+
+/* Les articles : lettres pleines, avec un relief décalé. */
+.une-titre,
+.page-titre,
+.publication-titre {
+  max-width: 13ch;
+  line-height: 0.92;
+  text-shadow: 3px 3px 0 var(--fond), 6px 6px 0 var(--encre);
+}
+
+.une-titre {
+  font-size: clamp(3.25rem, 11vw, 9rem);
+  margin-left: -0.04em;
+  transform: rotate(-5deg);
+  transform-origin: left center;
+}
+
+.page-titre,
+.publication-titre {
+  font-size: clamp(2.75rem, 8vw, 6rem);
+  transform: rotate(-3.5deg);
+}
+
+/* Les éditos : lettres évidées, contour épais, comme un « throw-up ». */
+.voix-edito .une-titre,
+.voix-edito .publication-titre,
+.voix-edito .duo-titre {
+  font-family: var(--titre);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--fond);
+  -webkit-text-stroke: 2px var(--encre);
+  paint-order: stroke fill;
+  text-shadow: 5px 5px 0 var(--encre);
+  text-transform: none;
+}
+
+.voix-edito .une-titre {
+  -webkit-text-stroke-width: 3px;
+}
+
+/* Une coulure de peinture sous les grands titres. */
+.une-titre::after,
+.page-titre::after,
+.publication-titre::after {
+  content: "";
+  display: block;
+  width: min(100%, 7em);
+  height: 0.55em;
+  margin-top: 0.08em;
+  background: var(--encre);
+  -webkit-mask: url("crayon/coulures.svg") left top / 100% 100% no-repeat;
+  mask: url("crayon/coulures.svg") left top / 100% 100% no-repeat;
+}
+
+.duo-titre,
+.bloc-titre {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1;
+}
+
+.duo-titre {
+  transform: rotate(-4deg);
+}
+
+.voix-edito .duo-titre {
+  transform: rotate(3deg);
+}
+
+.bloc-titre {
+  transform: rotate(-3deg);
+}
+
+/* --- Résumés collés en bandes de papier, ligne par ligne --- */
+
+.une-resume,
+.publication-resume,
+.page-chapo {
+  max-width: 34ch;
+  margin-left: clamp(0rem, 12vw, 10rem);
+  font-family: var(--machine);
+  font-size: 1.25rem;
+  line-height: 2;
+  transform: rotate(1.5deg);
+}
+
+.une-resume > *,
+.une-resume,
+.publication-resume,
+.page-chapo {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.une-resume,
+.publication-resume,
+.page-chapo {
+  display: block;
+}
+
+.une-resume::first-line,
+.publication-resume::first-line,
+.page-chapo::first-line {
+  letter-spacing: 0.02em;
+}
+
+/* La bande : le texte est enveloppé dans un fond d'encre, interrompu à chaque ligne. */
+.une-resume,
+.publication-resume,
+.page-chapo {
+  background: none;
+}
+
+.une-resume,
+.publication-resume,
+.page-chapo {
+  --bande: var(--encre);
+}
+
+.une-resume {
+  color: var(--fond);
+  background: linear-gradient(var(--bande), var(--bande)) 0 0 / 100% 100% no-repeat;
+  width: fit-content;
+  padding: 0.35rem 0.8rem;
+  box-shadow: 6px 6px 0 var(--fond), 6px 6px 0 2px var(--encre);
+}
+
+.publication-resume,
+.page-chapo {
+  width: fit-content;
+  padding: 0.35rem 0.8rem;
+  border: var(--filet) solid var(--encre);
+  background: var(--fond);
+  box-shadow: 5px 5px 0 var(--encre);
+}
+
+.voix-edito .une-resume,
+.voix-edito .publication-resume {
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+/* --- Cases et listes qui se chevauchent --- */
+
+@media (min-width: 52rem) {
+  .duo-colonne:first-child {
+    transform: rotate(-2deg) translateY(0.75rem);
+  }
+
+  .duo-colonne:last-child {
+    transform: rotate(1.6deg) translateY(-0.5rem);
+  }
+}
+
+.liste .element:nth-child(odd) {
+  transform: rotate(-1.2deg);
+}
+
+.liste .element:nth-child(even) {
+  margin-left: clamp(0.75rem, 4vw, 2.5rem);
+  transform: rotate(1.4deg);
+}
+
+.element-titre {
+  font-size: 1.625rem;
+  line-height: 1.2;
+}
+
+.voix-edito .element-titre {
+  font-size: 1.625rem;
+}
+
+/* --- Le texte courant : chaque paragraphe tient sa propre ligne de travers --- */
+
+.texte h2 {
+  font-size: 2rem;
+  transform: rotate(-2.5deg);
+  transform-origin: left center;
+}
+
+.texte h2:nth-of-type(even) {
+  margin-left: clamp(0.5rem, 5vw, 3rem);
+  transform: rotate(2deg);
+}
+
+.texte h3 {
+  font-size: 1.5rem;
+  transform: rotate(-1.5deg);
+}
+
+/* La première lettre, tagguée en grand. */
+.publication .texte > p:first-child::first-letter {
+  float: left;
+  margin: 0.05em 0.12em 0 -0.05em;
+  font-family: var(--titre);
+  font-size: 4.4em;
+  font-style: normal;
+  line-height: 0.8;
+  text-shadow: 3px 3px 0 var(--fond), 5px 5px 0 var(--encre);
+  transform: rotate(-8deg);
+}
+
+@media (min-width: 52rem) {
+  .texte > p:nth-of-type(4n + 1) {
+    transform: rotate(-0.5deg);
+  }
+
+  .texte > p:nth-of-type(4n + 2) {
+    margin-left: 2.5rem;
+    max-width: 54ch;
+    transform: rotate(0.6deg);
+  }
+
+  .texte > p:nth-of-type(4n + 3) {
+    margin-left: 0.75rem;
+    transform: rotate(-0.3deg);
+  }
+
+  .texte > p:nth-of-type(4n) {
+    margin-left: 4rem;
+    max-width: 50ch;
+    transform: rotate(0.9deg);
+  }
+
+  .texte ul,
+  .texte ol {
+    margin-left: 1.5rem;
+    transform: rotate(-0.8deg);
+  }
+
+  .texte li:nth-child(even) {
+    margin-left: 1.25rem;
+  }
+
+  .texte table {
+    transform: rotate(0.5deg);
+  }
+}
+
+/* La bulle parle au feutre. */
+.texte blockquote {
+  font-family: var(--marqueur);
+  font-size: 1.375rem;
+  line-height: 1.55;
+  transform: rotate(-1.5deg);
+}
+
+/* --- Bas de page --- */
+
+.pied-nom {
+  font-size: 1.125rem;
+  transform: rotate(-3deg);
+}
+
+.pied-liens li:nth-child(odd) {
+  transform: rotate(-2deg);
+}
+
+.pied-liens li:nth-child(even) {
+  transform: rotate(2deg) translateY(2px);
+}
+
+.une-meta {
+  font-size: 1rem;
+  transform: rotate(-6deg);
+}
+
+.publication-meta {
+  border-top: 0;
+  padding-top: 0;
+  font-size: 1rem;
+  transform: rotate(-1deg);
+}
+
+/* Sur petit écran, on garde le désordre mais on rentre tout dans la largeur. */
+@media (max-width: 51.99rem) {
+  .une-resume,
+  .publication-resume,
+  .page-chapo {
+    margin-left: 0.5rem;
+    max-width: calc(100% - 1rem);
+  }
+
+  .une-titre {
+    font-size: clamp(3rem, 14vw, 4.5rem);
+  }
+}
+
 /* ---------- Impression ---------- */
 
 @media print {
@@ -1034,5 +1433,25 @@ a:hover {
 
   .duo-colonne {
     box-shadow: none;
+  }
+
+  .une-titre::after,
+  .page-titre::after,
+  .publication-titre::after {
+    display: none;
+  }
+
+  .une-titre,
+  .page-titre,
+  .publication-titre,
+  .texte > p {
+    text-shadow: none;
+    transform: none;
+  }
+
+  .voix-edito .une-titre,
+  .voix-edito .publication-titre {
+    color: #000;
+    -webkit-text-stroke: 0;
   }
 }
