@@ -1,5 +1,7 @@
 /*
-  Noir et blanc de bande dessinée : deux encres, des trames, des explosions maîtrisées.
+  Noir et blanc de bande dessinée, au crayon gras : deux encres, des hachures, des explosions,
+  du grain et quelques taches. Les motifs dessinés sont dans public/crayon/ et prennent la
+  couleur d'encre du ton grâce à mask-image : un même dessin sert sur papier et sur aplat noir.
   Les articles s'écrivent à l'encre noire sur papier blanc, dans un caractère sans empattement.
   Les éditos s'écrivent en blanc sur aplat noir, dans un caractère à empattements.
   Pas de gris en aplat : les valeurs intermédiaires viennent de trames de points, comme à l'impression.
@@ -21,6 +23,22 @@
   --interligne: 1.8;
   --paragraphe: 1.6em;
   --point: 8px;
+  --crayon: url("crayon/trait.svg");
+}
+
+/* Un motif dessiné, coloré à l'encre du ton. Ces décors ne captent jamais la souris. */
+.une::before,
+.une::after,
+.bloc::before,
+.bloc::after,
+.publication::after,
+.page::after,
+.page-entete::after,
+.duo::before,
+.duo::after,
+.pied::before,
+.pied::after {
+  pointer-events: none;
 }
 
 /* ---------- Tons ---------- */
@@ -73,8 +91,21 @@
 }
 
 html {
+  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+/* Le grain du papier : un voile de graphite posé sur toute la page. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: url("crayon/grain.svg") 0 0 / 300px;
+  opacity: 0.13;
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
 body {
@@ -139,18 +170,14 @@ a:hover {
 /* ---------- En-tête et pied de page ---------- */
 
 .entete {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem 2rem;
   padding: 1.25rem var(--marge);
-  border-bottom: var(--trait) solid var(--noir);
   font-family: var(--sans);
-}
-
-.ton-noir .entete {
-  border-bottom-color: var(--blanc);
 }
 
 .entete-nom {
@@ -160,6 +187,8 @@ a:hover {
   letter-spacing: 0.01em;
   text-transform: uppercase;
   text-decoration: none;
+  display: inline-block;
+  transform: rotate(-2deg);
 }
 
 .menu {
@@ -191,18 +220,21 @@ a:hover {
 .menu a[aria-current="page"] {
   background: var(--encre);
   color: var(--fond);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  transform: rotate(-3deg);
 }
 
-/* Le pied de page est un aplat noir, annoncé par une bande de trame qui se dissout. */
+/* Le pied de page est un aplat noir, annoncé par des hachures qui s'épaississent vers lui. */
 .pied {
   --fond: var(--noir);
   --encre: var(--blanc);
   position: relative;
+  isolation: isolate;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.75rem 2rem;
-  margin-top: 2.5rem;
+  margin-top: 4rem;
   padding: 2.5rem var(--marge);
   background: var(--noir);
   color: var(--blanc);
@@ -214,15 +246,39 @@ a:hover {
 .pied::before {
   content: "";
   position: absolute;
-  inset: -2.5rem 0 100%;
-  background: radial-gradient(circle, var(--noir) 42%, transparent 46%) 0 0 / var(--point) var(--point);
-  -webkit-mask-image: linear-gradient(to top, #000, transparent);
-  mask-image: linear-gradient(to top, #000, transparent);
+  inset: -4rem 0 100%;
+  background: var(--noir);
+  -webkit-mask: url("crayon/hachures.svg") 0 0 / 120px, linear-gradient(to top, #000, transparent);
+  -webkit-mask-composite: source-in;
+  mask: url("crayon/hachures.svg") 0 0 / 120px, linear-gradient(to top, #000, transparent);
+  mask-composite: intersect;
+}
+
+/* Une explosion blanche éclate au milieu du pied de page, entre la signature et les liens. */
+.pied::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1.5rem;
+  z-index: -1;
+  width: clamp(8rem, 18vw, 13rem);
+  aspect-ratio: 1;
+  background: var(--blanc);
+  -webkit-mask: url("crayon/eclat-3.svg") center / contain no-repeat;
+  mask: url("crayon/eclat-3.svg") center / contain no-repeat;
+  transform: translateX(-50%) rotate(14deg);
+  opacity: 0.45;
+}
+
+@media (max-width: 63.99rem) {
+  .pied::after {
+    display: none;
+  }
 }
 
 .ton-noir .pied {
   margin-top: 0;
-  border-top: var(--trait) solid var(--blanc);
+  border-top: 10px solid var(--blanc);
 }
 
 .ton-noir .pied::before {
@@ -250,7 +306,8 @@ a:hover {
 /* Chaque bande est une case : un trait d'encre noire épais la sépare de la suivante. */
 .bande {
   padding: clamp(3rem, 8vw, 6.5rem) var(--marge);
-  border-top: var(--trait) solid var(--noir);
+  border-top: 10px solid var(--noir);
+  border-image: var(--crayon) 24 0 0 0 / 10px 0 0 0 stretch;
 }
 
 /* ---------- Bloc « une » : l'explosion ---------- */
@@ -261,48 +318,51 @@ a:hover {
   isolation: isolate;
 }
 
-/* Lignes de vitesse qui rayonnent depuis l'explosion, et s'effacent avant le titre. */
+/* Lignes de vitesse au crayon qui rayonnent depuis l'explosion. */
 .une::before {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 80%;
   z-index: -2;
-  background: repeating-conic-gradient(from 3deg at 80% 50%, var(--encre) 0deg 0.9deg, transparent 0.9deg 8deg);
-  -webkit-mask-image: radial-gradient(circle at 80% 50%, transparent 0 8rem, #000 9.5rem 13rem, transparent 21rem);
-  mask-image: radial-gradient(circle at 80% 50%, transparent 0 8rem, #000 9.5rem 13rem, transparent 21rem);
-  opacity: 0.7;
+  width: min(62rem, 140vw);
+  aspect-ratio: 1;
+  background: var(--encre);
+  -webkit-mask: url("crayon/rayons.svg") center / contain no-repeat;
+  mask: url("crayon/rayons.svg") center / contain no-repeat;
+  transform: translate(-50%, -50%) rotate(4deg);
+  opacity: 0.8;
 }
 
-/* L'explosion : une étoile tramée, dense au cœur, qui se dissout vers ses pointes. */
+/* L'explosion : une étoile hachurée, contour au crayon gras, un peu de travers. */
 .une::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 80%;
   z-index: -1;
-  width: clamp(12rem, 30vw, 24rem);
+  width: clamp(13rem, 32vw, 26rem);
   aspect-ratio: 1;
-  transform: translate(-50%, -50%) rotate(-8deg);
-  clip-path: polygon(50% 0%, 57.3% 17.8%, 71.7% 5%, 73.7% 20.3%, 89.1% 18.8%, 79.7% 35.7%, 98.7% 38.9%, 88% 50%, 98.7% 61.1%, 79.7% 64.3%, 89.1% 81.2%, 73.7% 79.7%, 71.7% 95%, 57.3% 82.2%, 50% 100%, 41.5% 87%, 28.3% 95%, 29.4% 75.8%, 10.9% 81.2%, 15.8% 66.5%, 1.3% 61.1%, 17% 50%, 1.3% 38.9%, 15.8% 33.5%, 10.9% 18.8%, 29.4% 24.2%, 28.3% 5%, 41.5% 13%);
-  background: radial-gradient(circle, var(--encre) 40%, transparent 44%) 0 0 / 10px 10px;
-  -webkit-mask-image: radial-gradient(circle, #000 18%, rgb(0 0 0 / 0.55) 48%, transparent 72%);
-  mask-image: radial-gradient(circle, #000 18%, rgb(0 0 0 / 0.55) 48%, transparent 72%);
+  background: var(--encre);
+  -webkit-mask: url("crayon/eclat-1.svg") center / contain no-repeat;
+  mask: url("crayon/eclat-1.svg") center / contain no-repeat;
+  transform: translate(-50%, -50%) rotate(-9deg);
 }
 
 /* Sur petit écran, l'explosion se range dans le coin pour laisser le titre lisible. */
 @media (max-width: 51.99rem) {
   .une::before {
-    background: repeating-conic-gradient(from 0deg at 100% 0%, var(--encre) 0deg 1.6deg, transparent 1.6deg 7deg);
-    -webkit-mask-image: radial-gradient(circle at 100% 0%, transparent 0 4rem, #000 4.5rem 8rem, transparent 14rem);
-    mask-image: radial-gradient(circle at 100% 0%, transparent 0 4rem, #000 4.5rem 8rem, transparent 14rem);
+    top: 0;
+    left: 100%;
+    width: 30rem;
     opacity: 0.5;
   }
 
   .une::after {
     top: 0;
     left: 100%;
-    width: 12rem;
-    opacity: 0.7;
+    width: 11rem;
+    opacity: 0.8;
   }
 }
 
@@ -319,6 +379,8 @@ a:hover {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   box-shadow: 4px 4px 0 var(--encre);
+  border-radius: 255px 12px 225px 12px / 12px 225px 12px 255px;
+  transform: rotate(-2.5deg);
 }
 
 .une-titre {
@@ -364,18 +426,67 @@ a:hover {
 /* ---------- Duo : deux cases côte à côte, article sur papier, édito en aplat ---------- */
 
 .duo {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(1.25rem, 3vw, 2rem);
-  padding: clamp(1.75rem, 4vw, 3rem) var(--marge) calc(clamp(1.75rem, 4vw, 3rem) + var(--ombre));
-  border-top: var(--trait) solid var(--noir);
+  gap: clamp(1.5rem, 3.5vw, 2.5rem);
+  padding: clamp(2rem, 4.5vw, 3.5rem) var(--marge) calc(clamp(2rem, 4.5vw, 3.5rem) + var(--ombre));
+  border-top: 10px solid var(--noir);
+  border-image: var(--crayon) 24 0 0 0 / 10px 0 0 0 stretch;
   background: var(--blanc);
 }
 
+/* Des hachures croisées remplissent les gouttières entre les cases. */
+.duo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--noir);
+  -webkit-mask: url("crayon/hachures.svg") 0 0 / 140px;
+  mask: url("crayon/hachures.svg") 0 0 / 140px;
+  opacity: 0.32;
+}
+
+/* Une tache d'encre a coulé entre les deux cases. */
+.duo::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  z-index: 2;
+  width: clamp(7rem, 14vw, 11rem);
+  aspect-ratio: 1;
+  background: var(--noir);
+  -webkit-mask: url("crayon/tache-1.svg") center / contain no-repeat;
+  mask: url("crayon/tache-1.svg") center / contain no-repeat;
+  transform: translate(-50%, -50%) rotate(20deg);
+  opacity: 0.9;
+}
+
 .duo-colonne {
+  position: relative;
   padding: clamp(1.75rem, 4.5vw, 3.5rem);
   border: var(--trait) solid var(--noir);
+  border-radius: 6px 14px 4px 18px / 16px 5px 14px 6px;
   box-shadow: var(--ombre) var(--ombre) 0 var(--noir);
+}
+
+.duo-colonne:first-child {
+  transform: rotate(-0.7deg);
+}
+
+.duo-colonne:last-child {
+  transform: rotate(0.8deg);
+}
+
+@media (max-width: 51.99rem) {
+  .duo::after {
+    top: 50%;
+    left: 85%;
+  }
 }
 
 @media (min-width: 52rem) {
@@ -477,12 +588,54 @@ a:hover {
   margin-top: 0;
 }
 
-/* Un bloc sur aplat noir reçoit une trame blanche qui monte du bas, comme un dégradé imprimé. */
-.bloc.ton-noir {
-  background:
-    linear-gradient(var(--noir) 55%, transparent),
-    radial-gradient(circle, #555 40%, transparent 44%) 0 0 / var(--point) var(--point),
-    var(--noir);
+/* Chaque bloc libre reçoit un coin hachuré et une explosion dans la marge droite. */
+.bloc {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.bloc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--encre);
+  -webkit-mask: url("crayon/hachures.svg") 0 0 / 130px, radial-gradient(circle at 100% 100%, #000, transparent 55%);
+  -webkit-mask-composite: source-in;
+  mask: url("crayon/hachures.svg") 0 0 / 130px, radial-gradient(circle at 100% 100%, #000, transparent 55%);
+  mask-composite: intersect;
+  opacity: 0.5;
+}
+
+.bloc::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: clamp(-6rem, -4vw, -2rem);
+  z-index: -1;
+  width: clamp(10rem, 24vw, 19rem);
+  aspect-ratio: 1;
+  background: var(--encre);
+  -webkit-mask: url("crayon/eclat-2.svg") center / contain no-repeat;
+  mask: url("crayon/eclat-2.svg") center / contain no-repeat;
+  transform: translateY(-50%) rotate(18deg);
+}
+
+.bloc:nth-of-type(even)::after {
+  -webkit-mask-image: url("crayon/tache-2.svg");
+  mask-image: url("crayon/tache-2.svg");
+  transform: translateY(-50%) rotate(-30deg);
+}
+
+@media (max-width: 51.99rem) {
+  .bloc::after {
+    top: 0;
+    right: -4rem;
+    width: 9rem;
+    transform: rotate(18deg);
+    opacity: 0.6;
+  }
 }
 
 .integration {
@@ -529,8 +682,82 @@ a:hover {
 
 /* ---------- Pages et publications ---------- */
 
+/* Une explosion dans la marge droite des textes, et une tache en tête de page. */
+.publication,
+.page,
+.page-entete {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.publication::after,
+.page::after,
+.page-entete::after {
+  content: "";
+  position: absolute;
+  top: clamp(4rem, 8vw, 7rem);
+  right: clamp(-5rem, -3vw, -1rem);
+  z-index: -1;
+  width: clamp(9rem, 30vw, 26rem);
+  aspect-ratio: 1;
+  background: var(--encre);
+  -webkit-mask: url("crayon/eclat-2.svg") center / contain no-repeat;
+  mask: url("crayon/eclat-2.svg") center / contain no-repeat;
+  transform: rotate(11deg);
+}
+
+.voix-edito.publication::after {
+  -webkit-mask-image: url("crayon/eclat-3.svg");
+  mask-image: url("crayon/eclat-3.svg");
+  transform: rotate(-16deg);
+}
+
+.page::after,
+.page-entete::after {
+  -webkit-mask-image: url("crayon/tache-2.svg");
+  mask-image: url("crayon/tache-2.svg");
+}
+
+/* Plus bas dans la marge, une tache d'encre et une seconde explosion, plus petites. */
+.publication::before {
+  content: "";
+  position: absolute;
+  right: clamp(1rem, 6vw, 7rem);
+  bottom: 18%;
+  z-index: -1;
+  width: clamp(8rem, 16vw, 14rem);
+  aspect-ratio: 1;
+  background: var(--encre);
+  -webkit-mask: url("crayon/tache-1.svg") center / contain no-repeat;
+  mask: url("crayon/tache-1.svg") center / contain no-repeat;
+  transform: rotate(-24deg);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+@media (max-width: 69.99rem) {
+  .publication::before {
+    display: none;
+  }
+}
+
+/* Sous 70rem, le texte occupe la largeur : l'explosion se range en haut à droite, plus petite. */
+@media (max-width: 69.99rem) {
+  .publication::after,
+  .page::after,
+  .page-entete::after {
+    top: -2rem;
+    right: -3rem;
+    width: clamp(8rem, 24vw, 13rem);
+    opacity: 0.55;
+  }
+}
+
 .page-titre,
 .publication-titre {
+  transform: rotate(-1deg);
+  transform-origin: left bottom;
   max-width: 18ch;
   margin: 0 0 1.75rem;
   font-family: var(--titre);
@@ -566,7 +793,7 @@ a:hover {
 .publication-meta {
   max-width: var(--mesure);
   margin: 0;
-  padding-top: 1.25rem;
+  padding-top: 1.5rem;
   border-top: var(--trait) solid var(--encre);
   font-family: var(--sans);
   font-size: 0.875rem;
@@ -610,6 +837,26 @@ a:hover {
   letter-spacing: -0.01em;
 }
 
+/* Les intertitres sont soulignés d'un gribouillis. */
+.texte h2::after,
+.bloc-titre::after,
+.duo-titre::after {
+  content: "";
+  display: block;
+  width: min(100%, 9em);
+  height: 0.4em;
+  margin-top: 0.2em;
+  background: currentColor;
+  -webkit-mask: url("crayon/rature.svg") left center / 100% 100% no-repeat;
+  mask: url("crayon/rature.svg") left center / 100% 100% no-repeat;
+}
+
+.duo-titre::after,
+.bloc-titre::after {
+  width: 5em;
+  height: 0.3em;
+}
+
 .texte h3 {
   margin: 2.75rem 0 1rem;
   font-size: 1.3125rem;
@@ -638,8 +885,9 @@ a:hover {
   margin: 2.75rem 0 3.5rem;
   padding: 1.5rem 1.75rem;
   border: var(--trait) solid var(--encre);
-  border-radius: 1.75rem;
+  border-radius: 2.2rem 1.4rem 2.6rem 1.2rem / 1.5rem 2.4rem 1.3rem 2rem;
   background: var(--fond);
+  transform: rotate(-0.6deg);
   font-size: 1.25rem;
   line-height: 1.65;
 }
@@ -723,14 +971,14 @@ a:hover {
   text-transform: uppercase;
 }
 
-/* Le séparateur : une bande de trame qui se dissout des deux côtés. */
+/* Le séparateur : une petite explosion hachurée entre deux traits de crayon. */
 .texte hr {
-  height: 1.25rem;
+  height: 3.5rem;
   margin: 3.5rem 0;
   border: 0;
-  background: radial-gradient(circle, var(--encre) 40%, transparent 44%) 0 0 / var(--point) var(--point);
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 30% 70%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 30% 70%, transparent);
+  background: var(--encre);
+  -webkit-mask: url("crayon/eclat-3.svg") center / auto 100% no-repeat, url("crayon/trait.svg") center / 100% 10px no-repeat;
+  mask: url("crayon/eclat-3.svg") center / auto 100% no-repeat, url("crayon/trait.svg") center / 100% 10px no-repeat;
 }
 
 /* ---------- Plan du site ---------- */
@@ -757,9 +1005,19 @@ a:hover {
   .pied-liens,
   .fil,
   .evitement,
+  body::after,
   .une::before,
   .une::after,
-  .pied::before {
+  .bloc::before,
+  .bloc::after,
+  .duo::before,
+  .duo::after,
+  .publication::before,
+  .publication::after,
+  .page::after,
+  .page-entete::after,
+  .pied::before,
+  .pied::after {
     display: none;
   }
 

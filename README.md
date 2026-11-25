@@ -1,6 +1,6 @@
 # Site d'articles et d'éditos
 
-Un site en HTML et CSS, en noir et blanc de bande dessinée : aplats d’encre, trames de points, cases et explosions. Les articles s’affichent en noir sur blanc, les éditos en blanc sur noir.
+Un site en HTML et CSS, en noir et blanc de bande dessinée au crayon gras : explosions hachurées, taches d’encre, grain de graphite. Les articles s’affichent en noir sur blanc, les éditos en blanc sur noir.
 
 Le site publié ne contient que du HTML et du CSS : aucun JavaScript, aucun cookie, aucune police ou ressource chargée depuis un autre site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
 
@@ -16,6 +16,7 @@ contenu/
   blocs/              les textes et intégrations utilisés par la page d'accueil
 gabarits/page.html    le squelette commun à toutes les pages (en-tête, menu, pied de page)
 public/               les fichiers copiés tels quels : styles.css, favicon.svg, images
+  crayon/             les motifs dessinés (explosions, hachures, taches, gribouillis, grain)
 build.mjs             le script qui assemble le site dans dist/
 ```
 
