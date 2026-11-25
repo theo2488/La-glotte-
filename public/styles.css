@@ -39,6 +39,7 @@
   --machine: "Special Elite", "Courier New", Courier, monospace;
   --noir: #000;
   --blanc: #fff;
+  --rouge: #e10600;
   --marge: clamp(1.25rem, 5vw, 4rem);
   --mesure: 60ch;
   --filet: 2px;
@@ -1410,6 +1411,109 @@ a:hover {
     repeating-linear-gradient(to bottom, var(--regle-forte) 0 1px, transparent 1px 32px),
     repeating-linear-gradient(to bottom, var(--regle) 0 1px, transparent 1px 8px),
     repeating-linear-gradient(to right, var(--regle) 0 1px, transparent 1px 32px);
+}
+
+/* --- Le rouge : une seconde encre, comme un coup de bombe sur le noir et blanc --- */
+
+::selection {
+  background: var(--rouge);
+  color: var(--blanc);
+}
+
+a:hover {
+  background: var(--rouge);
+  color: var(--blanc);
+}
+
+.menu a[aria-current="page"] {
+  background: var(--rouge);
+  color: var(--blanc);
+}
+
+.menu a:hover {
+  border-color: var(--rouge);
+  color: var(--encre);
+}
+
+/* L'explosion de la une et les coulures des grands titres passent au rouge. */
+.une::after,
+.une-titre::after,
+.page-titre::after,
+.publication-titre::after {
+  background: var(--rouge);
+}
+
+.une-meta {
+  box-shadow: 4px 4px 0 var(--rouge);
+}
+
+/* Les gribouillis sous les intertitres. */
+.texte h2::after,
+.bloc-titre::after,
+.duo-titre::after {
+  background: var(--rouge);
+}
+
+/* Les cases de l'accueil projettent une ombre rouge. */
+.duo-colonne {
+  box-shadow: var(--ombre) var(--ombre) 0 var(--rouge);
+}
+
+/* La tache entre les cases est rouge, la lettrine aussi. */
+.duo::after {
+  background: var(--rouge);
+}
+
+.publication .texte > p:first-child::first-letter {
+  color: var(--rouge);
+  text-shadow: 3px 3px 0 var(--fond), 5px 5px 0 var(--encre);
+}
+
+/* Les chiffres en gras sont surlignés au marqueur rouge. */
+.texte strong {
+  background: linear-gradient(transparent 58%, rgb(225 6 0 / 0.55) 58% 92%, transparent 92%);
+  padding: 0 0.1em;
+}
+
+/* Les titres d'articles : relief rouge sous l'encre noire. */
+.une-titre,
+.page-titre,
+.publication-titre {
+  text-shadow: 3px 3px 0 var(--fond), 6px 6px 0 var(--rouge);
+}
+
+/* Les coups de gueule : lettres évidées, ombre rouge. */
+.voix-edito .une-titre,
+.voix-edito .publication-titre,
+.voix-edito .duo-titre {
+  text-shadow: 5px 5px 0 var(--rouge);
+}
+
+/* La bulle et le résumé collé prennent une ombre rouge. */
+.publication-resume,
+.page-chapo {
+  box-shadow: 5px 5px 0 var(--rouge);
+}
+
+.une-resume {
+  box-shadow: 6px 6px 0 var(--rouge);
+}
+
+/* Le cahier : la marge est rouge, comme sur un vrai cahier d'écolier. */
+.publication.voix-article,
+.page,
+.page-entete {
+  background-image:
+    linear-gradient(90deg, transparent var(--marge-cahier), rgb(225 6 0 / 0.7) var(--marge-cahier) calc(var(--marge-cahier) + 2px), transparent calc(var(--marge-cahier) + 2px)),
+    repeating-linear-gradient(to bottom, var(--regle-forte) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(to bottom, var(--regle) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(to right, var(--regle) 0 1px, transparent 1px 32px);
+}
+
+/* Le pied de page : l'explosion rougeoie. */
+.pied::after {
+  background: var(--rouge);
+  opacity: 0.75;
 }
 
 /* ---------- Impression ---------- */
