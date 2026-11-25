@@ -17,6 +17,10 @@ Le site parle comme les notes de veille dont il est parti (dossier Drive « Les 
 
 Les deux textes du Thème 1 servent de modèles : `contenu/articles/y-a-t-il-trop-d-etudiants-en-france.html` pour une enquête, `contenu/editos/frais-d-inscription-fois-cinq.html` pour un coup de gueule. Les deux tutoriels `publier-un-texte.html` et `mettre-en-forme-un-texte.html` restent dans le dépôt comme aide-mémoire technique, en brouillon : ils ne sont pas publiés.
 
+## Écrire depuis Google Docs
+
+Le dossier `outils/` contient un kit qui relie des documents Google aux cadres de texte du site (enquêtes, coups de gueule, pages, blocs de l'accueil) : `node outils/docs.mjs`. Mode d'emploi : [`outils/LISEZMOI-docs.md`](outils/LISEZMOI-docs.md). Un modèle de document est rangé dans le dossier Drive du projet.
+
 ## Ce que contient le dépôt
 
 ```
@@ -32,6 +36,8 @@ public/               les fichiers copiés tels quels : styles.css, favicon.svg,
   crayon/             les motifs dessinés (explosions, hachures, taches, gribouillis, grain)
   polices/            les trois polices du site et leurs licences (Sedgwick Ave Display, Permanent Marker, Special Elite)
 build.mjs             le script qui assemble le site dans dist/
+outils/docs.mjs       le kit qui importe des documents Google Docs dans contenu/
+contenu/docs.json     la liste des documents Google reliés au site
 ```
 
 ## L'arborescence du site publié

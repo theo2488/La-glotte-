@@ -1,0 +1,10 @@
+{
+  "documents": [
+    {
+      "nom": "Exemple : remplacez par le lien d'un document Google qui suit le modèle",
+      "doc": "https://docs.google.com/document/d/REMPLACER-PAR-L-IDENTIFIANT-DU-DOCUMENT/edit",
+      "fichier": "editos/mon-coup-de-gueule.html",
+      "actif": false
+    }
+  ]
+}

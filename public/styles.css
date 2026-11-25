@@ -1516,6 +1516,35 @@ a:hover {
   opacity: 0.75;
 }
 
+/* --- Ratures et notes de marge (venues du kit Google Docs) --- */
+
+/* Une rature : le mot reste lisible, barré d'un trait de stylo. */
+.texte del {
+  text-decoration: line-through;
+  text-decoration-color: var(--rouge);
+  text-decoration-thickness: 0.14em;
+  opacity: 0.75;
+}
+
+/* Une note de marge : une source, un nom, un renvoi, griffonné à côté du texte. */
+.texte .marge {
+  margin: -0.5rem 0 var(--paragraphe);
+  font-family: var(--marqueur);
+  font-size: 1rem;
+  color: var(--rouge);
+  transform: rotate(-3deg);
+}
+
+@media (min-width: 64rem) {
+  .texte .marge {
+    float: right;
+    clear: right;
+    width: 11rem;
+    margin: 0.25rem -13rem 1rem 0;
+    text-align: left;
+  }
+}
+
 /* ---------- Impression ---------- */
 
 @media print {
