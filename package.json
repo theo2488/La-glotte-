@@ -1,0 +1,13 @@
+{
+  "name": "site-articles",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "brouillons": "node build.mjs --brouillons"
+  }
+}

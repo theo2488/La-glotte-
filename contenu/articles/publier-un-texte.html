@@ -1,0 +1,23 @@
+<!--
+titre: Comment publier un texte sur ce site
+resume: Un fichier par texte, quatre lignes d'en-tête, et le site se met à jour tout seul.
+date: 2026-11-24
+-->
+<p>Chaque texte du site est un fichier. Un article se range dans le dossier <code>contenu/articles</code>, un édito dans <code>contenu/editos</code>. Le dossier choisi décide de tout le reste : la couleur de la page, le caractère du texte et la colonne où il apparaît.</p>
+
+<h2>Les étapes</h2>
+<ol>
+<li>Créer un fichier dans le bon dossier. Son nom devient l'adresse de la page : <code>mon-premier-article.html</code> donnera <code>/articles/mon-premier-article/</code>.</li>
+<li>Écrire l'en-tête en haut du fichier : le titre, le résumé et la date.</li>
+<li>Écrire le texte en dessous.</li>
+<li>Enregistrer le fichier dans le dépôt GitHub. Le site se reconstruit et la page d'accueil, la page « Articles et éditos », le flux RSS et le plan du site se mettent à jour.</li>
+</ol>
+
+<h2>L'en-tête</h2>
+<p>L'en-tête est un commentaire placé tout en haut du fichier, avec une information par ligne.</p>
+<pre><code>&lt;!--
+titre: Le titre du texte
+resume: Une phrase qui donne envie de lire la suite.
+date: 2026-11-24
+--&gt;</code></pre>
+<p>Trois lignes sont facultatives : <code>auteur</code> pour signer d'un autre nom que celui du site, <code>maj</code> pour indiquer une date de mise à jour, et <code>brouillon: oui</code> pour garder le texte hors ligne tant qu'il n'est pas prêt.</p>

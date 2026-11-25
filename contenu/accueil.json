@@ -1,0 +1,18 @@
+{
+  "blocs": [
+    { "bloc": "une" },
+    { "bloc": "duo", "nombre": 3 },
+    {
+      "bloc": "texte",
+      "titre": "À propos de ce site",
+      "fichier": "presentation.html",
+      "ton": "blanc"
+    },
+    {
+      "bloc": "integration",
+      "titre": "Bloc d'intégration",
+      "fichier": "integration-exemple.html",
+      "ton": "noir"
+    }
+  ]
+}

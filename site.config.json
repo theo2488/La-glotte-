@@ -1,0 +1,8 @@
+{
+  "nom": "Nom du site",
+  "description": "Une phrase qui dit de quoi parle le site.",
+  "url": "https://example.com",
+  "auteur": "Votre nom",
+  "email": "contact@example.com",
+  "langue": "fr"
+}

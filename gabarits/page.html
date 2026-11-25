@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="{{langue}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{titre_onglet}}</title>
+<meta name="description" content="{{description}}">
+<link rel="canonical" href="{{canonique}}">
+<link rel="stylesheet" href="{{racine}}styles.css">
+<link rel="icon" type="image/svg+xml" href="{{racine}}favicon.svg">
+<link rel="alternate" type="application/rss+xml" title="{{nom_site}}" href="{{racine}}rss.xml">
+<meta property="og:type" content="{{type_og}}">
+<meta property="og:site_name" content="{{nom_site}}">
+<meta property="og:title" content="{{titre_partage}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{canonique}}">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary">
+{{balises}}
+</head>
+<body class="ton-{{ton}}">
+<a class="evitement" href="#contenu">Aller au contenu</a>
+<header class="entete">
+<a class="entete-nom" href="{{racine}}">{{nom_site}}</a>
+<nav aria-label="Navigation principale">
+<ul class="menu">
+{{menu}}
+</ul>
+</nav>
+</header>
+<main id="contenu">
+{{contenu}}
+</main>
+<footer class="pied">
+<p class="pied-nom">© {{annee}} {{auteur}}</p>
+<ul class="pied-liens">
+<li><a href="{{racine}}plan-du-site/">Plan du site</a></li>
+<li><a href="{{racine}}rss.xml">Flux RSS</a></li>
+<li><a href="{{racine}}mentions-legales/">Mentions légales</a></li>
+<li><a href="mailto:{{email}}">Contact</a></li>
+</ul>
+</footer>
+</body>
+</html>
