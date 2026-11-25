@@ -1397,6 +1397,21 @@ a:hover {
   }
 }
 
+/* --- Le cahier d'écolier : réglure Seyès et marge sous les enquêtes et les pages --- */
+
+.publication.voix-article,
+.page,
+.page-entete {
+  --regle: rgb(0 0 0 / 0.07);
+  --regle-forte: rgb(0 0 0 / 0.16);
+  --marge-cahier: calc(var(--marge) - 0.9rem);
+  background-image:
+    linear-gradient(90deg, transparent var(--marge-cahier), rgb(0 0 0 / 0.45) var(--marge-cahier) calc(var(--marge-cahier) + 2px), transparent calc(var(--marge-cahier) + 2px)),
+    repeating-linear-gradient(to bottom, var(--regle-forte) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(to bottom, var(--regle) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(to right, var(--regle) 0 1px, transparent 1px 32px);
+}
+
 /* ---------- Impression ---------- */
 
 @media print {
@@ -1433,6 +1448,12 @@ a:hover {
 
   .duo-colonne {
     box-shadow: none;
+  }
+
+  .publication.voix-article,
+  .page,
+  .page-entete {
+    background-image: none;
   }
 
   .une-titre::after,

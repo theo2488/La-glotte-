@@ -1,8 +1,21 @@
-# Site d'articles et d'éditos
+# Les cahiers du fond de la glotte
 
-Un site en HTML et CSS, façon graffiti des années 90 en noir et blanc : titres tagués à la bombe, étiquettes au feutre, articles tapés à la machine, lignes de travers, explosions hachurées et taches d’encre. Les articles s’affichent en noir sur blanc, les éditos en blanc sur noir.
+Ce qui nous reste en travers de la gorge, on le met par écrit : des enquêtes chiffrées et des coups de gueule. Un site en HTML et CSS, façon graffiti des années 90 sur cahier d’écolier, en noir et blanc. Les enquêtes s’affichent en noir sur blanc sur une réglure de cahier, les coups de gueule en blanc sur noir.
 
 Le site publié ne contient que du HTML et du CSS : aucun JavaScript, aucun cookie, aucune police ou ressource chargée depuis un autre site : les polices sont hébergées avec le site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
+
+## La voix des cahiers
+
+Le site parle comme les notes de veille dont il est parti (dossier Drive « Les cahiers du fond de la glotte ») :
+
+- **Un cahier, une question.** Chaque thème part d'une question qu'on entend partout (« Y a-t-il trop d'étudiants en France ? ») et ne la tranche pas d'avance.
+- **On dit « on » et « nous ».** C'est un collectif qui écrit, pas une rédaction neutre.
+- **Des chiffres, toujours sourcés.** Chaque donnée renvoie au rapport, à la statistique ou à l'article d'où elle sort. Chaque texte finit par une section « Nos sources ».
+- **Deux voix séparées.** Une *enquête* (dossier `contenu/articles/`) rapporte ce qu'on a trouvé, chiffres à l'appui. Un *coup de gueule* (dossier `contenu/editos/`) dit ce qu'on en pense, sans détour.
+- **Une langue parlée, directe et un peu crade.** Phrases courtes, questions posées au lecteur, ironie bienvenue. La colère vise des idées, des décisions et des rapports, pas des personnes.
+- **Des titres qui interpellent.** Une question, une formule qui claque ; le résumé donne envie de lire la suite en une ou deux phrases.
+
+Les deux textes du Thème 1 servent de modèles : `contenu/articles/y-a-t-il-trop-d-etudiants-en-france.html` pour une enquête, `contenu/editos/frais-d-inscription-fois-cinq.html` pour un coup de gueule. Les deux tutoriels `publier-un-texte.html` et `mettre-en-forme-un-texte.html` restent dans le dépôt comme aide-mémoire technique, en brouillon : ils ne sont pas publiés.
 
 ## Ce que contient le dépôt
 
@@ -25,9 +38,9 @@ build.mjs             le script qui assemble le site dans dist/
 
 ```
 /                         accueil
-/publications/            tous les articles et tous les éditos
-/articles/nom-du-fichier/ un article
-/editos/nom-du-fichier/   un édito
+/publications/            « Les cahiers » : toutes les enquêtes et tous les coups de gueule
+/articles/nom-du-fichier/ une enquête
+/editos/nom-du-fichier/   un coup de gueule
 /a-propos/                page fixe
 /mentions-legales/        page fixe
 /plan-du-site/            plan du site, généré automatiquement
@@ -36,7 +49,7 @@ build.mjs             le script qui assemble le site dans dist/
 
 ## Publier un texte
 
-1. Créer un fichier `.html` dans `contenu/articles/` ou `contenu/editos/`. Son nom devient l'adresse de la page : minuscules sans accent, chiffres et tirets uniquement.
+1. Créer un fichier `.html` dans `contenu/articles/` (une enquête) ou `contenu/editos/` (un coup de gueule). Son nom devient l'adresse de la page : minuscules sans accent, chiffres et tirets uniquement.
 2. Commencer le fichier par l'en-tête :
 
    ```html
@@ -49,7 +62,7 @@ build.mjs             le script qui assemble le site dans dist/
 
    Lignes facultatives : `auteur: ...`, `maj: 2026-12-01` (date de mise à jour), `brouillon: oui` (le texte reste hors ligne).
 3. Écrire le texte en dessous, en HTML : `<p>` pour un paragraphe, `<h2>` pour un intertitre, `<ul>` ou `<ol>` pour une liste, `<blockquote>` pour une citation. L'article « Mettre en forme un texte » sert de modèle.
-4. Enregistrer le fichier dans le dépôt. L'accueil, la page « Articles et éditos », le flux RSS et le plan du site se mettent à jour à la construction suivante.
+4. Enregistrer le fichier dans le dépôt. L'accueil, la page « Les cahiers », le flux RSS et le plan du site se mettent à jour à la construction suivante.
 
 Un lien vers une autre page du site s'écrit `href="{{racine}}a-propos/"`. Les apostrophes et les espaces avant `: ; ! ?` sont corrigées automatiquement selon l'usage français.
 
@@ -60,7 +73,7 @@ Un lien vers une autre page du site s'écrit `href="{{racine}}a-propos/"`. Les a
 | Bloc          | Ce qu'il affiche                                             | Réglages                                             |
 | ------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
 | `une`         | Le texte le plus récent, en très grand                       | `publication` : `"articles/nom-du-fichier"` pour en choisir un autre |
-| `duo`         | Les derniers articles et les derniers éditos, côte à côte    | `nombre` : combien de textes par colonne (3 par défaut) |
+| `duo`         | Les dernières enquêtes et les derniers coups de gueule, côte à côte    | `nombre` : combien de textes par colonne (3 par défaut) |
 | `texte`       | Un texte libre, pris dans `contenu/blocs/`                   | `titre`, `fichier`, `ton` (`"blanc"` ou `"noir"`)    |
 | `integration` | Le code fourni par un autre service (formulaire, vidéo, carte), inséré tel quel | `titre`, `fichier`, `ton`                            |
 
@@ -82,6 +95,6 @@ Le script rappelle à chaque construction ce qui reste à remplir :
 - `site.config.json` : nom du site, description, adresse définitive, auteur, e-mail ;
 - `contenu/pages/a-propos.html` et `contenu/pages/mentions-legales.html` ;
 - `contenu/blocs/presentation.html` et `contenu/blocs/integration-exemple.html` ;
-- les deux articles et les deux éditos de démonstration, à remplacer par de vrais textes.
+- relire et valider les deux textes du Thème 1, écrits à partir des notes du dossier Drive.
 
 Si un service extérieur est ajouté dans un bloc d'intégration (lettre d'information, vidéo, statistiques), mettre à jour le paragraphe « Données personnelles » des mentions légales.

@@ -1,8 +1,8 @@
 {
-  "nom": "Nom du site",
-  "description": "Une phrase qui dit de quoi parle le site.",
+  "nom": "Les cahiers du fond de la glotte",
+  "description": "Ce qui nous reste en travers de la gorge, on le met par écrit : des enquêtes chiffrées et des coups de gueule.",
   "url": "https://example.com",
-  "auteur": "Votre nom",
+  "auteur": "Les cahiers du fond de la glotte",
   "email": "contact@example.com",
   "langue": "fr"
 }

@@ -14,14 +14,36 @@ const SORTIE = path.join(RACINE, 'dist');
 const AVEC_BROUILLONS = process.argv.includes('--brouillons');
 
 // Les deux familles de textes. Le ton (blanc ou noir) et la voix (typographie) en découlent.
+// Les dossiers gardent leur nom technique (articles, editos) ; les libellés affichés sont ceux du site :
+// les enquêtes fouillent les chiffres, les coups de gueule crachent ce qui coince.
 const TYPES = {
-  article: { dossier: 'articles', nom: 'Article', pluriel: 'Articles', ton: 'blanc', schema: 'Article' },
-  edito: { dossier: 'editos', nom: 'Édito', pluriel: 'Éditos', ton: 'noir', schema: 'OpinionNewsArticle' },
+  article: {
+    dossier: 'articles',
+    nom: 'Enquête',
+    pluriel: 'Enquêtes',
+    publie: 'Enquête publiée',
+    aucun: 'Pas encore d’enquête dans ce cahier.',
+    tous: 'Toutes les enquêtes',
+    ton: 'blanc',
+    schema: 'Article',
+  },
+  edito: {
+    dossier: 'editos',
+    nom: 'Coup de gueule',
+    pluriel: 'Coups de gueule',
+    publie: 'Coup de gueule poussé',
+    aucun: 'Pas encore de coup de gueule. Ça ne va pas durer.',
+    tous: 'Tous les coups de gueule',
+    ton: 'noir',
+    schema: 'OpinionNewsArticle',
+  },
 };
+
+const CAHIERS = 'Les cahiers';
 
 const MENU = [
   { chemin: '', libelle: 'Accueil' },
-  { chemin: 'publications', libelle: 'Articles et éditos' },
+  { chemin: 'publications', libelle: CAHIERS },
   { chemin: 'a-propos', libelle: 'À propos' },
 ];
 
@@ -240,10 +262,10 @@ function rendreDuo(parType, { nombre = null, niveau, lienVersTout }) {
   const colonnes = Object.entries(TYPES).map(([type, infos]) => {
     const toutes = parType[type];
     const visibles = nombre ? toutes.slice(0, nombre) : toutes;
-    const vide = `Aucun ${infos.nom.toLowerCase()} publié pour l’instant.`;
+    const vide = infos.aucun;
     const suite =
       lienVersTout && toutes.length > 0
-        ? `\n<p class="duo-suite"><a href="{{racine}}publications/#${infos.dossier}">Tous les ${infos.pluriel.toLowerCase()}</a></p>`
+        ? `\n<p class="duo-suite"><a href="{{racine}}publications/#${infos.dossier}">${infos.tous}</a></p>`
         : '';
     return `<section class="duo-colonne ton-${infos.ton} voix-${type}" id="${infos.dossier}" aria-labelledby="titre-${infos.dossier}">
 <h${niveau} class="duo-titre" id="titre-${infos.dossier}">${infos.pluriel}</h${niveau}>
@@ -370,7 +392,7 @@ ${rendreFil([MENU[0], MENU[1]], publication.titre)}
 <header class="publication-entete">
 <h1 class="publication-titre">${echapper(publication.titre)}</h1>
 <p class="publication-resume">${echapper(publication.resume)}</p>
-<p class="publication-meta">${infos.nom} publié le <time datetime="${publication.dateIso}">${dateFr(publication.date)}</time> par ${echapper(auteur)}${maj}</p>
+<p class="publication-meta">${infos.publie} le <time datetime="${publication.dateIso}">${dateFr(publication.date)}</time> par ${echapper(auteur)}${maj}</p>
 </header>
 <div class="texte">
 ${publication.corps}
@@ -425,7 +447,7 @@ ${rendreFil([MENU[0]], 'Plan du site')}
 <h1 class="page-titre">Plan du site</h1>
 <ul class="plan">
 <li><a href="{{racine}}">Accueil</a></li>
-<li><a href="{{racine}}publications/">Articles et éditos</a>
+<li><a href="{{racine}}publications/">${CAHIERS}</a>
 <ul>
 ${Object.keys(TYPES).map(sousListe).join('\n')}
 </ul>
@@ -613,15 +635,15 @@ async function construire() {
   // Accueil
   await ecrirePage(site, gabarit, { chemin: '', contenu: await rendreAccueil(contexte) });
 
-  // Page commune aux articles et aux éditos
+  // Page commune aux enquêtes et aux coups de gueule
   await ecrirePage(site, gabarit, {
     chemin: 'publications',
-    titre: 'Articles et éditos',
-    description: `Tous les articles et tous les éditos de ${site.nom}.`,
+    titre: CAHIERS,
+    description: `Toutes les enquêtes et tous les coups de gueule de ${site.nom}.`,
     contenu: `<div class="bande page-entete voix-article">
-${rendreFil([MENU[0]], 'Articles et éditos')}
-<h1 class="page-titre">Articles et éditos</h1>
-<p class="page-chapo">Les articles rapportent et expliquent. Les éditos prennent position.</p>
+${rendreFil([MENU[0]], CAHIERS)}
+<h1 class="page-titre">${CAHIERS}</h1>
+<p class="page-chapo">Les enquêtes, on fouille les chiffres. Les coups de gueule, on crache ce qui nous reste en travers de la gorge.</p>
 </div>
 ${rendreDuo(parType, { niveau: 2, lienVersTout: false })}`,
   });
@@ -662,13 +684,13 @@ ${rendreDuo(parType, { niveau: 2, lienVersTout: false })}`,
     chemin: '404',
     fichierSortie: '404.html',
     racine: site.base,
-    titre: 'Page introuvable',
+    titre: 'Page avalée',
     balises: '<meta name="robots" content="noindex">',
     contenu: `<div class="bande page voix-article">
-<h1 class="page-titre">Page introuvable</h1>
+<h1 class="page-titre">Page avalée</h1>
 <div class="texte">
-<p>Cette adresse ne correspond à aucune page du site. Le texte a peut-être été déplacé ou supprimé.</p>
-<p><a href="{{racine}}publications/">Voir tous les articles et éditos</a></p>
+<p>Rien à cette adresse. La page est descendue trop loin dans la gorge, ou elle n’a jamais existé.</p>
+<p><a href="{{racine}}publications/">Retourner aux cahiers</a></p>
 </div>
 </div>`,
   });

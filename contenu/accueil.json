@@ -1,10 +1,10 @@
 {
   "blocs": [
-    { "bloc": "une" },
+    { "bloc": "une", "publication": "articles/y-a-t-il-trop-d-etudiants-en-france" },
     { "bloc": "duo", "nombre": 3 },
     {
       "bloc": "texte",
-      "titre": "À propos de ce site",
+      "titre": "C'est quoi, ces cahiers ?",
       "fichier": "presentation.html",
       "ton": "blanc"
     },
@@ -12,7 +12,8 @@
       "bloc": "integration",
       "titre": "Bloc d'intégration",
       "fichier": "integration-exemple.html",
-      "ton": "noir"
+      "ton": "noir",
+      "actif": false
     }
   ]
 }
