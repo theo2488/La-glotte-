@@ -1,6 +1,6 @@
 # Les cahiers du fond de la glotte
 
-Ce qui nous reste en travers de la gorge, on le met par écrit : des enquêtes chiffrées et des coups de gueule. Un site en HTML et CSS, façon graffiti des années 90 sur cahier d’écolier, en noir et blanc, avec du rouge en seconde encre. Les enquêtes s’affichent en noir sur blanc sur une réglure de cahier, les coups de gueule en blanc sur noir.
+Ce qui nous reste en travers de la gorge, on le met par écrit : des enquêtes chiffrées et des coups de gueule. Un site en HTML et CSS, façon graffiti des années 90 sur cahier d’écolier, en version sombre : dégradés de gris, noir, blanc, et du rouge en seconde encre. Les enquêtes s’affichent en noir sur blanc sur une réglure de cahier, les coups de gueule en blanc sur noir.
 
 Le site publié ne contient que du HTML et du CSS : aucun JavaScript, aucun cookie, aucune police ou ressource chargée depuis un autre site : les polices sont hébergées avec le site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
 

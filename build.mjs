@@ -650,6 +650,16 @@ function prefixe(chemin) {
   return chemin ? '../'.repeat(chemin.split('/').length) : './';
 }
 
+// Le logo de l'en-tête : la fin du nom (« la glotte ») est taguée en grand, le début posé au-dessus.
+// Réglable avec "logo": { "haut": "...", "bas": "..." } dans site.config.json ; sinon, les deux derniers mots.
+function rendreLogo(site) {
+  const mots = site.nom.split(' ');
+  const haut = site.logo?.haut ?? mots.slice(0, -2).join(' ');
+  const bas = site.logo?.bas ?? mots.slice(-2).join(' ');
+  if (!haut) return `<span class="logo-bas">${echapper(bas)}</span>`;
+  return `<span class="logo-haut">${echapper(haut)}</span> <span class="logo-bas">${echapper(bas)}</span>`;
+}
+
 async function ecrirePage(site, gabarit, page) {
   const {
     chemin,
@@ -675,6 +685,7 @@ async function ecrirePage(site, gabarit, page) {
     balises,
     ton,
     nom_site: echapper(site.nom),
+    logo: rendreLogo(site),
     auteur: echapper(site.auteur),
     email: echapper(site.email),
     annee: String(new Date().getFullYear()),

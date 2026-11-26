@@ -1588,6 +1588,317 @@ a:hover {
 }
 
 /* =====================================================================
+   La nuit : le cahier quitte la table pour le mur.
+   Mêmes polices, mêmes tags, mêmes coulures. Le papier blanc devient un mur sombre,
+   en dégradés de gris, éclairé de biais. Quatre valeurs : noir, gris, blanc, rouge.
+   Le blanc sert d'encre (titres, texte, traits de craie) et de papier collé
+   (étiquettes et résumés). Enquêtes : mur gris à réglure de cahier.
+   Coups de gueule : noir plein.
+   ===================================================================== */
+
+:root {
+  /* Le rouge en petit texte sur fond sombre : un peu plus clair, pour rester lisible. */
+  --rouge-vif: #ff4b3e;
+  --mur-sombre: #131313;
+  --crayon: url("crayon/trait-clair.svg");
+}
+
+/* Sous le pied de page, le fond reste noir. */
+html {
+  background: #000;
+}
+
+/* Le ton « blanc » des enquêtes et des pages devient le gris du mur : encre blanche. */
+.ton-blanc {
+  --fond: #1c1c1c;
+  --encre: var(--blanc);
+  --encre-douce: #d2d2d2;
+}
+
+.ton-blanc .texte,
+.ton-blanc .une-titre,
+.ton-blanc .page-titre,
+.ton-blanc .publication-titre {
+  color: #f4f4f4;
+}
+
+/* La page : plus claire en haut, sous la lumière, puis de plus en plus sombre. */
+body.ton-blanc {
+  background: var(--mur-sombre) linear-gradient(180deg, #3d3d3d 0, #1e1e1e 26rem, var(--mur-sombre) 60rem) no-repeat;
+}
+
+body.ton-noir {
+  background: #000 radial-gradient(64rem 38rem at 90% 6rem, #3a3a3a 0, #151515 45%, #000 75%) no-repeat;
+}
+
+/* Le grain : une poussière claire sur le mur, au lieu du graphite sur le papier. */
+body::after {
+  background-image: url("crayon/grain-clair.svg");
+  mix-blend-mode: normal;
+  opacity: 0.07;
+}
+
+/* --- La une : l'explosion éclaire le mur autour d'elle --- */
+
+.une.ton-blanc {
+  background: radial-gradient(circle at 80% 50%, #808080 0, #3c3c3c 20rem, #101010 50rem);
+}
+
+.une.ton-noir {
+  background: radial-gradient(circle at 80% 50%, #454545 0, #000 38rem);
+}
+
+/* Les lignes de vitesse sont tracées à la craie : on les allège. */
+.une::before {
+  opacity: 0.4;
+}
+
+@media (max-width: 51.99rem) {
+  .une.ton-blanc {
+    background: radial-gradient(circle at 100% 0, #808080 0, #333 13rem, #101010 32rem);
+  }
+
+  .une.ton-noir {
+    background: radial-gradient(circle at 100% 0, #454545 0, #000 26rem);
+  }
+
+  .une::before {
+    opacity: 0.3;
+  }
+}
+
+/* --- Le papier collé : étiquettes et résumés en blanc, écrits en noir --- */
+
+.une-meta {
+  border-color: var(--noir);
+  background: var(--blanc);
+  color: var(--noir);
+}
+
+.une-resume {
+  --bande: var(--blanc);
+  color: var(--noir);
+}
+
+.publication-resume,
+.page-chapo {
+  border-color: var(--noir);
+  background: var(--blanc);
+  color: var(--noir);
+}
+
+/* --- Les cases de l'accueil : deux affiches sur le mur, cernées de blanc --- */
+
+.duo {
+  background: linear-gradient(180deg, #0a0a0a 0%, #262626 100%);
+}
+
+.duo::before {
+  background: var(--blanc);
+  opacity: 0.1;
+}
+
+.duo-colonne {
+  border-color: var(--blanc);
+}
+
+.duo-colonne.ton-blanc {
+  background: linear-gradient(165deg, #5a5a5a 0%, #2e2e2e 40%, #171717 100%);
+}
+
+.duo-colonne.ton-noir {
+  background: linear-gradient(200deg, #2a2a2a 0%, #000 45%);
+}
+
+/* --- Les blocs libres : le gris remonte vers le coin hachuré --- */
+
+.bloc.ton-blanc {
+  background: linear-gradient(105deg, #0c0c0c 0%, #202020 45%, #6a6a6a 100%);
+}
+
+.bloc.ton-noir {
+  background: linear-gradient(105deg, #000 40%, #2c2c2c 100%);
+}
+
+.bloc::before {
+  opacity: 0.28;
+}
+
+/* --- Le cahier : réglure à la craie, marge rouge --- */
+
+.publication.voix-article,
+.page,
+.page-entete {
+  --regle: rgb(255 255 255 / 0.04);
+  --regle-forte: rgb(255 255 255 / 0.09);
+  --lueur: none;
+  background-image:
+    linear-gradient(90deg, transparent var(--marge-cahier), rgb(225 6 0 / 0.8) var(--marge-cahier) calc(var(--marge-cahier) + 2px), transparent calc(var(--marge-cahier) + 2px)),
+    repeating-linear-gradient(to bottom, var(--regle-forte) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(to bottom, var(--regle) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(to right, var(--regle) 0 1px, transparent 1px 32px),
+    var(--lueur);
+}
+
+/* Sur grand écran, le mur s'éclaircit vers la marge droite, là où le texte ne va pas. */
+@media (min-width: 70rem) {
+  .publication.voix-article,
+  .page,
+  .page-entete {
+    --lueur: linear-gradient(90deg, transparent 52%, rgb(255 255 255 / 0.1) 100%);
+  }
+
+  .publication.voix-edito {
+    background-image: linear-gradient(90deg, transparent 52%, rgb(255 255 255 / 0.09) 100%);
+  }
+}
+
+/* --- Dans le texte --- */
+
+.texte img {
+  border-color: var(--blanc);
+}
+
+.texte strong {
+  background: linear-gradient(transparent 55%, rgb(225 6 0 / 0.8) 55% 94%, transparent 94%);
+}
+
+.texte .marge {
+  color: var(--rouge-vif);
+}
+
+/* --- Le pied de page : noir plein, séparé du mur par un trait de craie --- */
+
+.pied {
+  margin-top: 0;
+  border-top: 10px solid var(--blanc);
+  border-image: var(--crayon) 24 0 0 0 / 10px 0 0 0 stretch;
+}
+
+.pied::before {
+  display: none;
+}
+
+/* --- Le logo : centré, « la glotte » taguée en grand, le reste sur une étiquette collée --- */
+
+.entete {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+
+.entete-nom {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.5rem 0.9rem;
+  font-size: 1rem;
+  line-height: 1;
+  transform: rotate(-3deg);
+}
+
+.entete-nom:hover {
+  background: none;
+  color: inherit;
+}
+
+/* L'explosion rouge derrière le nom. */
+.entete-nom::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: clamp(9rem, 30vw, 12.5rem);
+  aspect-ratio: 1;
+  background: var(--rouge);
+  -webkit-mask: url("crayon/eclat-1.svg") center / contain no-repeat;
+  mask: url("crayon/eclat-1.svg") center / contain no-repeat;
+  transform: translate(-50%, -50%) rotate(12deg);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* La coulure sous le nom. */
+.entete-nom::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 6%;
+  bottom: -0.35rem;
+  height: 1.3rem;
+  background: var(--rouge);
+  -webkit-mask: url("crayon/coulures.svg") left top / 100% 100% no-repeat;
+  mask: url("crayon/coulures.svg") left top / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+.logo-haut {
+  align-self: flex-start;
+  margin: 0 0 0.3rem -0.5rem;
+  padding: 0.3rem 0.7rem 0.25rem;
+  background: var(--blanc);
+  color: var(--noir);
+  font-family: var(--marqueur);
+  font-size: clamp(0.875rem, 3.4vw, 1.0625rem);
+  letter-spacing: 0.03em;
+  box-shadow: 3px 3px 0 var(--rouge);
+  transform: rotate(-2deg);
+}
+
+.logo-bas {
+  color: var(--blanc);
+  font-family: var(--titre);
+  font-size: clamp(3.25rem, 15vw, 5.25rem);
+  line-height: 0.95;
+  white-space: nowrap;
+  text-shadow: 3px 3px 0 var(--noir), 7px 7px 0 var(--rouge);
+}
+
+.entete-nom:hover .logo-bas {
+  text-shadow: 3px 3px 0 var(--noir), 7px 7px 0 var(--blanc);
+  color: var(--rouge);
+}
+
+.menu {
+  justify-content: center;
+}
+
+@media (max-width: 30rem) {
+  .menu {
+    gap: 0.25rem 0;
+  }
+
+  .menu a {
+    padding: 0.2rem 0.45rem;
+    font-size: 1rem;
+  }
+}
+
+@media print {
+  .entete-nom::before,
+  .entete-nom::after {
+    display: none;
+  }
+
+  .logo-bas {
+    color: #000;
+    text-shadow: none;
+  }
+
+  .logo-haut {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+}
+
+/* =====================================================================
    Mode repères : le code couleur des zones de texte.
    Actif seulement quand le site est construit avec « node build.mjs --reperes »
    (le <body> porte alors la classe « reperes »). Rien de ceci ne s'affiche sur le site publié.
@@ -1815,12 +2126,54 @@ a:hover {
 
   .duo-colonne {
     box-shadow: none;
+    border-color: #000;
+  }
+
+  /* À l'impression, les fonds sombres et les dégradés redeviennent du papier blanc. */
+  body.ton-blanc,
+  body.ton-noir,
+  .une.ton-blanc,
+  .une.ton-noir,
+  .duo,
+  .duo-colonne.ton-blanc,
+  .duo-colonne.ton-noir,
+  .bloc.ton-blanc,
+  .bloc.ton-noir {
+    background: #fff;
+  }
+
+  .ton-blanc .texte,
+  .ton-blanc .une-titre,
+  .ton-blanc .page-titre,
+  .ton-blanc .publication-titre,
+  .ton-noir .texte,
+  .ton-noir .une-titre,
+  .ton-noir .publication-titre {
+    color: #000;
+  }
+
+  .texte .marge {
+    color: #e10600;
+  }
+
+  .texte img {
+    border-color: #000;
+  }
+
+  .pied {
+    border-top: 2px solid #000;
+    border-image: none;
   }
 
   .publication.voix-article,
+  .publication.voix-edito,
   .page,
   .page-entete {
     background-image: none;
+  }
+
+  html {
+    background: #fff;
   }
 
   .une-titre::after,
