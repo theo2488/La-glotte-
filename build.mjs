@@ -210,7 +210,50 @@ async function lireSite() {
   site.description = typographier(site.description);
   // Chemin de base du site sur son domaine : « / » en général, « /nom-du-depot/ » sur certaines offres.
   site.base = adresse.pathname.endsWith('/') ? adresse.pathname : `${adresse.pathname}/`;
+  site.hote = adresse.hostname;
+  site.rgpd = lireRgpd(site);
   return site;
+}
+
+// Les réglages « rgpd » de site.config.json : qui répond des données, qui héberge, et quels services
+// extérieurs le site a le droit de charger. La page « Données personnelles » et les mentions légales
+// sont remplies à partir d'eux, et le contrôle de fin de construction s'appuie sur la liste des services.
+function lireRgpd(site) {
+  const brut = site.rgpd ?? {};
+  const origine = 'site.config.json, « rgpd »';
+  const texte = (valeur, cle, defaut) => {
+    if (valeur === undefined && defaut !== undefined) return defaut;
+    if (typeof valeur !== 'string' || !valeur.trim()) throw new ErreurContenu(`${origine} : « ${cle} » est obligatoire.`);
+    return valeur.trim();
+  };
+  const hebergeur = brut.hebergeur ?? {};
+  const services = brut.services ?? [];
+  if (!Array.isArray(services)) throw new ErreurContenu(`${origine} : « services » doit être une liste.`);
+  return {
+    responsable: texte(brut.responsable, 'responsable'),
+    contact: texte(brut.contact, 'contact', site.email),
+    hebergeur: {
+      nom: texte(hebergeur.nom, 'hebergeur.nom'),
+      adresse: texte(hebergeur.adresse, 'hebergeur.adresse'),
+      journaux: texte(hebergeur.journaux, 'hebergeur.journaux'),
+    },
+    conservationMessages: texte(brut.conservation_messages, 'conservation_messages'),
+    majIso: texte(brut.mise_a_jour, 'mise_a_jour'),
+    maj: lireDate(texte(brut.mise_a_jour, 'mise_a_jour'), 'site.config.json', 'rgpd.mise_a_jour'),
+    services: services.map((service, index) => {
+      const ici = `${origine}, service n° ${index + 1}`;
+      for (const cle of ['nom', 'finalite', 'donnees', 'politique']) {
+        if (typeof service[cle] !== 'string' || !service[cle].trim()) {
+          throw new ErreurContenu(`${ici} : « ${cle} » est obligatoire (nom du service, à quoi il sert, ce qu'il reçoit, adresse de sa politique de confidentialité).`);
+        }
+      }
+      if (!/^https:\/\//.test(service.politique)) throw new ErreurContenu(`${ici} : « politique » doit être une adresse complète en https://.`);
+      if (!Array.isArray(service.hotes) || service.hotes.length === 0 || service.hotes.some((h) => typeof h !== 'string' || !/^[a-z0-9.-]+$/.test(h))) {
+        throw new ErreurContenu(`${ici} : « hotes » doit lister les noms de domaine chargés par le site, par exemple ["player.exemple.org"].`);
+      }
+      return { ...service, pays: typeof service.pays === 'string' ? service.pays : '' };
+    }),
+  };
 }
 
 async function lirePublications(type) {
@@ -439,12 +482,44 @@ function donneesStructurees(publication, site) {
   return `<script type="application/ld+json">${JSON.stringify(donnees).replaceAll('<', '\\u003c')}</script>`;
 }
 
+// La liste des services extérieurs déclarés, telle qu'elle s'affiche sur la page « Données personnelles ».
+function rendreServices(rgpd) {
+  if (rgpd.services.length === 0) {
+    return '<p>Aucun. Le site ne charge rien depuis un autre site : ni vidéo, ni carte, ni police de caractères, ni outil de mesure d’audience. Tout ce qui s’affiche vient de chez nous.</p>';
+  }
+  const rangees = rgpd.services
+    .map(
+      (s) => `<tr><td>${echapper(typographier(s.nom))}${s.pays ? ` (${echapper(typographier(s.pays))})` : ''}</td><td>${echapper(typographier(s.finalite))}</td><td>${echapper(typographier(s.donnees))}</td><td><a href="${echapper(s.politique)}">Sa politique</a></td></tr>`,
+    )
+    .join('\n');
+  return `<p>Certaines pages affichent un contenu fourni par un autre service. Quand votre navigateur le charge, ce service reçoit au moins votre adresse IP.</p>
+<table>
+<thead>
+<tr><th>Service</th><th>À quoi il sert</th><th>Ce qu’il reçoit</th><th>Ses règles</th></tr>
+</thead>
+<tbody>
+${rangees}
+</tbody>
+</table>`;
+}
+
 function rendrePageSimple(page, site) {
-  // Dans les pages de contenu/pages, {{email}}, {{auteur}} et {{nom_site}} reprennent les réglages du site.
+  // Dans les pages de contenu/pages, ces repères reprennent les réglages du site (site.config.json).
+  const { rgpd } = site;
+  const texte = (valeur) => echapper(typographier(valeur));
   const corps = page.corps
     .replaceAll('{{email}}', echapper(site.email))
     .replaceAll('{{auteur}}', echapper(site.auteur))
-    .replaceAll('{{nom_site}}', echapper(site.nom));
+    .replaceAll('{{nom_site}}', echapper(site.nom))
+    .replaceAll('{{rgpd_responsable}}', texte(rgpd.responsable))
+    .replaceAll('{{rgpd_contact}}', echapper(rgpd.contact))
+    .replaceAll('{{rgpd_hebergeur}}', `${texte(rgpd.hebergeur.nom)}, ${texte(rgpd.hebergeur.adresse)}`)
+    .replaceAll('{{rgpd_journaux}}', texte(rgpd.hebergeur.journaux))
+    .replaceAll('{{rgpd_conservation}}', texte(rgpd.conservationMessages))
+    .replaceAll('{{rgpd_maj}}', `<time datetime="${rgpd.majIso}">${dateFr(rgpd.maj)}</time>`)
+    .replaceAll('{{rgpd_services}}', rendreServices(rgpd));
+  const inconnu = corps.match(/\{\{(?!racine\}\})\w+\}\}/);
+  if (inconnu) throw new ErreurContenu(`contenu/pages/${page.identifiant}.html : repère inconnu ${inconnu[0]}.`);
   return `<div class="bande page voix-article">
 ${rendreFil([MENU[0]], page.titre)}
 <h1 class="page-titre">${echapper(page.titre)}</h1>
@@ -693,11 +768,77 @@ async function verifierLiens(site) {
   return fichiers.length;
 }
 
+// Contrôle des données personnelles : relève tout ce que le site construit ferait charger depuis un
+// autre site (image, vidéo, cadre, script, police, feuille de style, formulaire). Un simple lien ne
+// compte pas : rien n'est chargé tant qu'on ne clique pas. Chaque hôte extérieur doit être déclaré
+// dans « rgpd.services » de site.config.json, sinon la construction s'arrête : la page
+// « Données personnelles » ne peut donc jamais oublier un service.
+async function verifierDonnees(site) {
+  const fichiers = (await readdir(SORTIE, { recursive: true })).filter((nom) => /\.(html|css)$/.test(nom));
+  const charges = new Map(); // hôte → fichiers qui le chargent
+  const scripts = new Set();
+  const noter = (adresse, nom) => {
+    const brute = adresse.trim().replace(/^\/\//, 'https://');
+    if (!/^https?:\/\//i.test(brute)) return;
+    let hote;
+    try {
+      hote = new URL(brute).hostname.toLowerCase();
+    } catch {
+      return;
+    }
+    if (hote === site.hote) return;
+    if (!charges.has(hote)) charges.set(hote, new Set());
+    charges.get(hote).add(nom);
+  };
+  const CHARGE_PAR_LIEN = /\b(stylesheet|preload|prefetch|preconnect|dns-prefetch|modulepreload|icon|manifest)\b/i;
+
+  for (const nom of fichiers) {
+    const source = await readFile(path.join(SORTIE, nom), 'utf8');
+    for (const [, adresse] of source.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/gi)) noter(adresse, nom);
+    for (const [, adresse] of source.matchAll(/@import\s+['"]([^'"]+)['"]/gi)) noter(adresse, nom);
+    if (!nom.endsWith('.html')) continue;
+    for (const [balise, type] of source.matchAll(/<(script|img|iframe|video|audio|source|embed|object|track|input|link|form)\b[^>]*>/gi)) {
+      const attribut = (cle) => balise.match(new RegExp(`\\s${cle}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, 'i'))?.slice(1).find((v) => v !== undefined);
+      const genre = type.toLowerCase();
+      if (genre === 'link') {
+        if (CHARGE_PAR_LIEN.test(attribut('rel') ?? '')) noter(attribut('href') ?? '', nom);
+        continue;
+      }
+      if (genre === 'form') {
+        noter(attribut('action') ?? '', nom);
+        continue;
+      }
+      if (genre === 'script' && !attribut('src') && !/application\/ld\+json/i.test(attribut('type') ?? '')) scripts.add(nom);
+      for (const cle of ['src', 'data', 'poster']) noter(attribut(cle) ?? '', nom);
+      for (const morceau of (attribut('srcset') ?? '').split(',')) noter(morceau.trim().split(/\s+/)[0] ?? '', nom);
+    }
+  }
+
+  const declares = new Map(site.rgpd.services.flatMap((s) => s.hotes.map((h) => [h.toLowerCase(), s.nom])));
+  const oublies = [...charges].filter(([hote]) => !declares.has(hote));
+  if (oublies.length > 0) {
+    const detail = oublies.map(([hote, pages]) => `${hote} (dans ${[...pages].slice(0, 3).join(', ')}${pages.size > 3 ? '…' : ''})`).join('\n  - ');
+    throw new ErreurContenu(
+      `Données personnelles : le site charge du contenu depuis un autre site qui n'est pas déclaré :\n  - ${detail}\n` +
+        `Chaque visite enverrait l'adresse IP du lecteur à ce service. Deux solutions :\n` +
+        `  1. remplacer ce contenu par un simple lien (rien n'est transmis tant qu'on ne clique pas) ;\n` +
+        `  2. le déclarer dans site.config.json, « rgpd.services », pour qu'il figure sur la page « Données personnelles ».\n` +
+        `Attention : un service qui dépose des cookies ou des traceurs (vidéo, carte, statistiques…) demande l'accord préalable du lecteur. ` +
+        `Le site n'a pas de bandeau de consentement : n'intégrez pas ce genre de service, mettez un lien.`,
+    );
+  }
+  return {
+    services: [...new Set([...charges.keys()].map((hote) => declares.get(hote)))],
+    inutilises: site.rgpd.services.filter((s) => !s.hotes.some((h) => charges.has(h.toLowerCase()))).map((s) => s.nom),
+    scripts: [...scripts],
+  };
+}
+
 // Signale ce qui reste à remplir avant d'ouvrir le site au public.
 async function listerACompleter() {
   const restes = [];
   const config = await readFile(path.join(RACINE, 'site.config.json'), 'utf8');
-  if (config.includes('example.com') || config.includes('Nom du site') || config.includes('Votre nom')) {
+  if (config.includes('example.com') || config.includes('Nom du site') || config.includes('Votre nom') || config.includes('[À compléter')) {
     restes.push('site.config.json');
   }
   for (const dossier of ['contenu/pages', 'contenu/blocs']) {
@@ -826,6 +967,18 @@ ${rendreDuo(parType, { niveau: 2, lienVersTout: false })}`,
   console.log(
     `Site construit dans ${AVEC_REPERES ? 'reperes/ (mode repères, à ne pas publier)' : 'dist/'} : ${nombrePages} pages, ${parType.article.length} article(s), ${parType.edito.length} édito(s). Liens internes vérifiés.`,
   );
+  const donnees = await verifierDonnees(site);
+  console.log(
+    donnees.services.length === 0
+      ? 'Données personnelles : rien n’est chargé depuis un autre site.'
+      : `Données personnelles : services extérieurs chargés et déclarés : ${donnees.services.join(', ')}.`,
+  );
+  if (donnees.inutilises.length > 0) {
+    console.log(`  · déclarés dans « rgpd.services » mais plus utilisés (à retirer) : ${donnees.inutilises.join(', ')}.`);
+  }
+  if (donnees.scripts.length > 0) {
+    console.log(`  · un script est écrit dans ${donnees.scripts.join(', ')} : vérifiez qu’il ne dépose ni cookie ni traceur.`);
+  }
   const restes = await listerACompleter();
   if (restes.length > 0) {
     console.log(`À compléter avant la mise en ligne :\n  - ${restes.join('\n  - ')}`);

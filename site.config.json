@@ -4,5 +4,17 @@
   "url": "https://example.com",
   "auteur": "Les cahiers du fond de la glotte",
   "email": "contact@example.com",
-  "langue": "fr"
+  "langue": "fr",
+  "rgpd": {
+    "responsable": "[À compléter : nom de la personne ou de l'association qui répond du site]",
+    "contact": "contact@example.com",
+    "hebergeur": {
+      "nom": "[À compléter : nom de l'hébergeur]",
+      "adresse": "[À compléter : adresse postale de l'hébergeur]",
+      "journaux": "[À compléter : durée pendant laquelle l'hébergeur garde ses journaux de connexion]"
+    },
+    "conservation_messages": "un an après le dernier échange",
+    "mise_a_jour": "2026-11-26",
+    "services": []
+  }
 }

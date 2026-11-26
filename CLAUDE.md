@@ -94,6 +94,12 @@ Comment c'est rendu sur le site (toujours dans la DA graffiti) :
 | Lettres creuses | titres des coups de gueule en lettres évidées |
 | Rien n'est aligné | paragraphes décalés et inclinés |
 
+## Données personnelles (RGPD)
+
+Le site ne collecte rien : aucun cookie, aucun traceur, aucun formulaire, aucun JavaScript, rien chargé depuis un autre site. Garder cette ligne : ne jamais ajouter de mesure d'audience, de police ou de script hébergés ailleurs, ni de contenu intégré qui dépose des cookies (mettre un lien). Il n'y a pas de bandeau de consentement parce qu'il n'y a rien à consentir.
+
+La page `/donnees-personnelles/` et les mentions légales sont remplies depuis `rgpd` dans `site.config.json`. `build.mjs` (`verifierDonnees`) arrête la construction si le site charge quoi que ce soit depuis un hôte non déclaré dans `rgpd.services`. Tout changement qui touche aux données (service intégré, formulaire, lettre d'information) passe par cette déclaration et par une mise à jour de la page et de sa date.
+
 ## Le code couleur des zones de texte
 
 Chaque zone de texte a une couleur, la même dans le modèle Google Docs (lignes surlignées), dans le mode repères du site (`node build.mjs --reperes`, sortie dans `reperes/`, jamais publiée) et sur sa page `code-couleur/`. La liste fait foi dans `ZONES` (`build.mjs`) et les classes `.zone-…` (`public/styles.css`) ; garder les trois endroits accordés.

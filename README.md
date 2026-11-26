@@ -49,6 +49,7 @@ contenu/docs.json     la liste des documents Google reliés au site
 /editos/nom-du-fichier/   un coup de gueule
 /a-propos/                page fixe
 /mentions-legales/        page fixe
+/donnees-personnelles/    page fixe : ce que le site sait du lecteur, et ses droits
 /plan-du-site/            plan du site, généré automatiquement
 /rss.xml  /sitemap.xml  /robots.txt
 ```
@@ -95,13 +96,40 @@ Le script s'arrête avec un message explicite si un en-tête est mal rempli ou s
 
 Chez l'hébergeur : commande de construction `node build.mjs`, dossier à publier `dist`.
 
+## Données personnelles (RGPD)
+
+Le site ne dépose aucun cookie, n'a ni formulaire ni mesure d'audience, et ne charge rien depuis un autre site. Il n'a donc pas besoin de bandeau de consentement. Trois choses le garantissent dans la durée :
+
+- **La page « Données personnelles »** (`contenu/pages/donnees-personnelles.html`, adresse `/donnees-personnelles/`, lien dans le pied de page). Son texte se modifie comme n'importe quelle page.
+- **Les réglages `rgpd` de `site.config.json`** remplissent cette page et les mentions légales : `responsable` (qui répond du site), `contact`, `hebergeur` (`nom`, `adresse`, `journaux` : durée de conservation des journaux de connexion), `conservation_messages` (durée de conservation des e-mails reçus), `mise_a_jour` (date de la page) et `services`.
+- **Le contrôle à chaque construction.** `node build.mjs` relève tout ce que le site ferait charger depuis un autre site : image, vidéo, cadre intégré, script, police, feuille de style, formulaire. Si l'un de ces contenus vient d'un hôte qui n'est pas déclaré dans `rgpd.services`, la construction s'arrête et dit quoi faire. Un simple lien ne compte pas.
+
+Pour intégrer un service extérieur, le déclarer :
+
+```json
+"services": [
+  {
+    "nom": "Nom du service",
+    "pays": "France",
+    "hotes": ["player.exemple.org"],
+    "finalite": "Afficher une vidéo dans la page",
+    "donnees": "Votre adresse IP et le type de navigateur",
+    "politique": "https://exemple.org/confidentialite"
+  }
+]
+```
+
+Il apparaît alors dans le tableau de la page « Données personnelles ». Penser à changer `mise_a_jour`.
+
+Un service qui dépose des cookies ou des traceurs (la plupart des lecteurs vidéo, des cartes et des outils de statistiques) demande l'accord préalable du lecteur. Le site n'a pas de bandeau : ne pas intégrer ces services, mettre un lien à la place.
+
 ## Avant la mise en ligne
 
 Le script rappelle à chaque construction ce qui reste à remplir :
 
-- `site.config.json` : nom du site, description, adresse définitive, auteur, e-mail ;
-- `contenu/pages/a-propos.html` et `contenu/pages/mentions-legales.html` ;
-- `contenu/blocs/presentation.html` et `contenu/blocs/integration-exemple.html` ;
+- `site.config.json` : adresse définitive, e-mail, et dans `rgpd` le responsable du site, l'hébergeur et la durée de ses journaux ;
+- `contenu/pages/a-propos.html` ;
+- `contenu/blocs/integration-exemple.html` (bloc désactivé sur l’accueil) ;
 - relire et valider les deux textes du Thème 1, écrits à partir des notes du dossier Drive.
 
-Si un service extérieur est ajouté dans un bloc d'intégration (lettre d'information, vidéo, statistiques), mettre à jour le paragraphe « Données personnelles » des mentions légales.
+Si un service extérieur est ajouté (lettre d'information, vidéo, statistiques), voir « Données personnelles (RGPD) » ci-dessus : la construction le réclame.
