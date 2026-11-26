@@ -1,0 +1,49 @@
+<!--
+titre: Exemple de texte qui défile sur des images
+resume: Un modèle à copier : l'image reste en fond, le texte passe devant.
+date: 2026-11-26
+brouillon: oui
+-->
+<p>Ce brouillon sert de modèle. Il n'est pas publié. Le texte commence normalement, puis une image prend tout l'écran et les passages défilent devant elle.</p>
+
+<section class="defilement">
+<figure class="defilement-fond"><img src="{{racine}}images/exemple-fond-1.svg" alt=""></figure>
+<div class="defilement-texte">
+<p>Premier passage. L'image reste immobile pendant que le texte monte.</p>
+<p>Deuxième passage, décalé à droite. Un <strong>chiffre surligné</strong> garde son marqueur rouge.</p>
+<p class="papier">Troisième passage, sur papier collé.</p>
+</div>
+</section>
+
+<section class="defilement">
+<figure class="defilement-fond"><img src="{{racine}}images/exemple-fond-2.svg" alt=""></figure>
+<div class="defilement-texte">
+<p>Une deuxième image prend le relais, avec ses propres passages.</p>
+<p>Dernier passage avant de revenir au texte normal.</p>
+</div>
+</section>
+
+<h2>Une scène avec deux personnages</h2>
+<p>Ici, deux personnages dessinés restent en fond. En faisant défiler, ils avancent l'un vers l'autre et la discussion progresse, une réplique après l'autre.</p>
+
+<section class="scene">
+<div class="scene-fond">
+<div class="perso perso-a">
+<img data-pose="marche" src="{{racine}}images/exemple-perso-a-marche.svg" alt="">
+<img data-pose="parle" src="{{racine}}images/exemple-perso-a-parle.svg" alt="">
+</div>
+<div class="perso perso-b">
+<img data-pose="marche" src="{{racine}}images/exemple-perso-b-marche.svg" alt="">
+<img data-pose="parle" src="{{racine}}images/exemple-perso-b-parle.svg" alt="">
+</div>
+</div>
+<div class="scene-dialogue">
+<p class="replique a">Y a trop d'étudiants, tout le monde le dit.</p>
+<p class="replique b">Tout le monde, c'est qui ? T'as regardé les chiffres ?</p>
+<p class="replique a">Non. Mais on me l'a répété assez souvent.</p>
+<p class="replique b">Alors viens, on ouvre les rapports.</p>
+</div>
+</section>
+
+<h2>La suite de l'article</h2>
+<p>Après le défilement, l'article reprend sa mise en page habituelle.</p>

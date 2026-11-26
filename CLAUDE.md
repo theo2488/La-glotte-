@@ -1,6 +1,6 @@
 # Les cahiers du fond de la glotte — mémoire du projet
 
-Site statique (HTML/CSS, aucun JavaScript) d'un collectif qui écrit sur ce qui lui reste en travers de la gorge. `node build.mjs` construit `dist/` à partir de `contenu/`. Les textes peuvent venir de Google Docs via `node outils/docs.mjs` (voir `outils/LISEZMOI-docs.md`). Le README décrit le fonctionnement technique ; ce fichier garde ce qui ne se voit pas dans le code : les voix du collectif et la direction artistique.
+Site statique (HTML/CSS, avec un seul script maison pour les scènes à personnages) d'un collectif qui écrit sur ce qui lui reste en travers de la gorge. `node build.mjs` construit `dist/` à partir de `contenu/`. Les textes peuvent venir de Google Docs via `node outils/docs.mjs` (voir `outils/LISEZMOI-docs.md`). Le README décrit le fonctionnement technique ; ce fichier garde ce qui ne se voit pas dans le code : les voix du collectif et la direction artistique.
 
 Toujours écrire en français, avec la typographie française (le script corrige apostrophes et espaces avant `: ; ! ?`).
 
@@ -97,9 +97,17 @@ Comment c'est rendu sur le site (toujours dans la DA graffiti) :
 | Lettres creuses | titres des coups de gueule en lettres évidées |
 | Rien n'est aligné | paragraphes décalés et inclinés |
 
+## Les scènes à personnages
+
+Dans un texte, un bloc `<section class="scene">` pose deux personnages dessinés en fond ; le défilement les fait avancer l'un vers l'autre et fait progresser la discussion, bulle après bulle (`public/scene.js` + section « Scène » de `public/styles.css`, mode d'emploi dans le README, modèle dans le brouillon `contenu/articles/exemple-defilement.html`).
+
+- Les dessins définitifs seront fournis par l'artiste du collectif : style sombre, dessin au stylo, façon gribouillis. Les bonshommes `public/images/exemple-perso-*.svg` ne sont que des exemples : ne pas les publier dans un vrai texte.
+- Un dessin par pose (`data-pose="marche"`, `"parle"`, `"ecoute"`, ou tout autre nom), en pied, fond transparent. La réplique choisit la pose de celui qui parle (`data-pose`) et de l'autre (`data-pose-autre`).
+- Le bloc `<section class="defilement">` (texte qui défile devant une image fixe) reste en CSS seul.
+
 ## Données personnelles (RGPD)
 
-Le site ne collecte rien : aucun cookie, aucun traceur, aucun formulaire, aucun JavaScript, rien chargé depuis un autre site. Garder cette ligne : ne jamais ajouter de mesure d'audience, de police ou de script hébergés ailleurs, ni de contenu intégré qui dépose des cookies (mettre un lien). Il n'y a pas de bandeau de consentement parce qu'il n'y a rien à consentir.
+Le site ne collecte rien : aucun cookie, aucun traceur, aucun formulaire, rien chargé depuis un autre site. Un seul script est autorisé depuis le 26 novembre 2026 : `public/scene.js`, écrit pour le site et hébergé avec lui, qui anime les scènes à personnages et ne lit ni n'envoie aucune donnée. Ne pas ajouter d'autre script ni de bibliothèque extérieure. Garder cette ligne : ne jamais ajouter de mesure d'audience, de police ou de script hébergés ailleurs, ni de contenu intégré qui dépose des cookies (mettre un lien). Il n'y a pas de bandeau de consentement parce qu'il n'y a rien à consentir.
 
 La page `/donnees-personnelles/` et les mentions légales sont remplies depuis `rgpd` dans `site.config.json`. `build.mjs` (`verifierDonnees`) arrête la construction si le site charge quoi que ce soit depuis un hôte non déclaré dans `rgpd.services`. Tout changement qui touche aux données (service intégré, formulaire, lettre d'information) passe par cette déclaration et par une mise à jour de la page et de sa date.
 

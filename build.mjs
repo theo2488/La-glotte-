@@ -660,6 +660,11 @@ function rendreLogo(site) {
   return `<span class="logo-haut">${echapper(haut)}</span> <span class="logo-bas">${echapper(bas)}</span>`;
 }
 
+// Le seul script du site : il anime les scènes à personnages. Il n'est ajouté qu'aux pages qui en contiennent une.
+function scriptScenes(corps) {
+  return /class="scene[\s"]/.test(corps) ? '\n<script src="{{racine}}scene.js" defer></script>' : '';
+}
+
 async function ecrirePage(site, gabarit, page) {
   const {
     chemin,
@@ -921,7 +926,7 @@ ${rendreDuo(parType, { niveau: 2, lienVersTout: false })}`,
       description: publication.resume,
       ton: TYPES[publication.type].ton,
       typeOg: 'article',
-      balises: donneesStructurees(publication, site),
+      balises: donneesStructurees(publication, site) + scriptScenes(publication.corps),
       contenu: rendrePublication(publication, site),
     });
   }

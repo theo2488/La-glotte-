@@ -1979,6 +1979,417 @@ body::after {
 }
 
 /* =====================================================================
+   Défilement : le texte passe devant une image qui reste en fond.
+   Sans JavaScript : l'image est « collante » (position: sticky), le texte défile par-dessus.
+
+   <section class="defilement">
+     <figure class="defilement-fond"><img src="{{racine}}images/photo.jpg" alt=""></figure>
+     <div class="defilement-texte">
+       <p>Premier passage.</p>
+       <p>Deuxième passage.</p>
+     </div>
+   </section>
+   ===================================================================== */
+
+/* « clip » coupe ce qui dépasse comme « hidden », mais laisse l'image rester collée à l'écran. */
+.publication {
+  overflow: clip;
+}
+
+.defilement {
+  position: relative;
+  width: 100vw;
+  margin: 4rem 0 4rem calc(-1 * var(--marge));
+  border-top: 10px solid var(--blanc);
+  border-bottom: 10px solid var(--blanc);
+  border-image: var(--crayon) 24 0 24 0 / 10px 0 10px 0 stretch;
+  background: #000;
+}
+
+/* L'image : plein écran, en noir et blanc, assombrie pour que le texte reste lisible. */
+.defilement-fond {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.defilement-fond img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border: 0;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15) brightness(0.6);
+}
+
+/* Ajouter class="defilement couleur" pour garder les couleurs de l'image. */
+.defilement.couleur .defilement-fond img {
+  filter: brightness(0.6);
+}
+
+/* Le texte remonte par-dessus l'image, un passage à la fois. */
+.defilement-texte {
+  position: relative;
+  margin-top: -100vh;
+  margin-top: -100svh;
+  padding: 60vh var(--marge) 45vh;
+}
+
+.texte .defilement-texte > * {
+  max-width: 34rem;
+  margin: 0 0 70vh;
+  padding: 1.25rem 1.5rem;
+  border: var(--filet) solid var(--blanc);
+  background: rgb(0 0 0 / 0.86);
+  color: #f4f4f4;
+  box-shadow: 6px 6px 0 var(--rouge);
+  transform: rotate(-1deg);
+}
+
+.texte .defilement-texte > :nth-child(even) {
+  margin-left: auto;
+  transform: rotate(1.2deg);
+}
+
+.texte .defilement-texte > :last-child {
+  margin-bottom: 0;
+}
+
+/* Un passage en papier collé : <p class="papier">. */
+.texte .defilement-texte > .papier {
+  border-color: var(--noir);
+  background: var(--blanc);
+  color: var(--noir);
+}
+
+/* Plusieurs images à la suite : les sections se touchent. */
+.defilement + .defilement {
+  margin-top: -4rem;
+  border-top: 0;
+}
+
+@media print {
+  .defilement {
+    width: auto;
+    margin: 1rem 0;
+    border: 0;
+    background: none;
+  }
+
+  .defilement-fond {
+    position: static;
+    height: auto;
+  }
+
+  .defilement-fond img {
+    height: auto;
+    filter: none;
+  }
+
+  .defilement-texte {
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .defilement-texte > * {
+    max-width: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #000;
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+/* =====================================================================
+   Scène : deux personnages dessinés restent en fond et se parlent.
+   Faire défiler la page les fait avancer l'un vers l'autre, pas à pas, et fait
+   apparaître les répliques une par une. Le script public/scene.js pilote l'avancée,
+   les pas, les poses (un dessin par pose) et les bulles ; il n'est chargé que sur les
+   pages qui ont une scène. Si le script est bloqué, la version CSS ci-dessous prend le
+   relais : la discussion défile, et les personnages bougent là où le navigateur le permet.
+
+   <section class="scene">
+     <div class="scene-fond">
+       <img class="perso perso-a" src="{{racine}}images/perso-a.svg" alt="">
+       <img class="perso perso-b" src="{{racine}}images/perso-b.svg" alt="">
+     </div>
+     <div class="scene-dialogue">
+       <p class="replique a">Ce que dit le personnage de gauche.</p>
+       <p class="replique b">Ce que répond celui de droite.</p>
+     </div>
+   </section>
+   ===================================================================== */
+
+.scene {
+  position: relative;
+  width: 100vw;
+  margin: 4rem 0 4rem calc(-1 * var(--marge));
+  border-top: 10px solid var(--blanc);
+  border-bottom: 10px solid var(--blanc);
+  border-image: var(--crayon) 24 0 24 0 / 10px 0 10px 0 stretch;
+  --depart: 8vw;
+  --arrivee: 20vw;
+  background: radial-gradient(circle at 50% 60%, #555 0, #1c1c1c 45%, #000 85%);
+  view-timeline-name: --scene;
+}
+
+/* Le décor : plein écran, immobile. Un sol tracé à la craie, les personnages posés dessus. */
+.scene-fond {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.scene-fond::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9vh;
+  height: 10px;
+  background: var(--blanc);
+  -webkit-mask: var(--crayon) center / 100% 100% no-repeat;
+  mask: var(--crayon) center / 100% 100% no-repeat;
+  opacity: 0.7;
+}
+
+.texte .scene .perso {
+  position: absolute;
+  bottom: 10vh;
+  height: min(58vh, 34rem, 84vw);
+  width: auto;
+  max-width: none;
+  border: 0;
+  transform-origin: 50% 100%;
+}
+
+.scene .perso-a {
+  left: 6vw;
+}
+
+.scene .perso-b {
+  right: 6vw;
+}
+
+/* Sur téléphone, les personnages sont plus petits et s'arrêtent avant de se croiser. */
+@media (max-width: 51.99rem) {
+  .scene {
+    --depart: 14vw;
+    --arrivee: 2vw;
+  }
+
+  .scene .perso-a {
+    left: 2vw;
+  }
+
+  .scene .perso-b {
+    right: 2vw;
+  }
+}
+
+/* Le mouvement, seulement si le navigateur sait lier une animation au défilement. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scene .perso {
+      animation-timing-function: linear, steps(1);
+      animation-fill-mode: both;
+      animation-timeline: --scene, --scene;
+      animation-range: entry 60% exit 40%;
+    }
+
+    .scene .perso-a {
+      animation-name: avance-a, pas;
+    }
+
+    .scene .perso-b {
+      animation-name: avance-b, pas-inverse;
+    }
+  }
+}
+
+/* Chacun part de son bord et avance vers le milieu. */
+@keyframes avance-a {
+  from { translate: calc(-1 * var(--depart)) 0; }
+  to { translate: var(--arrivee) 0; }
+}
+
+@keyframes avance-b {
+  from { translate: var(--depart) 0; }
+  to { translate: calc(-1 * var(--arrivee)) 0; }
+}
+
+/* La marche : le personnage bascule d'un pied sur l'autre, image par image. */
+@keyframes pas {
+  0%, 16%, 32%, 48%, 64%, 80%, 96% { rotate: -5deg; scale: 1 1; }
+  8%, 24%, 40%, 56%, 72%, 88% { rotate: 5deg; scale: 1 0.96; }
+}
+
+@keyframes pas-inverse {
+  0%, 16%, 32%, 48%, 64%, 80%, 96% { rotate: 5deg; scale: 1 0.96; }
+  8%, 24%, 40%, 56%, 72%, 88% { rotate: -5deg; scale: 1 1; }
+}
+
+/* Un personnage peut avoir plusieurs dessins (poses) : un seul est affiché à la fois. */
+.texte .scene .perso img {
+  display: none;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  border: 0;
+}
+
+.texte .scene .perso img:first-child,
+.texte .scene .perso img.pose-active {
+  display: block;
+}
+
+.texte .scene .perso:has(.pose-active) img:not(.pose-active) {
+  display: none;
+}
+
+/* --- Avec le script (public/scene.js) : il pilote l'avancée, les pas, les poses et les bulles. --- */
+
+.scenes-actives .scene .perso {
+  animation: none;
+  transition: scale 0.18s ease-out, filter 0.18s ease-out;
+}
+
+.scenes-actives .scene .perso-a {
+  translate: calc(var(--avance, 0) * (var(--depart) + var(--arrivee)) - var(--depart)) 0;
+  rotate: -5deg;
+}
+
+.scenes-actives .scene .perso-b {
+  translate: calc(var(--depart) - var(--avance, 0) * (var(--depart) + var(--arrivee))) 0;
+  rotate: 5deg;
+}
+
+.scenes-actives .scene.pas-pair .perso-a {
+  rotate: 5deg;
+}
+
+.scenes-actives .scene.pas-pair .perso-b {
+  rotate: -5deg;
+}
+
+/* Celui qui parle s'avance et grandit, celui qui écoute s'efface un peu. */
+.scenes-actives .scene .perso.parle {
+  scale: 1.08;
+}
+
+.scenes-actives .scene .perso.ecoute {
+  filter: brightness(0.55);
+}
+
+/* Les bulles n'apparaissent qu'au moment où la réplique est dite. */
+.scenes-actives .scene-dialogue > .replique {
+  opacity: 0;
+  scale: 0.85;
+  transition: opacity 0.2s ease-out, scale 0.2s ease-out;
+}
+
+.scenes-actives .scene-dialogue > .replique.dite {
+  opacity: 1;
+  scale: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scenes-actives .scene .perso,
+  .scenes-actives .scene-dialogue > .replique {
+    transition: none;
+  }
+
+  .scenes-actives .scene .perso-a,
+  .scenes-actives .scene .perso-b {
+    translate: none;
+    rotate: none;
+  }
+}
+
+/* La discussion : chaque réplique est une bulle, du côté de celui qui parle. */
+.scene-dialogue {
+  position: relative;
+  margin-top: -100vh;
+  margin-top: -100svh;
+  padding: 55vh var(--marge) 50vh;
+}
+
+.texte .scene-dialogue > .replique {
+  position: relative;
+  max-width: min(30rem, 78vw);
+  margin: 0 0 62vh;
+  padding: 1.1rem 1.4rem;
+  border: var(--trait) solid var(--noir);
+  border-radius: 2rem 1.3rem 2.4rem 1.1rem / 1.4rem 2.2rem 1.2rem 1.9rem;
+  background: var(--blanc);
+  color: var(--noir);
+  font-family: var(--marqueur);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  box-shadow: 6px 6px 0 var(--rouge);
+  transform: rotate(-1.5deg);
+}
+
+.texte .scene-dialogue > .replique.b {
+  margin-left: auto;
+  transform: rotate(1.5deg);
+}
+
+.texte .scene-dialogue > .replique:last-child {
+  margin-bottom: 0;
+}
+
+/* La pointe de la bulle, tournée vers le personnage. */
+.scene-dialogue > .replique::after {
+  content: "";
+  position: absolute;
+  bottom: -1.4rem;
+  left: 2rem;
+  border-top: 1.5rem solid var(--blanc);
+  border-right: 1.4rem solid transparent;
+}
+
+.scene-dialogue > .replique.b::after {
+  left: auto;
+  right: 2rem;
+  border-right: 0;
+  border-left: 1.4rem solid transparent;
+}
+
+@media print {
+  .scene {
+    width: auto;
+    margin: 1rem 0;
+    border: 0;
+    background: none;
+  }
+
+  .scene-fond {
+    display: none;
+  }
+
+  .scene-dialogue {
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .texte .scene-dialogue > .replique {
+    margin: 0 0 1rem;
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+/* =====================================================================
    Mode repères : le code couleur des zones de texte.
    Actif seulement quand le site est construit avec « node build.mjs --reperes »
    (le <body> porte alors la classe « reperes »). Rien de ceci ne s'affiche sur le site publié.

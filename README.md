@@ -2,7 +2,7 @@
 
 Ce qui nous reste en travers de la gorge, on le met par écrit : des enquêtes chiffrées et des coups de gueule. Un site en HTML et CSS, façon graffiti des années 90 sur cahier d’écolier, en version sombre : dégradés de gris, noir, blanc, et du rouge en seconde encre. Les enquêtes s’affichent en noir sur blanc sur une réglure de cahier, les coups de gueule en blanc sur noir.
 
-Le site publié ne contient que du HTML et du CSS : aucun JavaScript, aucun cookie, aucune police ou ressource chargée depuis un autre site : les polices sont hébergées avec le site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
+Le site publié est fait de HTML et de CSS, plus un seul petit script maison (`public/scene.js`) chargé uniquement sur les pages qui ont une scène à personnages : aucun cookie, aucune police ou ressource chargée depuis un autre site : les polices sont hébergées avec le site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
 
 ## La voix des cahiers
 
@@ -93,6 +93,53 @@ node build.mjs --reperes     construit dans reperes/ une copie où chaque zone d
 ```
 
 Le script s'arrête avec un message explicite si un en-tête est mal rempli ou si un lien interne ne mène nulle part.
+
+## Faire défiler le texte sur une image
+
+Dans un article ou un coup de gueule, une image peut rester en fond pendant que le texte passe devant. Tout est en CSS, sans JavaScript.
+
+1. Déposer l'image dans `public/images/` (JPEG ou WebP, 1600 px de large environ, moins de 300 Ko).
+2. Coller ce bloc dans le texte, à l'endroit voulu :
+
+   ```html
+   <section class="defilement">
+   <figure class="defilement-fond"><img src="{{racine}}images/ma-photo.jpg" alt=""></figure>
+   <div class="defilement-texte">
+   <p>Premier passage.</p>
+   <p>Deuxième passage.</p>
+   <p class="papier">Un passage sur papier collé.</p>
+   </div>
+   </section>
+   ```
+
+L'image passe en noir et blanc et s'assombrit pour rester dans la direction artistique ; `class="defilement couleur"` garde ses couleurs. Plusieurs blocs à la suite enchaînent les images. Si l'image apporte une information, la décrire dans `alt`. Le brouillon `contenu/articles/exemple-defilement.html` sert de modèle (visible avec `node build.mjs --brouillons`).
+
+## Une scène : des personnages qui avancent et se parlent
+
+Deux personnages dessinés restent en fond. En faisant défiler la page, ils avancent l'un vers l'autre, pas à pas ; celui qui parle change de pose et se détache, l'autre s'efface, et les bulles apparaissent une par une. C'est le script `public/scene.js` qui pilote tout ; il est ajouté automatiquement aux pages qui contiennent une scène. S'il est bloqué, la discussion défile quand même.
+
+```html
+<section class="scene">
+<div class="scene-fond">
+<div class="perso perso-a">
+<img data-pose="marche" src="{{racine}}images/perso-a-marche.png" alt="">
+<img data-pose="parle" src="{{racine}}images/perso-a-parle.png" alt="">
+</div>
+<div class="perso perso-b">
+<img data-pose="marche" src="{{racine}}images/perso-b-marche.png" alt="">
+<img data-pose="parle" src="{{racine}}images/perso-b-parle.png" alt="">
+</div>
+</div>
+<div class="scene-dialogue">
+<p class="replique a">Ce que dit le personnage de gauche.</p>
+<p class="replique b" data-pose="colere" data-pose-autre="ecoute">Ce que répond celui de droite.</p>
+</div>
+</section>
+```
+
+- **Les dessins** : une image par pose et par personnage (PNG à fond transparent ou SVG), en pied, plus haute que large, toutes à la même taille, dans `public/images/`. Le premier dessin de la liste sert de pose de départ.
+- **Les poses** : `marche` entre deux répliques, `parle` pour celui qui parle, `ecoute` pour l'autre. Une réplique peut demander autre chose avec `data-pose` (celui qui parle) et `data-pose-autre` (l'autre) ; si la pose demandée n'existe pas, le premier dessin est utilisé.
+- **Les répliques** : `replique a` pour le personnage de gauche, `replique b` pour celui de droite.
 
 ## Mise en ligne
 
