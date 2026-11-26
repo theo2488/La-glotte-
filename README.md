@@ -94,7 +94,13 @@ node build.mjs --reperes     construit dans reperes/ une copie où chaque zone d
 
 Le script s'arrête avec un message explicite si un en-tête est mal rempli ou si un lien interne ne mène nulle part.
 
-Chez l'hébergeur : commande de construction `node build.mjs`, dossier à publier `dist`.
+## Mise en ligne
+
+Le site est publié gratuitement sur GitHub Pages, à l'adresse `https://theo2488.github.io/La-glotte-/`. Le fichier `.github/workflows/publier.yml` s'en charge : à chaque modification de la branche `main`, GitHub reconstruit le site avec `node build.mjs` et met en ligne le dossier `dist`. Si la construction échoue (lien cassé, en-tête mal rempli, contenu extérieur non déclaré), rien n'est publié et l'ancienne version reste en ligne.
+
+Réglage à faire une seule fois, dans GitHub : **Settings > Pages > Build and deployment > Source : « GitHub Actions »**. Le suivi des publications se lit dans l'onglet **Actions** du dépôt ; le bouton « Run workflow » relance une publication à la main.
+
+Si l'adresse change (dépôt renommé, nom de domaine à soi), changer `url` dans `site.config.json` : les liens, le flux RSS, le plan du site et la page d'erreur suivent. L'hébergeur est déclaré dans `rgpd.hebergeur` ; en changer là aussi si le site déménage.
 
 ## Données personnelles (RGPD)
 

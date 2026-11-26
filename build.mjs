@@ -236,6 +236,9 @@ function lireRgpd(site) {
       nom: texte(hebergeur.nom, 'hebergeur.nom'),
       adresse: texte(hebergeur.adresse, 'hebergeur.adresse'),
       journaux: texte(hebergeur.journaux, 'hebergeur.journaux'),
+      // Facultatif : où partent les journaux quand l'hébergeur est hors de l'Union européenne.
+      transfert: texte(hebergeur.transfert, 'hebergeur.transfert', ''),
+      politique: texte(hebergeur.politique, 'hebergeur.politique', ''),
     },
     conservationMessages: texte(brut.conservation_messages, 'conservation_messages'),
     majIso: texte(brut.mise_a_jour, 'mise_a_jour'),
@@ -515,6 +518,14 @@ function rendrePageSimple(page, site) {
     .replaceAll('{{rgpd_contact}}', echapper(rgpd.contact))
     .replaceAll('{{rgpd_hebergeur}}', `${texte(rgpd.hebergeur.nom)}, ${texte(rgpd.hebergeur.adresse)}`)
     .replaceAll('{{rgpd_journaux}}', texte(rgpd.hebergeur.journaux))
+    .replaceAll(
+      '{{rgpd_transfert}}',
+      rgpd.hebergeur.transfert || rgpd.hebergeur.politique
+        ? `<li><strong>Où ça part\u00a0:</strong> ${texte(rgpd.hebergeur.transfert)}${
+            rgpd.hebergeur.politique ? ` <a href="${echapper(rgpd.hebergeur.politique)}">Ses règles de confidentialité</a>.` : ''
+          }</li>`
+        : '',
+    )
     .replaceAll('{{rgpd_conservation}}', texte(rgpd.conservationMessages))
     .replaceAll('{{rgpd_maj}}', `<time datetime="${rgpd.majIso}">${dateFr(rgpd.maj)}</time>`)
     .replaceAll('{{rgpd_services}}', rendreServices(rgpd));

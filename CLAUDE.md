@@ -100,6 +100,10 @@ Le site ne collecte rien : aucun cookie, aucun traceur, aucun formulaire, aucun 
 
 La page `/donnees-personnelles/` et les mentions légales sont remplies depuis `rgpd` dans `site.config.json`. `build.mjs` (`verifierDonnees`) arrête la construction si le site charge quoi que ce soit depuis un hôte non déclaré dans `rgpd.services`. Tout changement qui touche aux données (service intégré, formulaire, lettre d'information) passe par cette déclaration et par une mise à jour de la page et de sa date.
 
+## Mise en ligne
+
+GitHub Pages, publication automatique depuis `main` par `.github/workflows/publier.yml` ; adresse `https://theo2488.github.io/La-glotte-/` (dans `url` de `site.config.json`). Pousser sur `main`, c'est publier : travailler sur une branche et ne fusionner que ce qui est prêt. L'hébergeur (GitHub, États-Unis) est déclaré dans `rgpd.hebergeur`.
+
 ## Le code couleur des zones de texte
 
 Chaque zone de texte a une couleur, la même dans le modèle Google Docs (lignes surlignées), dans le mode repères du site (`node build.mjs --reperes`, sortie dans `reperes/`, jamais publiée) et sur sa page `code-couleur/`. La liste fait foi dans `ZONES` (`build.mjs`) et les classes `.zone-…` (`public/styles.css`) ; garder les trois endroits accordés.

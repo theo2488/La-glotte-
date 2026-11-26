@@ -1,7 +1,7 @@
 {
   "nom": "Les cahiers du fond de la glotte",
   "description": "Ce qui nous reste en travers de la gorge, on le met par écrit : des enquêtes chiffrées et des coups de gueule.",
-  "url": "https://example.com",
+  "url": "https://theo2488.github.io/La-glotte-",
   "auteur": "Les cahiers du fond de la glotte",
   "email": "contact@example.com",
   "langue": "fr",
@@ -9,9 +9,11 @@
     "responsable": "[À compléter : nom de la personne ou de l'association qui répond du site]",
     "contact": "contact@example.com",
     "hebergeur": {
-      "nom": "[À compléter : nom de l'hébergeur]",
-      "adresse": "[À compléter : adresse postale de l'hébergeur]",
-      "journaux": "[À compléter : durée pendant laquelle l'hébergeur garde ses journaux de connexion]"
+      "nom": "GitHub, Inc. (service GitHub Pages)",
+      "adresse": "88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis",
+      "journaux": "GitHub ne publie pas de durée précise pour ces journaux",
+      "transfert": "aux États-Unis, hors de l'Union européenne. GitHub explique comment il encadre ces transferts dans sa déclaration de confidentialité.",
+      "politique": "https://docs.github.com/fr/site-policy/privacy-policies/github-general-privacy-statement"
     },
     "conservation_messages": "un an après le dernier échange",
     "mise_a_jour": "2026-11-26",
