@@ -148,6 +148,27 @@ Deux personnages dessinés restent en fond. En faisant défiler la page, ils ava
 - **Le papier** : chaque personnage est collé au mur sur un morceau de feuille déchirée, avec un ruban rouge. Transparence, teinte et ombre se règlent en haut de la partie « Papier collé » de `public/styles.css` (`--papier-opacite`, `--papier`, `--ombre-papier`).
 - Si le lecteur a demandé moins d'animations à son appareil, rien ne bouge : les personnages restent en place et les bulles se succèdent.
 
+## Un graphique dans un texte
+
+Les chiffres se tracent directement dans la page, en HTML et CSS, sans image : barres à la craie, rouge pour ce qu'on veut faire remarquer, titre sur une étiquette. Modèle complet dans `contenu/articles/y-a-t-il-trop-d-etudiants-en-france.html`.
+
+```html
+<figure class="graphique">
+<figcaption>Les frais d'inscription, par an</figcaption>
+<ul class="barres">
+<li style="--v:13.7"><span class="barre-nom">Licence, aujourd'hui</span><span class="barre-piste"><span class="barre-trait"></span><span class="barre-valeur">178 €</span></span></li>
+<li class="rouge" style="--v:69.2"><span class="barre-nom">Licence, proposé</span><span class="barre-piste"><span class="barre-trait"></span><span class="barre-valeur">900 €</span></span></li>
+</ul>
+<p class="graphique-source">Source : …</p>
+</figure>
+```
+
+- `--v` est la longueur de la barre, de 0 à 100 : la plus grande valeur vaut 100, les autres en proportion.
+- `class="rouge"` sur une ligne passe sa barre en rouge. Dire dans la source ce que le rouge signifie.
+- `<ul class="barres ecart">` trace des hausses et des baisses autour d'un trait zéro : `--v` est alors la valeur en points, et les baisses portent `class="baisse rouge"`.
+- Une courbe se dessine en SVG dans la page (`<svg class="courbe">`), avec une description dans `aria-label`.
+- Toujours une ligne de source sous le graphique.
+
 ## Mise en ligne
 
 Le site est publié gratuitement sur GitHub Pages, à l'adresse `https://theo2488.github.io/Les-cahiers-de-la-Glotte-/`. Le fichier `.github/workflows/publier.yml` s'en charge : à chaque modification de la branche `main`, GitHub reconstruit le site avec `node build.mjs` et met en ligne le dossier `dist`. Si la construction échoue (lien cassé, en-tête mal rempli, contenu extérieur non déclaré), rien n'est publié et l'ancienne version reste en ligne.

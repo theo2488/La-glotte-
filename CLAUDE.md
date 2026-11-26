@@ -97,6 +97,10 @@ Comment c'est rendu sur le site (toujours dans la DA graffiti) :
 | Lettres creuses | titres des coups de gueule en lettres évidées |
 | Rien n'est aligné | paragraphes décalés et inclinés |
 
+## Les graphiques
+
+Dans une enquête, les chiffres se tracent dans la page avec `<figure class="graphique">` (section « Graphiques » de `public/styles.css`, mode d'emploi dans le README) : barres hachurées à la craie, rouge réservé à ce qu'on veut faire remarquer, titre sur une étiquette blanche, cadre de travers. Pas d'image ni de script. Chaque graphique porte sa source, et tout chiffre affiché est vérifié sur la source avant publication.
+
 ## Les scènes à personnages
 
 Dans un texte, un bloc `<section class="scene">` pose deux personnages dessinés en fond ; le défilement les fait avancer l'un vers l'autre et fait progresser la discussion, bulle après bulle (`public/scene.js` + section « Scène » de `public/styles.css`, mode d'emploi dans le README, modèle dans le brouillon `contenu/articles/exemple-defilement.html`).
