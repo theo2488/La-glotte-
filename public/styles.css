@@ -1587,9 +1587,201 @@ a:hover {
   text-decoration-thickness: 0.12em;
 }
 
+/* =====================================================================
+   Mode repères : le code couleur des zones de texte.
+   Actif seulement quand le site est construit avec « node build.mjs --reperes »
+   (le <body> porte alors la classe « reperes »). Rien de ceci ne s'affiche sur le site publié.
+   Les mêmes couleurs surlignent les lignes du modèle Google Docs.
+   ===================================================================== */
+
+.zone-titre { --zone: #ffe600; }
+.zone-resume { --zone: #ff9d2e; }
+.zone-infos { --zone: #c9c9c9; }
+.zone-texte { --zone: #7cc7ff; }
+.zone-intertitre { --zone: #7be38a; }
+.zone-marge { --zone: #ff8fdc; }
+.zone-citation { --zone: #c3a6ff; }
+.zone-sources { --zone: #4fe3d3; }
+
+/* À chaque zone du site, sa couleur et son nom. */
+.reperes :is(.une-titre, .publication-titre, .page-titre, .element-titre) { --zone: #ffe600; --zone-nom: "TITRE"; }
+.reperes :is(.une-resume, .publication-resume, .page-chapo, .element-resume) { --zone: #ff9d2e; --zone-nom: "RÉSUMÉ"; }
+.reperes :is(.une-meta, .publication-meta, .element-meta) { --zone: #c9c9c9; --zone-nom: "INFOS"; }
+.reperes .texte :is(p, ul, ol, table, pre) { --zone: #7cc7ff; --zone-nom: "TEXTE"; }
+.reperes .texte :is(h2, h3) { --zone: #7be38a; --zone-nom: "INTERTITRE"; }
+.reperes .texte .marge { --zone: #ff8fdc; --zone-nom: "NOTE DE MARGE"; }
+.reperes .texte blockquote,
+.reperes .texte blockquote p { --zone: #c3a6ff; --zone-nom: "CITATION"; }
+.reperes .texte .sources { --zone: #4fe3d3; --zone-nom: "SOURCES"; }
+
+/* Le contour de la zone. */
+.reperes :is(.une-titre, .publication-titre, .page-titre, .element-titre, .une-resume, .publication-resume, .page-chapo, .element-resume, .une-meta, .publication-meta, .element-meta, .texte .marge, .texte blockquote, .texte .sources),
+.reperes .texte > :is(p, ul, ol, table, pre, h2, h3),
+.reperes .texte .capitales > p {
+  position: relative;
+  outline: 3px solid var(--zone);
+  outline-offset: 4px;
+}
+
+/* Dans les sources, un seul contour : celui de la zone entière. */
+.reperes .texte .sources {
+  margin-top: 3.75rem;
+  padding: 0.25rem 0;
+}
+
+.reperes .texte .sources :is(h2, ul, ol) {
+  --zone: #4fe3d3;
+}
+
+.reperes .texte .sources h2 {
+  margin-top: 0;
+}
+
+/* L'étiquette, accrochée au coin de la zone. */
+.reperes :is(.une-titre, .publication-titre, .page-titre, .element-titre, .une-resume, .publication-resume, .page-chapo, .element-resume, .une-meta, .publication-meta, .element-meta, .texte .marge, .texte .sources)::before,
+.reperes .texte > :is(p:first-of-type, h2, h3, table, pre)::before,
+.reperes .texte .capitales > p:first-of-type::before,
+.reperes .texte blockquote > p:first-child::before {
+  content: var(--zone-nom);
+  position: absolute;
+  top: -1.15rem;
+  left: -7px;
+  z-index: 6;
+  padding: 0.2rem 0.4rem;
+  background: var(--zone);
+  color: #000;
+  font: 700 0.6rem/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.06em;
+  text-shadow: none;
+  text-transform: none;
+  white-space: nowrap;
+  -webkit-text-stroke: 0;
+}
+
+.reperes .texte blockquote > p:first-child::before {
+  top: -1.6rem;
+  left: 0;
+}
+
+/* La lettrine gênerait la lecture des repères. */
+.reperes .publication .texte > p:first-child::first-letter {
+  float: none;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  text-shadow: none;
+}
+
+/* La légende, toujours visible en haut de l'écran. */
+.legende {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1rem;
+  padding: 0.5rem var(--marge);
+  background: #111;
+  color: #fff;
+  font: 0.7rem/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.legende-titre,
+.legende-lien {
+  margin: 0;
+}
+
+.legende-titre {
+  font-weight: 700;
+}
+
+.legende ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legende a {
+  color: #fff;
+}
+
+.puce {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  background: var(--zone);
+  color: #000;
+  font: 700 0.65rem/1.3 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* La page « Code couleur » : sobre, pour être lue et copiée. */
+.code-couleur .texte {
+  max-width: none;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.code-couleur .texte > :is(p, table, h2, pre),
+.code-couleur .texte td,
+.code-couleur .texte th {
+  margin-left: 0;
+  max-width: none;
+  outline: 0;
+  transform: none;
+  font-family: inherit;
+}
+
+.reperes .code-couleur .texte > :is(p:first-of-type, h2, table, pre)::before {
+  content: none;
+}
+
+.code-couleur .texte h2 {
+  font: 700 1.1rem/1.3 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.code-couleur .texte h2::after {
+  content: none;
+}
+
+.modele {
+  margin: 0 0 var(--paragraphe);
+  padding: 0;
+  overflow-x: auto;
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  font: 0.75rem/1.2 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  user-select: all;
+}
+
+/* Dans les listes, on écarte les lignes pour que les étiquettes ne se chevauchent pas. */
+.reperes .element > * + * {
+  margin-top: 1.3rem;
+}
+
+.modele {
+  font-variant-ligatures: none;
+}
+
+.modele .ligne {
+  display: block;
+  padding: 0.3rem 0.75rem;
+  border-left: 0.9rem solid var(--zone);
+  background: color-mix(in srgb, var(--zone) 38%, #fff);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 /* ---------- Impression ---------- */
 
 @media print {
+  .legende,
   .entete nav,
   .pied-liens,
   .fil,

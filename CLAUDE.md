@@ -94,4 +94,12 @@ Comment c'est rendu sur le site (toujours dans la DA graffiti) :
 | Lettres creuses | titres des coups de gueule en lettres évidées |
 | Rien n'est aligné | paragraphes décalés et inclinés |
 
+## Le code couleur des zones de texte
+
+Chaque zone de texte a une couleur, la même dans le modèle Google Docs (lignes surlignées), dans le mode repères du site (`node build.mjs --reperes`, sortie dans `reperes/`, jamais publiée) et sur sa page `code-couleur/`. La liste fait foi dans `ZONES` (`build.mjs`) et les classes `.zone-…` (`public/styles.css`) ; garder les trois endroits accordés.
+
+Jaune = titre · orange = résumé · gris = infos (type, date, signature) · bleu = texte · vert = intertitre · rose = note de marge · violet = citation · turquoise = sources.
+
+Ces couleurs sont un outil de travail : elles n'apparaissent jamais sur le site publié, qui reste en noir, blanc et rouge.
+
 Deux textes d'essai recopiés des carnets restent dans `contenu/editos/` en brouillon (`faites-des-etudes.html`, `le-temps-de-la-colere.html`) : ils servent à tester le rendu des ratures, des notes de marge et des capitales avec `node build.mjs --brouillons`. Ne pas les publier.

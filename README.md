@@ -88,6 +88,7 @@ Un lien vers une autre page du site s'écrit `href="{{racine}}a-propos/"`. Les a
 ```
 node build.mjs               construit le site dans dist/
 node build.mjs --brouillons  inclut aussi les brouillons
+node build.mjs --reperes     construit dans reperes/ une copie où chaque zone de texte est entourée de sa couleur (jamais publiée)
 ```
 
 Le script s'arrête avec un message explicite si un en-tête est mal rempli ou si un lien interne ne mène nulle part.

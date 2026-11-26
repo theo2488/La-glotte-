@@ -133,7 +133,12 @@ const CHAMPS = {
 };
 
 function analyser(markdown) {
-  const lignes = markdown.replace(/\r\n?/g, '\n').split('\n');
+  // Un texte collé tel quel garde ses « # », « ## », « > » et « - » : Google les exporte précédés
+  // d'une barre oblique inverse. On la retire en début de ligne pour qu'ils jouent leur rôle.
+  const lignes = markdown
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .map((l) => l.replace(/^(\s*)((?:\\#)+|\\>|\\-|\\\*|\\\+)(?=\s)/, (_, espace, marque) => espace + marque.replaceAll('\\', '')));
   const meta = {};
   const blocs = [];
   let i = 0;
@@ -166,6 +171,13 @@ function analyser(markdown) {
     if (paragraphe.length === 0) return;
     // Une note interne (« Note : ... ») ne part jamais sur le site.
     if (/^[*_]*note\s*:/i.test(brut(paragraphe[0]))) {
+      paragraphe = [];
+      return;
+    }
+    // Une citation : un paragraphe qui commence par « Citation : ».
+    if (/^citation\s*:/i.test(brut(paragraphe[0]))) {
+      const texte = paragraphe.map((l) => l.trim()).join(' ').replace(/^citation\s*\\?:\s*/i, '');
+      blocs.push(`<blockquote>\n<p>${enLigne(texte)}</p>\n</blockquote>`);
       paragraphe = [];
       return;
     }
@@ -210,10 +222,15 @@ function analyser(markdown) {
       fermerParagraphe();
       const ordonnee = /^\s*\d+[.)]/.test(ligne);
       const elements = [];
-      while (i < lignes.length && /^\s*([-*+]|\d+[.)])(\s+|$)/.test(lignes[i])) {
+      const estPuce = (l) => l !== undefined && /^\s*([-*+]|\d+[.)])(\s+|$)/.test(l);
+      while (i < lignes.length && estPuce(lignes[i])) {
         const texte = lignes[i].replace(/^\s*([-*+]|\d+[.)])\s*/, '').trim();
         if (texte) elements.push(`<li>${enLigne(texte)}</li>`);
         i += 1;
+        // Des puces collées à la main arrivent séparées par une ligne vide : c'est la même liste.
+        let suite = i;
+        while (suite < lignes.length && !lignes[suite].trim()) suite += 1;
+        if (suite > i && estPuce(lignes[suite])) i = suite;
       }
       if (elements.length) blocs.push(`<${ordonnee ? 'ol' : 'ul'}>\n${elements.join('\n')}\n</${ordonnee ? 'ol' : 'ul'}>`);
       continue;
@@ -259,7 +276,7 @@ function analyser(markdown) {
     }
 
     // « Marge : » ouvre toujours sa propre note, même collée au paragraphe précédent.
-    if (/^marge\s*\\?:/i.test(net)) fermerParagraphe();
+    if (/^(marge|citation|note)\s*\\?:/i.test(net)) fermerParagraphe();
     paragraphe.push(ligne);
     i += 1;
   }

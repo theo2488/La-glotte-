@@ -10,8 +10,24 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const RACINE = path.dirname(fileURLToPath(import.meta.url));
-const SORTIE = path.join(RACINE, 'dist');
 const AVEC_BROUILLONS = process.argv.includes('--brouillons');
+// Mode repères : le site est construit dans reperes/ (jamais publié), avec chaque zone de texte
+// entourée de sa couleur. Sert à voir où va chaque texte qu'on colle dans un document.
+const AVEC_REPERES = process.argv.includes('--reperes');
+const SORTIE = path.join(RACINE, AVEC_REPERES ? 'reperes' : 'dist');
+
+// Le code couleur des zones de texte. Les couleurs elles-mêmes sont dans public/styles.css
+// (classes .zone-…) et dans le modèle Google Docs ; voir outils/LISEZMOI-docs.md.
+const ZONES = [
+  { cle: 'titre', nom: 'Titre', couleur: 'jaune', doc: 'La première ligne, en style « Titre 1 » (ou précédée de « # »).', site: 'Le grand titre tagué, et le titre dans les listes de l’accueil.' },
+  { cle: 'resume', nom: 'Résumé', couleur: 'orange', doc: 'La ligne « Résumé : … », une ou deux phrases.', site: 'La bande collée sous le titre, et le résumé dans les listes.' },
+  { cle: 'infos', nom: 'Infos', couleur: 'gris', doc: 'Les lignes « Type : », « Date : », « Signature : », « Brouillon : ».', site: 'La ligne « publié le … par … », et le classement en enquête ou coup de gueule.' },
+  { cle: 'texte', nom: 'Texte', couleur: 'bleu', doc: 'Les paragraphes, en style normal. Gras = surligné, barré = rature.', site: 'Le texte courant.' },
+  { cle: 'intertitre', nom: 'Intertitre', couleur: 'vert', doc: 'Une ligne en style « Titre 2 » (ou précédée de « ## »).', site: 'Un intertitre au feutre, souligné d’un gribouillis.' },
+  { cle: 'marge', nom: 'Note de marge', couleur: 'rose', doc: 'Un paragraphe qui commence par « Marge : ».', site: 'Une note rouge, de travers, à côté du texte.' },
+  { cle: 'citation', nom: 'Citation', couleur: 'violet', doc: 'Un paragraphe qui commence par « Citation : » (ou par « > »).', site: 'Une bulle.' },
+  { cle: 'sources', nom: 'Sources', couleur: 'turquoise', doc: 'L’intertitre « Nos sources », suivi d’une liste de liens.', site: 'La liste des sources, en fin de texte.' },
+];
 
 // Les deux familles de textes. Le ton (blanc ou noir) et la voix (typographie) en découlent.
 // Les dossiers gardent leur nom technique (articles, editos) ; les libellés affichés sont ceux du site :
@@ -98,6 +114,14 @@ function typographierHtml(html) {
       return protege > 0 ? morceau : typographier(morceau);
     })
     .join('');
+}
+
+// La section « Nos sources » (l'intertitre et la liste qui le suit) forme une zone à part.
+function marquerSources(html) {
+  return html.replace(
+    /<h2>((?:nos )?sources)<\/h2>\s*(<(ul|ol)>[\s\S]*?<\/\3>)/i,
+    '<div class="sources">\n<h2>$1</h2>\n$2\n</div>',
+  );
 }
 
 function lireDate(valeur, fichier, cle) {
@@ -208,7 +232,7 @@ async function lirePublications(type) {
       dateIso: meta.date,
       maj,
       majIso: meta.maj ?? null,
-      corps: typographierHtml(corps),
+      corps: marquerSources(typographierHtml(corps)),
     });
   }
   return trier(publications);
@@ -458,6 +482,82 @@ ${autres}
 </div>`;
 }
 
+// ---------- Mode repères ----------
+
+function rendreLegende() {
+  const puces = ZONES.map((z) => `<li class="puce zone-${z.cle}">${z.nom}</li>`).join('\n');
+  return `<aside class="legende" aria-label="Code couleur des zones de texte">
+<p class="legende-titre">Repères : où va chaque texte</p>
+<ul>
+${puces}
+</ul>
+<p class="legende-lien"><a href="{{racine}}code-couleur/">Le code couleur et les textes à copier-coller</a></p>
+</aside>`;
+}
+
+// Un bloc de texte à copier-coller, où chaque ligne porte la couleur de sa zone.
+function rendreModele(lignes) {
+  return `<pre class="modele">${lignes
+    .map(([cle, texte]) => `<span class="ligne zone-${cle}">${echapper(texte)}\n</span>`)
+    .join('')}</pre>`;
+}
+
+function rendreCodeCouleur() {
+  const rangees = ZONES.map(
+    (z) => `<tr><td><span class="puce zone-${z.cle}">${z.nom}</span></td><td>${z.couleur}</td><td>${z.doc}</td><td>${z.site}</td></tr>`,
+  ).join('\n');
+  const pourDocs = rendreModele([
+    ['titre', '# Le titre qui claque, ou une question qui gratte'],
+    ['resume', 'Résumé : une ou deux phrases qui donnent envie de lire la suite.'],
+    ['infos', 'Type : enquête'],
+    ['infos', 'Date : 26/11/2026'],
+    ['infos', 'Signature : qui signe (facultatif)'],
+    ['texte', 'Le premier paragraphe. On pose la question, on dit d’où elle vient.'],
+    ['marge', 'Marge : (une source, un nom, un renvoi)'],
+    ['intertitre', '## Un intertitre'],
+    ['texte', 'Un autre paragraphe, avec ses chiffres.'],
+    ['citation', 'Citation : une phrase à mettre en bulle.'],
+    ['sources', '## Nos sources'],
+    ['sources', '- Nom de la source : ce qu’elle dit, avec son lien'],
+  ]);
+  const pourFichier = rendreModele([
+    ['titre', '<!--'],
+    ['titre', 'titre: Le titre qui claque, ou une question qui gratte'],
+    ['resume', 'resume: Une ou deux phrases qui donnent envie de lire la suite.'],
+    ['infos', 'date: 2026-11-26'],
+    ['infos', 'auteur: Qui signe (facultatif)'],
+    ['titre', '-->'],
+    ['texte', '<p>Le premier paragraphe. Un chiffre en <strong>gras</strong>, un mot <del>barré</del>.</p>'],
+    ['marge', '<aside class="marge">(une source, un nom, un renvoi)</aside>'],
+    ['intertitre', '<h2>Un intertitre</h2>'],
+    ['texte', '<p>Un autre paragraphe.</p>'],
+    ['citation', '<blockquote><p>Une citation.</p></blockquote>'],
+    ['sources', '<h2>Nos sources</h2>'],
+    ['sources', '<ul><li><a href="https://…">Nom de la source : ce qu’elle dit</a></li></ul>'],
+  ]);
+  return `<div class="bande page voix-article code-couleur">
+${rendreFil([MENU[0]], 'Code couleur')}
+<h1 class="page-titre">Code couleur</h1>
+<p class="page-chapo">Chaque zone de texte a sa couleur. La même couleur surligne la ligne à remplir dans le modèle Google Docs.</p>
+<div class="texte">
+<table>
+<thead>
+<tr><th>Zone</th><th>Couleur</th><th>Dans le document</th><th>Sur le site</th></tr>
+</thead>
+<tbody>
+${rangees}
+</tbody>
+</table>
+<h2>À coller dans un document Google</h2>
+<p>Copiez ce bloc dans un document vide, remplacez chaque ligne par votre texte, puis importez le document avec le kit.</p>
+${pourDocs}
+<h2>À coller dans un fichier du site</h2>
+<p>Pour écrire directement dans <code>contenu/articles/</code> (enquête) ou <code>contenu/editos/</code> (coup de gueule).</p>
+${pourFichier}
+</div>
+</div>`;
+}
+
 // ---------- Écriture ----------
 
 function prefixe(chemin) {
@@ -478,6 +578,8 @@ async function ecrirePage(site, gabarit, page) {
   } = page;
 
   const valeurs = {
+    reperes: AVEC_REPERES ? ' reperes' : '',
+    legende: AVEC_REPERES ? rendreLegende() : '',
     langue: echapper(site.langue),
     titre_onglet: echapper(titre ? `${titre} | ${site.nom}` : site.nom),
     titre_partage: echapper(titre ?? site.nom),
@@ -671,6 +773,17 @@ ${rendreDuo(parType, { niveau: 2, lienVersTout: false })}`,
     });
   }
 
+  // Code couleur : la page de référence, en mode repères seulement
+  if (AVEC_REPERES) {
+    await ecrirePage(site, gabarit, {
+      chemin: 'code-couleur',
+      titre: 'Code couleur',
+      description: 'Le code couleur des zones de texte et les textes à copier-coller.',
+      balises: '<meta name="robots" content="noindex">',
+      contenu: rendreCodeCouleur(),
+    });
+  }
+
   // Plan du site
   await ecrirePage(site, gabarit, {
     chemin: 'plan-du-site',
@@ -711,7 +824,7 @@ ${rendreDuo(parType, { niveau: 2, lienVersTout: false })}`,
 
   const nombrePages = await verifierLiens(site);
   console.log(
-    `Site construit dans dist/ : ${nombrePages} pages, ${parType.article.length} article(s), ${parType.edito.length} édito(s). Liens internes vérifiés.`,
+    `Site construit dans ${AVEC_REPERES ? 'reperes/ (mode repères, à ne pas publier)' : 'dist/'} : ${nombrePages} pages, ${parType.article.length} article(s), ${parType.edito.length} édito(s). Liens internes vérifiés.`,
   );
   const restes = await listerACompleter();
   if (restes.length > 0) {

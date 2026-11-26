@@ -29,11 +29,39 @@ Ce que le site reconnaît dans le texte :
 | Liste à puces ou numérotée | Liste |
 | Lien (Ctrl+K) | Lien |
 | Tableau | Tableau |
+| Paragraphe qui commence par `Citation :` | Citation en bulle |
 | Paragraphe qui commence par `Marge :` | Note dans la marge (une source, un nom, un renvoi) |
 | Maj+Entrée | Retour à la ligne dans le même paragraphe |
 | Paragraphe qui commence par `Note :` | Rien : c'est une note interne, jamais publiée |
 
 Les images ne passent pas : les ajouter à la main dans `public/`.
+
+## Le code couleur
+
+Chaque zone de texte a sa couleur. Dans le modèle Google Docs, chaque ligne est surlignée de la couleur de sa zone : on remplace le texte, on garde la couleur comme repère (elle ne part pas sur le site).
+
+| Couleur | Zone | Dans le document | Sur le site |
+| --- | --- | --- | --- |
+| Jaune | Titre | Première ligne, style « Titre 1 » (ou précédée de `#`) | Le grand titre tagué |
+| Orange | Résumé | `Résumé : …` | La bande collée sous le titre |
+| Gris | Infos | `Type :`, `Date :`, `Signature :`, `Brouillon :` | La ligne « publié le … par … » |
+| Bleu | Texte | Paragraphes en style normal | Le texte courant |
+| Vert | Intertitre | Style « Titre 2 » (ou précédé de `##`) | Intertitre au feutre |
+| Rose | Note de marge | `Marge : …` | Note rouge à côté du texte |
+| Violet | Citation | `Citation : …` | Bulle |
+| Turquoise | Sources | Intertitre « Nos sources » puis une liste | La liste des sources |
+
+Pour voir ces zones en couleur sur le site lui-même :
+
+```
+node build.mjs --reperes            construit une copie du site dans reperes/, zones entourées et étiquetées
+node build.mjs --reperes --brouillons   la même, avec les brouillons
+npx serve reperes                   pour l'ouvrir dans le navigateur
+```
+
+Cette copie n'est jamais publiée (`reperes/` est ignoré par Git, et l'hébergeur ne publie que `dist/`). Elle contient aussi la page `code-couleur/` : le tableau ci-dessus et deux blocs prêts à copier-coller, l'un pour un document Google, l'autre pour un fichier du site.
+
+Un texte collé tel quel dans un document Google, avec ses `#`, `##`, `-` et ses lignes « Résumé : », « Marge : », « Citation : », est reconnu sans autre mise en forme.
 
 ## 2. Relier le document au site
 
