@@ -57,7 +57,7 @@ Les notes du dossier Drive (Thème 1) : listes de contexte, questions ouvertes (
 Graffiti des années 90 sur cahier d'écolier, en version sombre (validée le 26 novembre 2026) : un mur en dégradés de gris, du noir, du blanc et le rouge en seconde encre. C'est la DA voulue par le collectif : ne pas la remplacer.
 
 - Fonds sombres : dégradés de gris sous les enquêtes et les pages (réglure de cahier tracée à la craie, marge rouge), noir plein sous les coups de gueule. Le blanc sert d'encre (titres, texte, traits) et de papier collé (étiquettes et résumés, écrits en noir). Les réglages sont dans la section « La nuit » de `public/styles.css`.
-- Logo centré dans l'en-tête : « la glotte » taguée en grand avec relief rouge et coulure, le début du nom sur une étiquette blanche au-dessus (`rendreLogo` dans `build.mjs`, réglable par `logo` dans `site.config.json`).
+- Logo sur toute la largeur de l'en-tête, dimensionné en `vw` : « la glotte » taguée en très grand avec relief rouge, explosion et coulure, le début du nom sur une étiquette blanche (à gauche sur grand écran, au-dessus sur téléphone) (`rendreLogo` dans `build.mjs`, réglable par `logo` dans `site.config.json`).
 
 - Titres tagués à la bombe (Sedgwick Ave Display) : lettres pleines à relief rouge pour les enquêtes, lettres évidées (« throw-up ») pour les coups de gueule. Coulures rouges sous les grands titres.
 - Étiquettes, intertitres, bulles et notes au feutre (Permanent Marker). Texte des enquêtes à la machine à écrire (Special Elite), sur réglure de cahier à marge rouge. Coups de gueule en blanc sur noir, enquêtes en blanc sur gris.
