@@ -2323,10 +2323,11 @@ body::after {
 .texte .scene .scene-decor {
   position: absolute;
   left: -6vw;
-  bottom: 9vh;
+  top: 0;
+  bottom: auto;
   width: 112vw;
   max-width: none;
-  height: 78vh;
+  height: 91vh;
   object-fit: cover;
   object-position: 50% 100%;
   border: 0;

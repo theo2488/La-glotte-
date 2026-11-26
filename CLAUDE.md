@@ -119,6 +119,8 @@ La page `/donnees-personnelles/` et les mentions légales sont remplies depuis `
 
 GitHub Pages, publication automatique depuis `main` par `.github/workflows/publier.yml` ; adresse `https://theo2488.github.io/Les-cahiers-de-la-Glotte-/` (dans `url` de `site.config.json` ; le dépôt s'appelle `Les-cahiers-de-la-Glotte-`, anciennement `La-glotte-`). Pousser sur `main`, c'est publier : travailler sur une branche et ne fusionner que ce qui est prêt. L'hébergeur (GitHub, États-Unis) est déclaré dans `rgpd.hebergeur`.
 
+Les adresses de `styles.css` et de `scene.js` portent un numéro de version tiré de leur contenu (`version()` dans `build.mjs`). Ne pas l'enlever : sans lui, un navigateur peut garder l'ancienne feuille de style avec le nouveau script, et la scène s'affiche cassée (bulles en texte brut derrière les personnages, décor réduit).
+
 ## Le code couleur des zones de texte
 
 Chaque zone de texte a une couleur, la même dans le modèle Google Docs (lignes surlignées), dans le mode repères du site (`node build.mjs --reperes`, sortie dans `reperes/`, jamais publiée) et sur sa page `code-couleur/`. La liste fait foi dans `ZONES` (`build.mjs`) et les classes `.zone-…` (`public/styles.css`) ; garder les trois endroits accordés.

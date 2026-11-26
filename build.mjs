@@ -5,7 +5,8 @@
 //   node build.mjs --brouillons  inclut aussi les textes marqués « brouillon: oui »
 
 import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -665,6 +666,22 @@ function scriptScenes(corps) {
   return /class="scene[\s"]/.test(corps) ? '\n<script src="{{racine}}scene.js" defer></script>' : '';
 }
 
+// Un numéro de version, tiré du contenu de la feuille de style et du script. Ajouté à leur
+// adresse, il oblige le navigateur à recharger les deux ensemble dès que l'un change : sans
+// lui, un lecteur peut garder l'ancienne feuille de style avec le nouveau script.
+let versionFichiers = null;
+function version() {
+  if (versionFichiers === null) {
+    const empreinte = createHash('sha256');
+    for (const nom of ['styles.css', 'scene.js']) {
+      const fichier = path.join(path.dirname(fileURLToPath(import.meta.url)), 'public', nom);
+      if (existsSync(fichier)) empreinte.update(readFileSync(fichier));
+    }
+    versionFichiers = empreinte.digest('hex').slice(0, 10);
+  }
+  return versionFichiers;
+}
+
 async function ecrirePage(site, gabarit, page) {
   const {
     chemin,
@@ -705,7 +722,8 @@ async function ecrirePage(site, gabarit, page) {
       return valeurs[cle];
     })
     // {{racine}} est remplacé en dernier pour valoir aussi dans les textes insérés.
-    .replaceAll('{{racine}}', racine);
+    .replaceAll('{{racine}}', racine)
+    .replace(/(styles\.css|scene\.js)"/g, `$1?v=${version()}"`);
 
   const destination = fichierSortie
     ? path.join(SORTIE, fichierSortie)
