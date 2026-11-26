@@ -103,7 +103,10 @@ Dans un texte, un bloc `<section class="scene">` pose deux personnages dessinés
 
 - Les dessins définitifs seront fournis par l'artiste du collectif : style sombre, dessin au stylo, façon gribouillis. Les bonshommes `public/images/exemple-perso-*.svg` ne sont que des exemples : ne pas les publier dans un vrai texte.
 - Un dessin par pose (`data-pose="marche"`, `"parle"`, `"ecoute"`, ou tout autre nom), en pied, à l'encre noire, sur fond transparent ou scanné sur papier clair. La réplique choisit la pose de celui qui parle (`data-pose`) et de l'autre (`data-pose-autre`).
-- Papier collé (essai du 26 novembre 2026, branche `papier-colle`) : chaque personnage est posé sur un morceau de feuille déchirée, translucide pour garder la scène sombre. Le dessin est fondu dans le papier et passé en noir et blanc. La transparence se règle avec `--papier-opacite` sur `.scene` dans `public/styles.css` (0,26 ; plus bas = plus sombre).
+- Papier collé (26 novembre 2026) : chaque personnage est posé sur un morceau de feuille déchirée, tenu par un ruban rouge, translucide pour garder la scène sombre. Le dessin est fondu dans le papier et passé en noir et blanc. La transparence se règle avec `--papier-opacite` sur `.scene` dans `public/styles.css` (0,26 ; plus bas = plus sombre).
+- La bulle : une seule à l'écran, au-dessus de la tête de celui qui parle ; les `<p class="replique">` du texte servent de repères de défilement (et de version sans script). `cri` sur une réplique : texte à la bombe et secousse.
+- Le trait de celui qui parle frémit (filtre SVG créé par `scene.js`, ou alternance de plusieurs dessins de même pose). Décor facultatif `<img class="scene-decor">`, rendu en craie pâle. Fin de scène : les feuilles se rejoignent, ou `data-fin="depart"`.
+- L'article `contenu/articles/essai-scene-papier-colle.html` et les images `public/images/essai-*.svg` sont un essai de réglage, à retirer quand les vrais dessins seront en place.
 - Le bloc `<section class="defilement">` (texte qui défile devant une image fixe) reste en CSS seul.
 
 ## Données personnelles (RGPD)

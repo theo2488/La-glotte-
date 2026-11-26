@@ -2117,8 +2117,9 @@ body::after {
 
    <section class="scene">
      <div class="scene-fond">
-       <img class="perso perso-a" src="{{racine}}images/perso-a.svg" alt="">
-       <img class="perso perso-b" src="{{racine}}images/perso-b.svg" alt="">
+       <img class="scene-decor" src="…" alt="">            (facultatif)
+       <div class="perso perso-a"><img data-pose="marche" src="…" alt=""> …</div>
+       <div class="perso perso-b"><img data-pose="marche" src="…" alt=""> …</div>
      </div>
      <div class="scene-dialogue">
        <p class="replique a">Ce que dit le personnage de gauche.</p>
@@ -2257,39 +2258,81 @@ body::after {
 }
 
 /* Papier collé : chaque personnage est un dessin à l'encre noire sur un morceau de feuille
-   déchirée, collé sur le mur. Le papier est translucide pour que la scène reste sombre :
-   on règle sa transparence avec --papier-opacite (0 = invisible, 1 = feuille blanche).
-   Le dessin est fondu dans le papier (multiply) : un scan sur papier clair convient donc
-   aussi bien qu'une image à fond transparent ; il est passé en noir et blanc. */
+   déchirée, tenu au mur par un bout de ruban rouge. Le papier est translucide pour que la
+   scène reste sombre : on règle sa transparence avec --papier-opacite (0 = invisible,
+   1 = feuille blanche). Le dessin est fondu dans le papier (multiply) : un scan sur papier
+   clair convient donc aussi bien qu'une image à fond transparent ; il est passé en noir et blanc. */
 .scene {
   --papier: 236 232 222;
   --papier-opacite: 0.26;
+  --ombre-papier: drop-shadow(0.5rem 0.7rem 0.5rem rgb(0 0 0 / 0.55));
+  --dechirure: polygon(2% 3%, 13% 0, 27% 2%, 41% 0, 58% 3%, 72% 1%, 88% 3%, 99% 1%, 97% 16%, 100% 31%, 98% 47%, 100% 63%, 97% 80%, 99% 98%, 84% 100%, 69% 97%, 52% 100%, 36% 98%, 19% 100%, 3% 97%, 0 82%, 3% 66%, 1% 49%, 3% 33%, 0 17%);
 }
 
 .texte .scene .perso {
   box-sizing: border-box;
   padding: 1.4rem 1.1rem 0.6rem;
   isolation: isolate;
-  clip-path: polygon(2% 3%, 13% 0, 27% 2%, 41% 0, 58% 3%, 72% 1%, 88% 3%, 99% 1%, 97% 16%, 100% 31%, 98% 47%, 100% 63%, 97% 80%, 99% 98%, 84% 100%, 69% 97%, 52% 100%, 36% 98%, 19% 100%, 3% 97%, 0 82%, 3% 66%, 1% 49%, 3% 33%, 0 17%);
+  filter: var(--ombre-papier);
 }
 
-.texte .scene .perso-b {
-  clip-path: polygon(1% 1%, 16% 3%, 31% 0, 47% 2%, 63% 0, 79% 3%, 97% 0, 100% 14%, 97% 29%, 99% 45%, 97% 61%, 100% 78%, 98% 99%, 83% 97%, 67% 100%, 50% 98%, 33% 100%, 17% 97%, 2% 100%, 0 84%, 2% 68%, 0 51%, 3% 35%, 1% 18%);
+.scene .perso-b {
+  --dechirure: polygon(1% 1%, 16% 3%, 31% 0, 47% 2%, 63% 0, 79% 3%, 97% 0, 100% 14%, 97% 29%, 99% 45%, 97% 61%, 100% 78%, 98% 99%, 83% 97%, 67% 100%, 50% 98%, 33% 100%, 17% 97%, 2% 100%, 0 84%, 2% 68%, 0 51%, 3% 35%, 1% 18%);
 }
 
+/* La feuille, avec un coin décollé en bas à droite. */
 .scene .perso::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
+  clip-path: var(--dechirure);
   background:
+    linear-gradient(315deg, rgb(255 255 255 / 0.3) 0 1.5rem, rgb(0 0 0 / 0.45) 1.5rem 1.7rem, transparent 1.7rem),
     linear-gradient(175deg, rgb(255 255 255 / 0.1), transparent 45%, rgb(0 0 0 / 0.22)),
     rgb(var(--papier) / var(--papier-opacite));
 }
 
+/* Le ruban adhésif. */
+.scene .perso::after {
+  content: "";
+  position: absolute;
+  top: -0.55rem;
+  left: 50%;
+  width: 4.6rem;
+  height: 1.35rem;
+  margin-left: -2.3rem;
+  background: rgb(225 6 0 / 0.72);
+  clip-path: polygon(0 8%, 6% 0, 12% 10%, 100% 0, 97% 48%, 100% 100%, 9% 100%, 4% 90%, 0 100%);
+  rotate: -4deg;
+}
+
+.scene .perso-b::after {
+  left: 38%;
+  rotate: 5deg;
+}
+
 .texte .scene .perso img {
+  clip-path: var(--dechirure);
   mix-blend-mode: multiply;
   filter: grayscale(1) contrast(1.15);
+}
+
+/* Le décor (facultatif) : un dessin à l'encre placé derrière les personnages, rendu comme
+   un tracé pâle à la craie. Avec le script, il glisse plus lentement qu'eux. */
+.texte .scene .scene-decor {
+  position: absolute;
+  left: -6vw;
+  bottom: 9vh;
+  width: 112vw;
+  max-width: none;
+  height: 78vh;
+  object-fit: cover;
+  object-position: 50% 100%;
+  border: 0;
+  filter: grayscale(1) invert(1);
+  mix-blend-mode: screen;
+  opacity: 0.2;
 }
 
 /* --- Avec le script (public/scene.js) : il pilote l'avancée, les pas, les poses et les bulles. --- */
@@ -2323,31 +2366,110 @@ body::after {
 }
 
 .scenes-actives .scene .perso.ecoute {
-  filter: brightness(0.55);
+  filter: brightness(0.55) var(--ombre-papier);
 }
 
-/* Les bulles n'apparaissent qu'au moment où la réplique est dite. */
+.scenes-actives .scene .scene-decor {
+  translate: calc((0.5 - var(--avance, 0)) * 7vw) 0;
+}
+
+/* Les répliques du texte ne servent plus que de repères de défilement : la réplique en
+   cours est affichée dans une seule bulle, au-dessus de la tête de celui qui parle. */
+.scenes-actives .scene-dialogue {
+  padding-bottom: 140vh;
+}
+
 .scenes-actives .scene-dialogue > .replique {
   opacity: 0;
-  scale: 0.85;
-  transition: opacity 0.2s ease-out, scale 0.2s ease-out;
+  pointer-events: none;
 }
 
-.scenes-actives .scene-dialogue > .replique.dite {
-  opacity: 1;
-  scale: 1;
+.scenes-actives .texte .scene-fond .scene-bulle {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  margin: 0;
+  transform-origin: var(--pointe, 50%) 100%;
+  animation: bulle-arrive 0.22s ease-out both;
+}
+
+.texte .scene-fond .scene-bulle.sortante {
+  z-index: 2;
+  animation: bulle-part 0.5s ease-in both;
+}
+
+@keyframes bulle-arrive {
+  from { opacity: 0; scale: 0.8; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes bulle-part {
+  from { opacity: 0.7; translate: 0 0; }
+  to { opacity: 0; translate: 0 -1.6rem; }
+}
+
+/* La fin de la scène : les deux personnages se rejoignent et leurs feuilles se chevauchent.
+   Avec data-fin="depart" sur la scène, celui de droite s'en va. */
+.scenes-actives .scene.fin .perso {
+  transition: translate 0.7s ease-out, opacity 0.7s ease-out, scale 0.18s ease-out, filter 0.18s ease-out;
+}
+
+.scenes-actives .scene.fin .perso-a {
+  translate: calc(var(--arrivee) + var(--rapproche, 5vw)) 0;
+}
+
+.scenes-actives .scene.fin .perso-b {
+  translate: calc(-1 * (var(--arrivee) + var(--rapproche, 5vw))) 0;
+}
+
+.scenes-actives .scene.fin[data-fin="depart"] .perso-a {
+  translate: var(--arrivee) 0;
+}
+
+.scenes-actives .scene.fin[data-fin="depart"] .perso-b {
+  translate: 60vw 0;
+  opacity: 0;
+}
+
+/* Une réplique criée secoue l'écran. */
+.scenes-actives .scene-fond.secousse > * {
+  animation: secousse 0.42s linear;
+}
+
+.scenes-actives .scene-fond.secousse > .scene-bulle:not(.sortante) {
+  animation: bulle-arrive 0.22s ease-out both;
+}
+
+@keyframes secousse {
+  0%, 100% { transform: translate(0, 0); }
+  15% { transform: translate(-10px, 5px); }
+  30% { transform: translate(9px, -6px); }
+  45% { transform: translate(-7px, -4px); }
+  60% { transform: translate(6px, 5px); }
+  80% { transform: translate(-3px, 2px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .scenes-actives .scene .perso,
-  .scenes-actives .scene-dialogue > .replique {
+  .scenes-actives .scene.fin .perso {
     transition: none;
   }
 
   .scenes-actives .scene .perso-a,
-  .scenes-actives .scene .perso-b {
+  .scenes-actives .scene .perso-b,
+  .scenes-actives .scene .scene-decor {
     translate: none;
     rotate: none;
+  }
+
+  .texte .scene-fond .scene-bulle,
+  .scenes-actives .scene-fond.secousse > * {
+    animation: none;
+  }
+
+  .texte .scene-fond .scene-bulle.sortante {
+    display: none;
   }
 }
 
@@ -2359,6 +2481,7 @@ body::after {
   padding: 55vh var(--marge) 50vh;
 }
 
+.texte .scene-fond .scene-bulle,
 .texte .scene-dialogue > .replique {
   position: relative;
   max-width: min(30rem, 78vw);
@@ -2377,7 +2500,24 @@ body::after {
 
 .texte .scene-dialogue > .replique.b {
   margin-left: auto;
+}
+
+.texte .scene-fond .scene-bulle.b,
+.texte .scene-dialogue > .replique.b {
   transform: rotate(1.5deg);
+}
+
+/* Une réplique criée : class="replique a cri". Écrite en gros, à la bombe. */
+.texte .scene-fond .scene-bulle.cri,
+.texte .scene-dialogue > .replique.cri {
+  max-width: min(36rem, 88vw);
+  padding: 0.9rem 1.5rem 0.7rem;
+  font-family: var(--titre);
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  line-height: 1.1;
+  text-shadow: 2px 2px 0 var(--rouge);
+  box-shadow: 10px 10px 0 var(--rouge);
+  border-radius: 0.6rem 1.6rem 0.5rem 1.9rem / 1.5rem 0.5rem 1.7rem 0.6rem;
 }
 
 .texte .scene-dialogue > .replique:last-child {
@@ -2385,6 +2525,7 @@ body::after {
 }
 
 /* La pointe de la bulle, tournée vers le personnage. */
+.scene-fond .scene-bulle::after,
 .scene-dialogue > .replique::after {
   content: "";
   position: absolute;
@@ -2397,6 +2538,15 @@ body::after {
 .scene-dialogue > .replique.b::after {
   left: auto;
   right: 2rem;
+  border-right: 0;
+  border-left: 1.4rem solid transparent;
+}
+
+.scene-fond .scene-bulle::after {
+  left: calc(var(--pointe, 2rem) - 0.7rem);
+}
+
+.scene-fond .scene-bulle.b::after {
   border-right: 0;
   border-left: 1.4rem solid transparent;
 }
@@ -2422,6 +2572,8 @@ body::after {
     margin: 0 0 1rem;
     box-shadow: none;
     transform: none;
+    opacity: 1;
+    scale: 1;
   }
 }
 

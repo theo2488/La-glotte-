@@ -116,11 +116,12 @@ L'image passe en noir et blanc et s'assombrit pour rester dans la direction arti
 
 ## Une scène : des personnages qui avancent et se parlent
 
-Deux personnages dessinés restent en fond. En faisant défiler la page, ils avancent l'un vers l'autre, pas à pas ; celui qui parle change de pose et se détache, l'autre s'efface, et les bulles apparaissent une par une. C'est le script `public/scene.js` qui pilote tout ; il est ajouté automatiquement aux pages qui contiennent une scène. S'il est bloqué, la discussion défile quand même.
+Deux personnages dessinés restent en fond. En faisant défiler la page, ils avancent l'un vers l'autre, pas à pas ; celui qui parle change de pose, se détache et son trait frémit, l'autre s'efface. La réplique en cours s'affiche dans une seule bulle, au-dessus de la tête de celui qui parle ; la précédente s'estompe. Après la dernière réplique, les deux personnages se rejoignent. C'est le script `public/scene.js` qui pilote tout ; il est ajouté automatiquement aux pages qui contiennent une scène. S'il est bloqué, la discussion défile quand même.
 
 ```html
 <section class="scene">
 <div class="scene-fond">
+<img class="scene-decor" src="{{racine}}images/decor.png" alt="">
 <div class="perso perso-a">
 <img data-pose="marche" src="{{racine}}images/perso-a-marche.png" alt="">
 <img data-pose="parle" src="{{racine}}images/perso-a-parle.png" alt="">
@@ -140,6 +141,12 @@ Deux personnages dessinés restent en fond. En faisant défiler la page, ils ava
 - **Les dessins** : une image par pose et par personnage (dessin à l'encre noire : PNG à fond transparent, SVG, ou scan sur papier clair ; il est collé sur un morceau de papier translucide), en pied, plus haute que large, toutes à la même taille, dans `public/images/`. Le premier dessin de la liste sert de pose de départ.
 - **Les poses** : `marche` entre deux répliques, `parle` pour celui qui parle, `ecoute` pour l'autre. Une réplique peut demander autre chose avec `data-pose` (celui qui parle) et `data-pose-autre` (l'autre) ; si la pose demandée n'existe pas, le premier dessin est utilisé.
 - **Les répliques** : `replique a` pour le personnage de gauche, `replique b` pour celui de droite.
+- **Une réplique criée** : ajouter `cri` (`class="replique b cri"`). Elle est écrite en gros, à la bombe, et secoue l'écran. À garder pour une ou deux répliques par scène.
+- **Le frémissement** : le dessin de celui qui parle tremble légèrement, comme un trait refait à la main. Pour un frémissement dessiné, fournir deux ou trois dessins portant la même pose (`data-pose="parle"` répété) : ils alternent à la place du tremblement automatique.
+- **Le décor** (facultatif) : `<img class="scene-decor">`, premier élément de `scene-fond`. Un dessin à l'encre noire, large (environ 16 pour 7), qui apparaît comme un tracé pâle à la craie derrière les personnages et glisse plus lentement qu'eux.
+- **La fin** : après la dernière réplique, les deux feuilles se rejoignent et se chevauchent. Avec `data-fin="depart"` sur `<section class="scene">`, le personnage de droite s'en va. Une pose `fin` est utilisée si elle existe.
+- **Le papier** : chaque personnage est collé au mur sur un morceau de feuille déchirée, avec un ruban rouge. Transparence, teinte et ombre se règlent en haut de la partie « Papier collé » de `public/styles.css` (`--papier-opacite`, `--papier`, `--ombre-papier`).
+- Si le lecteur a demandé moins d'animations à son appareil, rien ne bouge : les personnages restent en place et les bulles se succèdent.
 
 ## Mise en ligne
 
