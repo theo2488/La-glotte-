@@ -115,10 +115,25 @@
   box-sizing: border-box;
 }
 
+/* L'échelle du site. Toutes les tailles sont en rem : changer ces pourcentages agrandit
+   ou réduit d'un coup le texte, les titres, les marges et les motifs. 100 % = taille d'origine. */
 html {
+  font-size: 112.5%;
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+@media (min-width: 52rem) {
+  html {
+    font-size: 125%;
+  }
+}
+
+@media (min-width: 100rem) {
+  html {
+    font-size: 140%;
+  }
 }
 
 /* Le grain du papier : un voile de graphite posé sur toute la page. */
