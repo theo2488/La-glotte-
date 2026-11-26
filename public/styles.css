@@ -1,113 +1,60 @@
-/* Polices hébergées avec le site (licences dans public/polices/). */
-@font-face {
-  font-family: "Sedgwick Ave Display";
-  src: url("polices/sedgwick-ave-display.woff2") format("woff2");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Permanent Marker";
-  src: url("polices/permanent-marker.woff2") format("woff2");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Special Elite";
-  src: url("polices/special-elite.woff2") format("woff2");
-  font-display: swap;
-}
-
 /*
-  Graffiti des années 90 : tags à la bombe pour les titres, feutre pour les étiquettes,
-  machine à écrire de fanzine pour les articles, et des lignes qui ne tiennent pas en place.
+  Les cahiers du fond de la glotte — DA « feuilles sur la table ».
+  Tirée des photos des pages manuscrites : copies simples à réglure bleu-gris et marge rouge,
+  encre bleue de stylo bille, mots barrés, bords arrachés, griffonnages dans la marge,
+  le tout posé sur une table en bois sous une lampe.
 
-  Noir et blanc de bande dessinée, au crayon gras : deux encres, des hachures, des explosions,
-  du grain et quelques taches. Les motifs dessinés sont dans public/crayon/ et prennent la
-  couleur d'encre du ton grâce à mask-image : un même dessin sert sur papier et sur aplat noir.
-  Les articles s'écrivent à l'encre noire sur papier blanc, dans un caractère sans empattement.
-  Les éditos s'écrivent en blanc sur aplat noir, dans un caractère à empattements.
-  Pas de gris en aplat : les valeurs intermédiaires viennent de trames de points, comme à l'impression.
-  Chaque ton définit --fond, --encre et --encre-douce (dates, mentions, résumés).
-  Le texte courant reste aéré : interligne large, paragraphes espacés, lignes courtes.
+  Chaque cadre de texte est une feuille. Deux écritures :
+  la cursive (Caveat) pour les enquêtes et l'interface, les capitales (Patrick Hand) pour les coups de gueule.
+  Les griffonnages sont dans public/crayon/ et prennent la couleur de l'encre grâce à mask-image.
 */
 
+@font-face {
+  font-family: "Caveat";
+  src: url("polices/caveat-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Caveat";
+  src: url("polices/caveat-700.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Patrick Hand";
+  src: url("polices/patrick-hand.woff2") format("woff2");
+  font-display: swap;
+}
+
 :root {
-  --sans: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
-  --serif: Georgia, "Noto Serif", "Times New Roman", serif;
-  --titre: "Sedgwick Ave Display", "Arial Black", Impact, sans-serif;
-  --marqueur: "Permanent Marker", "Comic Sans MS", "Marker Felt", cursive;
-  --machine: "Special Elite", "Courier New", Courier, monospace;
-  --noir: #000;
-  --blanc: #fff;
-  --rouge: #e10600;
-  --marge: clamp(1.25rem, 5vw, 4rem);
-  --mesure: 60ch;
-  --filet: 2px;
-  --trait: 4px;
-  --ombre: 8px;
-  --interligne: 1.8;
-  --paragraphe: 1.6em;
-  --point: 8px;
-  --crayon: url("crayon/trait.svg");
+  --cursive: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+  --capitales: "Patrick Hand", "Comic Sans MS", "Marker Felt", sans-serif;
+
+  /* La table, la lampe, le papier, l'encre. */
+  --bois: #3b2618;
+  --bois-clair: #5a3b25;
+  --papier: #fbf9f2;
+  --papier-carnet: #f6f1e3;
+  --reglure: #b9c6da;
+  --marge-rouge: #e0645c;
+  --bic: #1f3b94;
+  --bic-fonce: #172c6e;
+  --bic-pale: #5b6fa8;
+  --rouge: #d2362c;
+
+  --ligne: 2rem;
+  --marge-feuille: clamp(2.5rem, 7vw, 5.5rem);
+  --gouttiere: clamp(0.75rem, 3vw, 2.5rem);
+  --mesure: 34em;
+  --bord-bas: polygon(0 0, 100% 0, 100% calc(100% - 2px), 98% calc(100% - 1px), 96% calc(100% - 5px), 94% calc(100% - 1px), 92% calc(100% - 12px), 90% calc(100% - 12px), 88% calc(100% - 12px), 86% calc(100% - 9px), 84% calc(100% - 3px), 82% calc(100% - 1px), 80% calc(100% - 12px), 78% calc(100% - 0px), 76% calc(100% - 9px), 74% calc(100% - 9px), 72% calc(100% - 0px), 70% calc(100% - 12px), 68% calc(100% - 5px), 66% calc(100% - 3px), 64% calc(100% - 1px), 62% calc(100% - 7px), 60% calc(100% - 0px), 58% calc(100% - 0px), 56% calc(100% - 0px), 54% calc(100% - 0px), 52% calc(100% - 9px), 50% calc(100% - 3px), 48% calc(100% - 9px), 46% calc(100% - 0px), 44% calc(100% - 3px), 42% calc(100% - 12px), 40% calc(100% - 12px), 38% calc(100% - 3px), 36% calc(100% - 7px), 34% calc(100% - 3px), 32% calc(100% - 3px), 30% calc(100% - 12px), 28% calc(100% - 5px), 26% calc(100% - 0px), 24% calc(100% - 9px), 22% calc(100% - 1px), 20% calc(100% - 2px), 18% calc(100% - 5px), 16% calc(100% - 1px), 14% calc(100% - 7px), 12% calc(100% - 9px), 10% calc(100% - 3px), 8% calc(100% - 5px), 6% calc(100% - 5px), 4% calc(100% - 12px), 2% calc(100% - 9px), 0% calc(100% - 0px));
+  --bord-bas-2: polygon(0 0, 100% 0, 100% calc(100% - 0px), 98% calc(100% - 1px), 96% calc(100% - 1px), 94% calc(100% - 7px), 92% calc(100% - 2px), 90% calc(100% - 5px), 88% calc(100% - 5px), 86% calc(100% - 3px), 84% calc(100% - 0px), 82% calc(100% - 2px), 80% calc(100% - 9px), 78% calc(100% - 9px), 76% calc(100% - 7px), 74% calc(100% - 12px), 72% calc(100% - 5px), 70% calc(100% - 0px), 68% calc(100% - 0px), 66% calc(100% - 7px), 64% calc(100% - 12px), 62% calc(100% - 7px), 60% calc(100% - 9px), 58% calc(100% - 9px), 56% calc(100% - 2px), 54% calc(100% - 2px), 52% calc(100% - 3px), 50% calc(100% - 3px), 48% calc(100% - 0px), 46% calc(100% - 2px), 44% calc(100% - 7px), 42% calc(100% - 2px), 40% calc(100% - 2px), 38% calc(100% - 7px), 36% calc(100% - 2px), 34% calc(100% - 12px), 32% calc(100% - 9px), 30% calc(100% - 7px), 28% calc(100% - 7px), 26% calc(100% - 7px), 24% calc(100% - 12px), 22% calc(100% - 2px), 20% calc(100% - 9px), 18% calc(100% - 12px), 16% calc(100% - 3px), 14% calc(100% - 12px), 12% calc(100% - 5px), 10% calc(100% - 12px), 8% calc(100% - 7px), 6% calc(100% - 12px), 4% calc(100% - 12px), 2% calc(100% - 7px), 0% calc(100% - 12px));
+  --bord-droit: polygon(0 0, calc(100% - 3px) 0%, calc(100% - 2px) 2%, calc(100% - 7px) 4%, calc(100% - 12px) 6%, calc(100% - 1px) 8%, calc(100% - 0px) 10%, calc(100% - 12px) 12%, calc(100% - 5px) 14%, calc(100% - 3px) 16%, calc(100% - 3px) 18%, calc(100% - 12px) 20%, calc(100% - 12px) 22%, calc(100% - 9px) 24%, calc(100% - 2px) 26%, calc(100% - 3px) 28%, calc(100% - 2px) 30%, calc(100% - 9px) 32%, calc(100% - 0px) 34%, calc(100% - 1px) 36%, calc(100% - 2px) 38%, calc(100% - 0px) 40%, calc(100% - 5px) 42%, calc(100% - 0px) 44%, calc(100% - 5px) 46%, calc(100% - 12px) 48%, calc(100% - 9px) 50%, calc(100% - 9px) 52%, calc(100% - 9px) 54%, calc(100% - 12px) 56%, calc(100% - 2px) 58%, calc(100% - 7px) 60%, calc(100% - 1px) 62%, calc(100% - 0px) 64%, calc(100% - 2px) 66%, calc(100% - 12px) 68%, calc(100% - 3px) 70%, calc(100% - 5px) 72%, calc(100% - 9px) 74%, calc(100% - 5px) 76%, calc(100% - 9px) 78%, calc(100% - 9px) 80%, calc(100% - 7px) 82%, calc(100% - 9px) 84%, calc(100% - 3px) 86%, calc(100% - 7px) 88%, calc(100% - 0px) 90%, calc(100% - 5px) 92%, calc(100% - 2px) 94%, calc(100% - 7px) 96%, calc(100% - 1px) 98%, calc(100% - 3px) 100%, 0 100%);
 }
 
-/* Un motif dessiné, coloré à l'encre du ton. Ces décors ne captent jamais la souris. */
-.une::before,
-.une::after,
-.bloc::before,
-.bloc::after,
-.publication::after,
-.page::after,
-.page-entete::after,
-.duo::before,
-.duo::after,
-.pied::before,
-.pied::after {
-  pointer-events: none;
-}
-
-/* ---------- Tons ---------- */
-
-.ton-blanc {
-  --fond: var(--blanc);
-  --encre: var(--noir);
-  --encre-douce: #333;
-}
-
-.ton-noir {
-  --fond: var(--noir);
-  --encre: var(--blanc);
-  --encre-douce: #d0d0d0;
-}
-
-.ton-blanc,
-.ton-noir {
-  background: var(--fond);
-  color: var(--encre);
-}
-
-.ton-noir .texte,
-.ton-noir .une-titre,
-.ton-noir .publication-titre {
-  color: #f4f4f4;
-}
-
-::selection {
-  background: var(--encre);
-  color: var(--fond);
-}
-
-/* ---------- Voix ---------- */
-
-.voix-article {
-  font-family: var(--sans);
-}
-
-.voix-edito {
-  font-family: var(--serif);
-}
-
-/* ---------- Base ---------- */
+/* ---------- La table ---------- */
 
 *,
 *::before,
@@ -119,27 +66,38 @@ html {
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background: var(--bois);
 }
 
-/* Le grain du papier : un voile de graphite posé sur toute la page. */
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--bic-fonce);
+  font-family: var(--cursive);
+  font-size: 1.375rem;
+  line-height: var(--ligne);
+  /* Veinures du bois, et la lumière chaude de la lampe en haut à gauche. */
+  background:
+    radial-gradient(ellipse 70% 55% at 18% 8%, rgb(255 196 120 / 0.28), transparent 70%),
+    radial-gradient(ellipse 120% 80% at 50% 120%, rgb(0 0 0 / 0.45), transparent 60%),
+    repeating-linear-gradient(97deg, transparent 0 22px, rgb(0 0 0 / 0.07) 22px 24px, transparent 24px 61px, rgb(255 255 255 / 0.03) 61px 63px),
+    repeating-linear-gradient(93deg, var(--bois) 0 140px, var(--bois-clair) 140px 190px, var(--bois) 190px 330px);
+}
+
+/* Le grain du papier et de la photo. */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 50;
   background: url("crayon/grain.svg") 0 0 / 300px;
-  opacity: 0.13;
+  opacity: 0.08;
   mix-blend-mode: multiply;
   pointer-events: none;
 }
 
-body {
-  margin: 0;
-  font-family: var(--sans);
-  font-size: 1.125rem;
-  line-height: var(--interligne);
-  letter-spacing: 0.005em;
-  word-spacing: 0.03em;
+::selection {
+  background: rgb(31 59 148 / 0.2);
 }
 
 h1,
@@ -153,21 +111,19 @@ p {
 }
 
 a {
-  color: inherit;
-  text-decoration-thickness: var(--filet);
-  text-underline-offset: 0.2em;
+  color: var(--bic);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.18em;
 }
 
-/* Au survol, le lien passe en réserve : encre et papier s'inversent. */
 a:hover {
-  background: var(--encre);
-  color: var(--fond);
-  text-decoration: none;
+  color: var(--rouge);
+  text-decoration-style: wavy;
 }
 
 :focus-visible {
-  outline: var(--trait) solid currentColor;
-  outline-offset: 3px;
+  outline: 2px dashed var(--rouge);
+  outline-offset: 4px;
 }
 
 .invisible {
@@ -181,377 +137,266 @@ a:hover {
 
 .evitement {
   position: absolute;
-  left: var(--marge);
+  left: 1rem;
   top: -10rem;
-  padding: 0.5rem 0.75rem;
-  background: var(--encre);
-  color: var(--fond);
+  z-index: 60;
+  padding: 0.25rem 0.75rem;
+  background: var(--papier);
+  color: var(--bic);
 }
 
 .evitement:focus {
   top: 0.5rem;
 }
 
-/* ---------- En-tête et pied de page ---------- */
+/* ---------- En-tête : le nom griffonné en lettres creuses, sur une étiquette ---------- */
 
 .entete {
-  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem 2rem;
-  padding: 1.25rem var(--marge);
-  font-family: var(--sans);
+  gap: 0.75rem 2rem;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 1.5rem var(--gouttiere) 0.5rem;
 }
 
 .entete-nom {
-  font-family: var(--titre);
-  font-size: 1.375rem;
-  font-weight: 900;
-  letter-spacing: 0.01em;
+  display: inline-block;
+  padding: 0.35rem 1.1rem 0.5rem;
+  background: var(--papier);
+  color: transparent;
+  font-family: var(--capitales);
+  font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   text-decoration: none;
-  display: inline-block;
+  -webkit-text-stroke: 1.3px var(--bic);
+  box-shadow: 0 6px 14px rgb(0 0 0 / 0.4);
+  clip-path: var(--bord-droit);
   transform: rotate(-2deg);
+}
+
+.entete-nom:hover {
+  color: rgb(31 59 148 / 0.15);
 }
 
 .menu {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 0.5rem;
+  gap: 0.5rem 1.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .menu a {
-  display: block;
-  padding: 0.2rem 0.65rem;
-  border: var(--filet) solid transparent;
-  font-weight: 700;
-  font-size: 0.9375rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  color: var(--papier);
+  font-size: 1.5rem;
   text-decoration: none;
 }
 
-.menu a:hover {
-  border-color: var(--encre);
-  background: transparent;
-  color: var(--encre);
+.menu li:nth-child(odd) a {
+  display: inline-block;
+  transform: rotate(-2deg);
 }
 
+.menu a:hover,
 .menu a[aria-current="page"] {
-  background: var(--encre);
-  color: var(--fond);
-  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  transform: rotate(-3deg);
+  color: var(--papier);
+  text-decoration: underline;
+  text-decoration-color: var(--marge-rouge);
+  text-decoration-thickness: 2px;
+  text-decoration-style: wavy;
+  text-underline-offset: 0.25em;
 }
 
-/* Le pied de page est un aplat noir, annoncé par des hachures qui s'épaississent vers lui. */
-.pied {
-  --fond: var(--noir);
-  --encre: var(--blanc);
+/* ---------- Les feuilles ---------- */
+
+main {
+  /* L'ombre suit les bords arrachés des feuilles. */
+  filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.42)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.3));
+}
+
+.bande,
+.duo-colonne {
   position: relative;
-  isolation: isolate;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.75rem 2rem;
-  margin-top: 4rem;
-  padding: 2.5rem var(--marge);
-  background: var(--noir);
-  color: var(--blanc);
-  font-family: var(--sans);
-  font-size: 0.9375rem;
-  line-height: 1.6;
+  /* Réglure bleu-gris, marge rouge, papier blanc cassé. */
+  background:
+    linear-gradient(90deg, transparent calc(var(--marge-feuille) - 0.9rem), var(--marge-rouge) calc(var(--marge-feuille) - 0.9rem) calc(var(--marge-feuille) - 0.9rem + 1.5px), transparent calc(var(--marge-feuille) - 0.9rem + 1.5px)),
+    repeating-linear-gradient(to bottom, transparent 0 calc(var(--ligne) - 1px), var(--reglure) calc(var(--ligne) - 1px) var(--ligne)) 0 1.2rem / 100% calc(100% - 1.2rem) no-repeat,
+    var(--papier);
+  color: var(--bic-fonce);
 }
 
-.pied::before {
-  content: "";
-  position: absolute;
-  inset: -4rem 0 100%;
-  background: var(--noir);
-  -webkit-mask: url("crayon/hachures.svg") 0 0 / 120px, linear-gradient(to top, #000, transparent);
-  -webkit-mask-composite: source-in;
-  mask: url("crayon/hachures.svg") 0 0 / 120px, linear-gradient(to top, #000, transparent);
-  mask-composite: intersect;
+.bande {
+  width: min(100% - 2 * var(--gouttiere), 68rem);
+  margin: clamp(1.5rem, 4vw, 3rem) auto;
+  padding: calc(var(--ligne) * 2) clamp(1rem, 5vw, 4rem) calc(var(--ligne) * 2.5) var(--marge-feuille);
+  clip-path: var(--bord-bas);
 }
 
-/* Une explosion blanche éclate au milieu du pied de page, entre la signature et les liens. */
-.pied::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -1.5rem;
-  z-index: -1;
-  width: clamp(8rem, 18vw, 13rem);
-  aspect-ratio: 1;
-  background: var(--blanc);
-  -webkit-mask: url("crayon/eclat-3.svg") center / contain no-repeat;
-  mask: url("crayon/eclat-3.svg") center / contain no-repeat;
-  transform: translateX(-50%) rotate(14deg);
-  opacity: 0.45;
+/* Les feuilles ne sont jamais posées droites. */
+main > :nth-child(odd of .bande) {
+  transform: rotate(-0.6deg);
 }
 
-@media (max-width: 63.99rem) {
-  .pied::after {
-    display: none;
-  }
+main > :nth-child(even of .bande) {
+  transform: rotate(0.5deg) translateX(0.75rem);
+  clip-path: var(--bord-bas-2);
 }
 
-.ton-noir .pied {
-  margin-top: 0;
-  border-top: 10px solid var(--blanc);
+/* Les coups de gueule sont sur des pages de carnet, un peu jaunies. */
+.ton-noir.bande,
+.ton-noir.duo-colonne,
+.voix-edito.publication {
+  background:
+    linear-gradient(90deg, transparent calc(var(--marge-feuille) - 0.9rem), var(--marge-rouge) calc(var(--marge-feuille) - 0.9rem) calc(var(--marge-feuille) - 0.9rem + 1.5px), transparent calc(var(--marge-feuille) - 0.9rem + 1.5px)),
+    repeating-linear-gradient(to bottom, transparent 0 calc(var(--ligne) - 1px), var(--reglure) calc(var(--ligne) - 1px) var(--ligne)) 0 1.2rem / 100% calc(100% - 1.2rem) no-repeat,
+    var(--papier-carnet);
 }
 
-.ton-noir .pied::before {
-  display: none;
+/* Les deux voix. */
+.voix-article {
+  font-family: var(--cursive);
 }
 
-.pied-nom {
-  margin: 0;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+.voix-edito,
+.voix-edito .texte {
+  font-family: var(--capitales);
+  font-size: 1.1875rem;
+  letter-spacing: 0.035em;
   text-transform: uppercase;
 }
 
-.pied-liens {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.75rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.voix-edito .texte a,
+.voix-edito .element-resume {
+  text-transform: none;
 }
 
-/* ---------- Bandes ---------- */
-
-/* Chaque bande est une case : un trait d'encre noire épais la sépare de la suivante. */
-.bande {
-  padding: clamp(3rem, 8vw, 6.5rem) var(--marge);
-  border-top: 10px solid var(--noir);
-  border-image: var(--crayon) 24 0 0 0 / 10px 0 0 0 stretch;
-}
-
-/* ---------- Bloc « une » : l'explosion ---------- */
+/* ---------- Une : la première feuille, avec son étoile tracée au stylo ---------- */
 
 .une {
-  position: relative;
-  overflow: hidden;
   isolation: isolate;
 }
 
-/* Lignes de vitesse au crayon qui rayonnent depuis l'explosion. */
-.une::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 80%;
-  z-index: -2;
-  width: min(62rem, 140vw);
-  aspect-ratio: 1;
-  background: var(--encre);
-  -webkit-mask: url("crayon/rayons.svg") center / contain no-repeat;
-  mask: url("crayon/rayons.svg") center / contain no-repeat;
-  transform: translate(-50%, -50%) rotate(4deg);
-  opacity: 0.8;
-}
-
-/* L'explosion : une étoile hachurée, contour au crayon gras, un peu de travers. */
 .une::after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 80%;
+  top: 2rem;
+  right: clamp(0.5rem, 4vw, 3rem);
   z-index: -1;
-  width: clamp(13rem, 32vw, 26rem);
+  width: clamp(7rem, 18vw, 13rem);
   aspect-ratio: 1;
-  background: var(--encre);
-  -webkit-mask: url("crayon/eclat-1.svg") center / contain no-repeat;
-  mask: url("crayon/eclat-1.svg") center / contain no-repeat;
-  transform: translate(-50%, -50%) rotate(-9deg);
+  background: var(--bic);
+  -webkit-mask: url("crayon/etoile-bic.svg") center / contain no-repeat;
+  mask: url("crayon/etoile-bic.svg") center / contain no-repeat;
+  opacity: 0.55;
+  transform: rotate(-8deg);
+  pointer-events: none;
 }
 
-/* Sur petit écran, l'explosion se range dans le coin pour laisser le titre lisible. */
-@media (max-width: 51.99rem) {
-  .une::before {
-    top: 0;
-    left: 100%;
-    width: 30rem;
-    opacity: 0.5;
-  }
-
-  .une::after {
-    top: 0;
-    left: 100%;
-    width: 11rem;
-    opacity: 0.8;
-  }
-}
-
-/* Le petit cartouche, comme un récitatif de bande dessinée. */
 .une-meta {
-  display: inline-block;
-  margin: 0 0 2rem;
-  padding: 0.35rem 0.8rem;
-  border: var(--filet) solid var(--encre);
-  background: var(--fond);
-  font-family: var(--sans);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  box-shadow: 4px 4px 0 var(--encre);
-  border-radius: 255px 12px 225px 12px / 12px 225px 12px 255px;
-  transform: rotate(-2.5deg);
+  margin: 0 0 var(--ligne);
+  color: var(--rouge);
+  font-family: var(--cursive);
+  font-size: 1.375rem;
 }
 
 .une-titre {
   max-width: 16ch;
-  margin: 0 0 2.25rem;
-  font-family: var(--titre);
-  font-size: clamp(2.5rem, 8.5vw, 6.5rem);
-  font-weight: 900;
+  margin: 0 0 var(--ligne);
+  font-family: var(--capitales);
+  font-size: clamp(2.5rem, 7.5vw, 5.25rem);
+  font-weight: 400;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  overflow-wrap: break-word;
-}
-
-.voix-edito .une-titre {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: -0.015em;
-  text-transform: none;
 }
 
 .une-titre a {
+  color: var(--bic-fonce);
   text-decoration: none;
 }
 
 .une-titre a:hover {
-  background: none;
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.1em;
+  color: var(--rouge);
+}
+
+/* Le grand titre est souligné deux fois, à la main. */
+.une-titre::after,
+.page-titre::after,
+.publication-titre::after {
+  content: "";
+  display: block;
+  width: min(100%, 6em);
+  height: 0.3em;
+  margin-top: 0.15em;
+  background: var(--bic);
+  -webkit-mask: url("crayon/souligne.svg") left center / 100% 100% no-repeat;
+  mask: url("crayon/souligne.svg") left center / 100% 100% no-repeat;
 }
 
 .une-resume {
-  max-width: 38ch;
+  max-width: 30em;
   margin: 0;
-  font-size: 1.375rem;
-  line-height: 1.55;
+  font-size: 1.625rem;
 }
 
-/* ---------- Duo : deux cases côte à côte, article sur papier, édito en aplat ---------- */
+/* ---------- Duo : deux feuilles côte à côte, celle de droite arrachée d'un carnet ---------- */
 
 .duo {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(1.5rem, 3.5vw, 2.5rem);
-  padding: clamp(2rem, 4.5vw, 3.5rem) var(--marge) calc(clamp(2rem, 4.5vw, 3.5rem) + var(--ombre));
-  border-top: 10px solid var(--noir);
-  border-image: var(--crayon) 24 0 0 0 / 10px 0 0 0 stretch;
-  background: var(--blanc);
-}
-
-/* Des hachures croisées remplissent les gouttières entre les cases. */
-.duo::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: var(--noir);
-  -webkit-mask: url("crayon/hachures.svg") 0 0 / 140px;
-  mask: url("crayon/hachures.svg") 0 0 / 140px;
-  opacity: 0.32;
-}
-
-/* Une tache d'encre a coulé entre les deux cases. */
-.duo::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 58%;
-  z-index: 2;
-  width: clamp(7rem, 14vw, 11rem);
-  aspect-ratio: 1;
-  background: var(--noir);
-  -webkit-mask: url("crayon/tache-1.svg") center / contain no-repeat;
-  mask: url("crayon/tache-1.svg") center / contain no-repeat;
-  transform: translate(-50%, -50%) rotate(20deg);
-  opacity: 0.9;
-}
-
-.duo-colonne {
-  position: relative;
-  padding: clamp(1.75rem, 4.5vw, 3.5rem);
-  border: var(--trait) solid var(--noir);
-  border-radius: 6px 14px 4px 18px / 16px 5px 14px 6px;
-  box-shadow: var(--ombre) var(--ombre) 0 var(--noir);
-}
-
-.duo-colonne:first-child {
-  transform: rotate(-0.7deg);
-}
-
-.duo-colonne:last-child {
-  transform: rotate(0.8deg);
-}
-
-@media (max-width: 51.99rem) {
-  .duo::after {
-    top: 50%;
-    left: 85%;
-  }
+  gap: clamp(1.5rem, 4vw, 3rem);
+  width: min(100% - 2 * var(--gouttiere), 72rem);
+  margin: clamp(1.5rem, 4vw, 3rem) auto;
 }
 
 @media (min-width: 52rem) {
   .duo {
     grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
 }
 
-.duo-titre {
-  margin: 0 0 2.75rem;
-  font-family: var(--titre);
-  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: 0;
-  text-transform: uppercase;
+.duo-colonne {
+  padding: calc(var(--ligne) * 1.5) clamp(1rem, 4vw, 2.5rem) calc(var(--ligne) * 2) var(--marge-feuille);
+  clip-path: var(--bord-droit);
 }
 
-.voix-edito .duo-titre {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  text-transform: none;
+.duo-colonne:first-child {
+  transform: rotate(-1.4deg);
+}
+
+.duo-colonne:last-child {
+  clip-path: var(--bord-bas);
+  transform: rotate(1.1deg) translateY(1.5rem);
+}
+
+.duo-titre {
+  margin: 0 0 var(--ligne);
+  font-family: var(--capitales);
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: var(--ligne);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .duo-suite {
-  margin: 3rem 0 0;
-  font-family: var(--sans);
-  font-size: 0.9375rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  margin: var(--ligne) 0 0;
+  font-family: var(--cursive);
+  font-size: 1.375rem;
+  text-transform: none;
+  letter-spacing: 0;
 }
-
-/* ---------- Listes de textes ---------- */
 
 .liste {
   display: grid;
-  gap: 3rem;
+  gap: var(--ligne);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -559,120 +404,83 @@ a:hover {
 
 .element-meta {
   margin: 0;
-  color: var(--encre-douce);
-  font-family: var(--sans);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.element-titre {
-  max-width: 24ch;
-  margin: 0.5rem 0 0.75rem;
-  font-size: 1.5rem;
-  font-weight: 800;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-}
-
-.voix-edito .element-titre {
-  font-size: 1.625rem;
-  font-style: italic;
-  font-weight: 700;
+  color: var(--rouge);
+  font-family: var(--cursive);
+  font-size: 1.25rem;
+  text-transform: none;
   letter-spacing: 0;
 }
 
+.element-titre {
+  margin: 0;
+  font-family: var(--capitales);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: var(--ligne);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 .element-titre a {
+  color: var(--bic-fonce);
   text-decoration: none;
 }
 
+.element-titre a:hover {
+  color: var(--rouge);
+  text-decoration: underline wavy;
+}
+
 .element-resume {
-  max-width: 44ch;
   margin: 0;
-  color: var(--encre-douce);
+  font-family: var(--cursive);
+  font-size: 1.375rem;
+  letter-spacing: 0;
 }
 
 .vide {
   margin: 0;
 }
 
-/* ---------- Blocs libres de l'accueil ---------- */
+/* ---------- Blocs de l'accueil ---------- */
+
+.bloc {
+  isolation: isolate;
+}
 
 .bloc-titre {
-  margin: 0 0 2rem;
-  font-family: var(--titre);
-  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: 0;
+  margin: 0 0 var(--ligne);
+  font-family: var(--capitales);
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: var(--ligne);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
+}
+
+/* Le petit bonhomme griffonné dans le coin de la feuille. */
+.bloc::after {
+  content: "";
+  position: absolute;
+  right: clamp(0.75rem, 5vw, 4rem);
+  bottom: 1.5rem;
+  z-index: -1;
+  width: clamp(4.5rem, 10vw, 7rem);
+  aspect-ratio: 200 / 190;
+  background: var(--bic);
+  -webkit-mask: url("crayon/visage.svg") center / contain no-repeat;
+  mask: url("crayon/visage.svg") center / contain no-repeat;
+  opacity: 0.8;
+  transform: rotate(8deg);
+  pointer-events: none;
 }
 
 .bloc .texte {
   margin-top: 0;
 }
 
-/* Chaque bloc libre reçoit un coin hachuré et une explosion dans la marge droite. */
-.bloc {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.bloc::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: var(--encre);
-  -webkit-mask: url("crayon/hachures.svg") 0 0 / 130px, radial-gradient(circle at 100% 100%, #000, transparent 55%);
-  -webkit-mask-composite: source-in;
-  mask: url("crayon/hachures.svg") 0 0 / 130px, radial-gradient(circle at 100% 100%, #000, transparent 55%);
-  mask-composite: intersect;
-  opacity: 0.5;
-}
-
-.bloc::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: clamp(-6rem, -4vw, -2rem);
-  z-index: -1;
-  width: clamp(10rem, 24vw, 19rem);
-  aspect-ratio: 1;
-  background: var(--encre);
-  -webkit-mask: url("crayon/eclat-2.svg") center / contain no-repeat;
-  mask: url("crayon/eclat-2.svg") center / contain no-repeat;
-  transform: translateY(-50%) rotate(18deg);
-}
-
-.bloc:nth-of-type(even)::after {
-  -webkit-mask-image: url("crayon/tache-2.svg");
-  mask-image: url("crayon/tache-2.svg");
-  transform: translateY(-50%) rotate(-30deg);
-}
-
-@media (max-width: 51.99rem) {
-  .bloc::after {
-    top: 0;
-    right: -4rem;
-    width: 9rem;
-    transform: rotate(18deg);
-    opacity: 0.6;
-  }
-}
-
 .integration {
   max-width: var(--mesure);
-}
-
-.integration > :first-child {
-  margin-top: 0;
-}
-
-.integration > :last-child {
-  margin-bottom: 0;
 }
 
 .integration iframe,
@@ -681,134 +489,72 @@ a:hover {
   max-width: 100%;
 }
 
-/* ---------- Fil d'Ariane ---------- */
+/* ---------- Pages et publications ---------- */
 
 .fil {
-  font-family: var(--sans);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 1.25rem;
 }
 
 .fil ol {
   display: flex;
   flex-wrap: wrap;
   gap: 0 0.5rem;
-  margin: 0 0 clamp(2.5rem, 6vw, 4.5rem);
+  margin: 0 0 var(--ligne);
   padding: 0;
   list-style: none;
 }
 
 .fil li + li::before {
-  content: "/";
+  content: "→";
   margin-right: 0.5rem;
+  color: var(--bic-pale);
 }
 
-/* ---------- Pages et publications ---------- */
-
-/* Une explosion dans la marge droite des textes, et une tache en tête de page. */
 .publication,
 .page,
 .page-entete {
-  position: relative;
-  overflow: hidden;
   isolation: isolate;
 }
 
+/* Les boucles griffonnées en haut de chaque texte, pendant qu'on réfléchissait. */
 .publication::after,
 .page::after,
 .page-entete::after {
   content: "";
   position: absolute;
-  top: clamp(4rem, 8vw, 7rem);
-  right: clamp(-5rem, -3vw, -1rem);
+  top: 1.25rem;
+  right: clamp(0.5rem, 3vw, 2.5rem);
   z-index: -1;
-  width: clamp(9rem, 30vw, 26rem);
-  aspect-ratio: 1;
-  background: var(--encre);
-  -webkit-mask: url("crayon/eclat-2.svg") center / contain no-repeat;
-  mask: url("crayon/eclat-2.svg") center / contain no-repeat;
-  transform: rotate(11deg);
-}
-
-.voix-edito.publication::after {
-  -webkit-mask-image: url("crayon/eclat-3.svg");
-  mask-image: url("crayon/eclat-3.svg");
-  transform: rotate(-16deg);
-}
-
-.page::after,
-.page-entete::after {
-  -webkit-mask-image: url("crayon/tache-2.svg");
-  mask-image: url("crayon/tache-2.svg");
-}
-
-/* Plus bas dans la marge, une tache d'encre et une seconde explosion, plus petites. */
-.publication::before {
-  content: "";
-  position: absolute;
-  right: clamp(1rem, 6vw, 7rem);
-  bottom: 18%;
-  z-index: -1;
-  width: clamp(8rem, 16vw, 14rem);
-  aspect-ratio: 1;
-  background: var(--encre);
-  -webkit-mask: url("crayon/tache-1.svg") center / contain no-repeat;
-  mask: url("crayon/tache-1.svg") center / contain no-repeat;
-  transform: rotate(-24deg);
-  opacity: 0.85;
+  width: clamp(8rem, 26vw, 17rem);
+  aspect-ratio: 560 / 160;
+  background: var(--bic);
+  -webkit-mask: url("crayon/boucles.svg") center / contain no-repeat;
+  mask: url("crayon/boucles.svg") center / contain no-repeat;
+  opacity: 0.45;
+  transform: rotate(-6deg);
   pointer-events: none;
-}
-
-@media (max-width: 69.99rem) {
-  .publication::before {
-    display: none;
-  }
-}
-
-/* Sous 70rem, le texte occupe la largeur : l'explosion se range en haut à droite, plus petite. */
-@media (max-width: 69.99rem) {
-  .publication::after,
-  .page::after,
-  .page-entete::after {
-    top: -2rem;
-    right: -3rem;
-    width: clamp(8rem, 24vw, 13rem);
-    opacity: 0.55;
-  }
 }
 
 .page-titre,
 .publication-titre {
-  transform: rotate(-1deg);
-  transform-origin: left bottom;
-  max-width: 18ch;
-  margin: 0 0 1.75rem;
-  font-family: var(--titre);
-  font-size: clamp(2.25rem, 6.5vw, 4.5rem);
-  font-weight: 900;
+  max-width: 20ch;
+  margin: 0 0 var(--ligne);
+  font-family: var(--capitales);
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 400;
   line-height: 1.05;
-  letter-spacing: -0.015em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  overflow-wrap: break-word;
-}
-
-.voix-edito .publication-titre {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  text-transform: none;
 }
 
 .page-chapo,
 .publication-resume {
-  max-width: 40ch;
-  margin: 0 0 1.75rem;
-  font-size: 1.375rem;
-  line-height: 1.55;
+  max-width: 30em;
+  margin: 0 0 var(--ligne);
+  font-family: var(--cursive);
+  font-size: 1.625rem;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .page-chapo {
@@ -816,27 +562,19 @@ a:hover {
 }
 
 .publication-meta {
-  max-width: var(--mesure);
   margin: 0;
-  padding-top: 1.5rem;
-  border-top: var(--trait) solid var(--encre);
-  font-family: var(--sans);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  color: var(--rouge);
+  font-family: var(--cursive);
+  font-size: 1.25rem;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
-/* ---------- Texte courant ---------- */
+/* ---------- Le texte, écrit sur les lignes ---------- */
 
 .texte {
   max-width: var(--mesure);
-  margin-top: clamp(2.75rem, 6vw, 4.5rem);
-}
-
-.voix-edito .texte {
-  font-size: 1.1875rem;
-  line-height: 1.9;
+  margin-top: calc(var(--ligne) * 1.5);
 }
 
 .texte > :first-child {
@@ -851,98 +589,97 @@ a:hover {
 .texte ul,
 .texte ol,
 .texte table {
-  margin: 0 0 var(--paragraphe);
+  margin: 0 0 var(--ligne);
 }
 
 .texte h2 {
-  margin: 3.75rem 0 1.25rem;
+  margin: calc(var(--ligne) * 2) 0 var(--ligne);
+  font-family: var(--capitales);
   font-size: 1.75rem;
-  font-weight: 800;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-}
-
-/* Les intertitres sont soulignés d'un gribouillis. */
-.texte h2::after,
-.bloc-titre::after,
-.duo-titre::after {
-  content: "";
-  display: block;
-  width: min(100%, 9em);
-  height: 0.4em;
-  margin-top: 0.2em;
-  background: currentColor;
-  -webkit-mask: url("crayon/rature.svg") left center / 100% 100% no-repeat;
-  mask: url("crayon/rature.svg") left center / 100% 100% no-repeat;
-}
-
-.duo-titre::after,
-.bloc-titre::after {
-  width: 5em;
-  height: 0.3em;
+  font-weight: 400;
+  line-height: var(--ligne);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: var(--bic-pale);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
 }
 
 .texte h3 {
-  margin: 2.75rem 0 1rem;
-  font-size: 1.3125rem;
-  line-height: 1.35;
-}
-
-.voix-edito .texte h2,
-.voix-edito .texte h3 {
-  font-style: italic;
+  margin: var(--ligne) 0 0;
+  font-family: var(--cursive);
+  font-size: 1.625rem;
   font-weight: 700;
-  letter-spacing: 0;
+  line-height: var(--ligne);
 }
 
 .texte ul,
 .texte ol {
-  padding-left: 1.4em;
+  padding-left: 1.5em;
 }
 
-.texte li + li {
-  margin-top: 0.6rem;
+.texte li::marker {
+  color: var(--bic-pale);
 }
 
-/* La citation devient une bulle. */
+/* Le gras : appuyé, repassé au stylo. */
+.texte strong {
+  font-weight: 700;
+  color: var(--bic);
+  text-decoration: underline;
+  text-decoration-color: var(--rouge);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.15em;
+}
+
+.voix-edito .texte strong {
+  font-weight: 400;
+  -webkit-text-stroke: 0.6px currentColor;
+}
+
+/* La rature : le mot reste lisible sous deux traits de stylo. */
+.texte del {
+  text-decoration: none;
+  background:
+    linear-gradient(transparent 44%, var(--bic) 44% calc(44% + 1.5px), transparent calc(44% + 1.5px) 56%, var(--bic) 56% calc(56% + 1.5px), transparent calc(56% + 1.5px));
+  color: var(--bic-pale);
+}
+
+/* La note de marge : à gauche de la marge rouge, en petit, de travers. */
+.texte .marge {
+  display: block;
+  margin: calc(var(--ligne) * -0.5) 0 var(--ligne);
+  color: var(--bic);
+  font-family: var(--capitales);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+
+@media (min-width: 52rem) {
+  .texte .marge {
+    float: left;
+    clear: left;
+    width: calc(var(--marge-feuille) - 1.4rem);
+    margin: 0 0 0 calc(-1 * var(--marge-feuille) + 0.2rem);
+    font-size: 0.875rem;
+    line-height: 1.2;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* La citation : recopiée entre guillemets, avec un trait dans la marge. */
 .texte blockquote {
-  position: relative;
-  margin: 2.75rem 0 3.5rem;
-  padding: 1.5rem 1.75rem;
-  border: var(--trait) solid var(--encre);
-  border-radius: 2.2rem 1.4rem 2.6rem 1.2rem / 1.5rem 2.4rem 1.3rem 2rem;
-  background: var(--fond);
-  transform: rotate(-0.6deg);
-  font-size: 1.25rem;
-  line-height: 1.65;
-}
-
-/* La pointe de la bulle : un triangle d'encre, évidé par un triangle de papier. */
-.texte blockquote::before,
-.texte blockquote::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-right-style: solid;
-  border-right-color: transparent;
-  border-top-style: solid;
-}
-
-.texte blockquote::before {
-  left: 2.25rem;
-  bottom: -1.75rem;
-  border-top-width: 1.75rem;
-  border-top-color: var(--encre);
-  border-right-width: 1.5rem;
-}
-
-.texte blockquote::after {
-  left: calc(2.25rem + var(--trait));
-  bottom: calc(-1.75rem + var(--trait) * 2.3);
-  border-top-width: 1.2rem;
-  border-top-color: var(--fond);
-  border-right-width: 1rem;
+  margin: var(--ligne) 0;
+  padding: 0 0 0 1.25rem;
+  border-left: 2px solid var(--rouge);
+  font-family: var(--capitales);
+  font-size: 1.3125rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .texte blockquote p:last-child {
@@ -956,656 +693,161 @@ a:hover {
   height: auto;
 }
 
-.texte img {
-  border: var(--trait) solid var(--noir);
-}
-
 .texte code {
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 0.88em;
+  font-size: 0.8em;
 }
 
 .texte pre {
-  margin: 0 0 var(--paragraphe);
-  padding: 1.25rem 1.5rem;
+  margin: 0 0 var(--ligne);
+  padding: 0.5rem 1rem;
   overflow-x: auto;
-  border: var(--filet) solid var(--encre);
-  box-shadow: 5px 5px 0 var(--encre);
-  font-size: 0.9375rem;
+  border: 1.5px dashed var(--bic-pale);
+  font-size: 0.875rem;
   line-height: 1.6;
 }
 
 .texte table {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--sans);
-  font-size: 1rem;
+  font-size: 1.25rem;
 }
 
 .texte th,
 .texte td {
-  padding: 0.75rem 1rem 0.75rem 0;
-  border-bottom: var(--filet) solid var(--encre);
+  padding: 0 0.75rem 0 0;
+  height: var(--ligne);
+  border-bottom: 1.5px solid var(--bic-pale);
   text-align: left;
-  vertical-align: top;
+  vertical-align: bottom;
 }
 
 .texte th {
-  border-bottom-width: var(--trait);
+  font-family: var(--capitales);
+  font-size: 1rem;
+  font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-/* Le séparateur : une petite explosion hachurée entre deux traits de crayon. */
 .texte hr {
-  height: 3.5rem;
-  margin: 3.5rem 0;
+  height: 2.5rem;
+  margin: var(--ligne) 0;
   border: 0;
-  background: var(--encre);
-  -webkit-mask: url("crayon/eclat-3.svg") center / auto 100% no-repeat, url("crayon/trait.svg") center / 100% 10px no-repeat;
-  mask: url("crayon/eclat-3.svg") center / auto 100% no-repeat, url("crayon/trait.svg") center / 100% 10px no-repeat;
+  background: var(--bic);
+  -webkit-mask: url("crayon/etoile-bic.svg") center / contain no-repeat;
+  mask: url("crayon/etoile-bic.svg") center / contain no-repeat;
+  opacity: 0.6;
 }
 
 /* ---------- Plan du site ---------- */
 
 .plan {
   max-width: var(--mesure);
-  margin: clamp(2.25rem, 5vw, 3.5rem) 0 0;
+  margin: var(--ligne) 0 0;
   padding-left: 1.2em;
 }
 
 .plan ul {
-  margin: 0.4rem 0 0.6rem;
+  margin: 0;
   padding-left: 1.4em;
 }
 
-.plan li + li {
-  margin-top: 0.6rem;
+/* ---------- Pied de page : sur la table ---------- */
+
+.pied {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 1.5rem var(--gouttiere) 3rem;
+  color: var(--papier);
+  font-size: 1.375rem;
 }
 
-
-/* =====================================================================
-   Graffiti 90 : on décadre.
-   Tout ce qui suit défait l'alignement : titres de travers et débordants,
-   lignes de texte décalées, étiquettes au feutre, résumés collés en bandes.
-   ===================================================================== */
-
-/* Les voix : les articles tapés à la machine, les éditos gardent leur caractère à empattements. */
-.voix-article .texte,
-.voix-article .element-resume,
-.texte table {
-  font-family: var(--machine);
+.pied a {
+  color: var(--papier);
 }
 
-.voix-article .texte {
-  font-size: 1.125rem;
-  letter-spacing: 0;
+.pied a:hover {
+  color: var(--marge-rouge);
 }
 
-/* --- Étiquettes au feutre --- */
-
-.menu a,
-.une-meta,
-.element-meta,
-.publication-meta,
-.fil,
-.duo-suite,
-.pied,
-.pied-nom,
-.texte th {
-  font-family: var(--marqueur);
-  font-weight: 400;
-  letter-spacing: 0.03em;
-  text-transform: none;
+.pied-nom {
+  margin: 0;
 }
 
-.menu a {
-  font-size: 1.125rem;
+.pied-liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.menu li:nth-child(odd) a {
-  transform: rotate(-4deg);
-}
+/* ---------- Petits écrans ---------- */
 
-.menu li:nth-child(even) a {
-  transform: rotate(3deg) translateY(3px);
-}
+@media (max-width: 51.99rem) {
+  :root {
+    --marge-feuille: 2.25rem;
+  }
 
-.element-meta {
-  font-size: 0.9375rem;
-}
+  .bande {
+    padding-right: 1rem;
+  }
 
-.element-titre,
-.texte h2,
-.texte h3 {
-  font-family: var(--marqueur);
-  font-weight: 400;
-  font-style: normal;
-  letter-spacing: 0.01em;
-}
+  /* Une longue feuille penchée déborde vite de l'écran : sur téléphone, on la redresse presque. */
+  main > :nth-child(odd of .bande) {
+    transform: rotate(-0.15deg);
+  }
 
-.voix-edito .element-titre,
-.voix-edito .texte h2,
-.voix-edito .texte h3 {
-  font-style: normal;
-  font-weight: 400;
-}
-
-/* --- Titres à la bombe --- */
-
-.entete-nom,
-.une-titre,
-.duo-titre,
-.bloc-titre,
-.page-titre,
-.publication-titre {
-  font-family: var(--titre);
-  font-weight: 400;
-  font-style: normal;
-  letter-spacing: 0.01em;
-  text-transform: none;
-}
-
-.entete-nom {
-  font-size: 1.875rem;
-  transform: rotate(-5deg) translateY(4px);
-}
-
-/* Les articles : lettres pleines, avec un relief décalé. */
-.une-titre,
-.page-titre,
-.publication-titre {
-  max-width: 13ch;
-  line-height: 0.92;
-  text-shadow: 3px 3px 0 var(--fond), 6px 6px 0 var(--encre);
-}
-
-.une-titre {
-  font-size: clamp(3.25rem, 11vw, 9rem);
-  margin-left: -0.04em;
-  transform: rotate(-5deg);
-  transform-origin: left center;
-}
-
-.page-titre,
-.publication-titre {
-  font-size: clamp(2.75rem, 8vw, 6rem);
-  transform: rotate(-3.5deg);
-}
-
-/* Les éditos : lettres évidées, contour épais, comme un « throw-up ». */
-.voix-edito .une-titre,
-.voix-edito .publication-titre,
-.voix-edito .duo-titre {
-  font-family: var(--titre);
-  font-style: normal;
-  font-weight: 400;
-  color: var(--fond);
-  -webkit-text-stroke: 2px var(--encre);
-  paint-order: stroke fill;
-  text-shadow: 5px 5px 0 var(--encre);
-  text-transform: none;
-}
-
-.voix-edito .une-titre {
-  -webkit-text-stroke-width: 3px;
-}
-
-/* Une coulure de peinture sous les grands titres. */
-.une-titre::after,
-.page-titre::after,
-.publication-titre::after {
-  content: "";
-  display: block;
-  width: min(100%, 7em);
-  height: 0.55em;
-  margin-top: 0.08em;
-  background: var(--encre);
-  -webkit-mask: url("crayon/coulures.svg") left top / 100% 100% no-repeat;
-  mask: url("crayon/coulures.svg") left top / 100% 100% no-repeat;
-}
-
-.duo-titre,
-.bloc-titre {
-  font-size: clamp(2.25rem, 5vw, 3.5rem);
-  line-height: 1;
-}
-
-.duo-titre {
-  transform: rotate(-4deg);
-}
-
-.voix-edito .duo-titre {
-  transform: rotate(3deg);
-}
-
-.bloc-titre {
-  transform: rotate(-3deg);
-}
-
-/* --- Résumés collés en bandes de papier, ligne par ligne --- */
-
-.une-resume,
-.publication-resume,
-.page-chapo {
-  max-width: 34ch;
-  margin-left: clamp(0rem, 12vw, 10rem);
-  font-family: var(--machine);
-  font-size: 1.25rem;
-  line-height: 2;
-  transform: rotate(1.5deg);
-}
-
-.une-resume > *,
-.une-resume,
-.publication-resume,
-.page-chapo {
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-}
-
-.une-resume,
-.publication-resume,
-.page-chapo {
-  display: block;
-}
-
-.une-resume::first-line,
-.publication-resume::first-line,
-.page-chapo::first-line {
-  letter-spacing: 0.02em;
-}
-
-/* La bande : le texte est enveloppé dans un fond d'encre, interrompu à chaque ligne. */
-.une-resume,
-.publication-resume,
-.page-chapo {
-  background: none;
-}
-
-.une-resume,
-.publication-resume,
-.page-chapo {
-  --bande: var(--encre);
-}
-
-.une-resume {
-  color: var(--fond);
-  background: linear-gradient(var(--bande), var(--bande)) 0 0 / 100% 100% no-repeat;
-  width: fit-content;
-  padding: 0.35rem 0.8rem;
-  box-shadow: 6px 6px 0 var(--fond), 6px 6px 0 2px var(--encre);
-}
-
-.publication-resume,
-.page-chapo {
-  width: fit-content;
-  padding: 0.35rem 0.8rem;
-  border: var(--filet) solid var(--encre);
-  background: var(--fond);
-  box-shadow: 5px 5px 0 var(--encre);
-}
-
-.voix-edito .une-resume,
-.voix-edito .publication-resume {
-  font-family: var(--serif);
-  font-style: italic;
-}
-
-/* --- Cases et listes qui se chevauchent --- */
-
-@media (min-width: 52rem) {
-  .duo-colonne:first-child {
-    transform: rotate(-2deg) translateY(0.75rem);
+  main > :nth-child(even of .bande) {
+    transform: rotate(0.15deg);
   }
 
   .duo-colonne:last-child {
-    transform: rotate(1.6deg) translateY(-0.5rem);
+    transform: rotate(1deg);
   }
 }
 
-.liste .element:nth-child(odd) {
-  transform: rotate(-1.2deg);
-}
-
-.liste .element:nth-child(even) {
-  margin-left: clamp(0.75rem, 4vw, 2.5rem);
-  transform: rotate(1.4deg);
-}
-
-.element-titre {
-  font-size: 1.625rem;
-  line-height: 1.2;
-}
-
-.voix-edito .element-titre {
-  font-size: 1.625rem;
-}
-
-/* --- Le texte courant : chaque paragraphe tient sa propre ligne de travers --- */
-
-.texte h2 {
-  font-size: 2rem;
-  transform: rotate(-2.5deg);
-  transform-origin: left center;
-}
-
-.texte h2:nth-of-type(even) {
-  margin-left: clamp(0.5rem, 5vw, 3rem);
-  transform: rotate(2deg);
-}
-
-.texte h3 {
-  font-size: 1.5rem;
-  transform: rotate(-1.5deg);
-}
-
-/* La première lettre, tagguée en grand. */
-.publication .texte > p:first-child::first-letter {
-  float: left;
-  margin: 0.05em 0.12em 0 -0.05em;
-  font-family: var(--titre);
-  font-size: 4.4em;
-  font-style: normal;
-  line-height: 0.8;
-  text-shadow: 3px 3px 0 var(--fond), 5px 5px 0 var(--encre);
-  transform: rotate(-8deg);
-}
-
-@media (min-width: 52rem) {
-  .texte > p:nth-of-type(4n + 1) {
-    transform: rotate(-0.5deg);
-  }
-
-  .texte > p:nth-of-type(4n + 2) {
-    margin-left: 2.5rem;
-    max-width: 54ch;
-    transform: rotate(0.6deg);
-  }
-
-  .texte > p:nth-of-type(4n + 3) {
-    margin-left: 0.75rem;
-    transform: rotate(-0.3deg);
-  }
-
-  .texte > p:nth-of-type(4n) {
-    margin-left: 4rem;
-    max-width: 50ch;
-    transform: rotate(0.9deg);
-  }
-
-  .texte ul,
-  .texte ol {
-    margin-left: 1.5rem;
-    transform: rotate(-0.8deg);
-  }
-
-  .texte li:nth-child(even) {
-    margin-left: 1.25rem;
-  }
-
-  .texte table {
-    transform: rotate(0.5deg);
-  }
-}
-
-/* La bulle parle au feutre. */
-.texte blockquote {
-  font-family: var(--marqueur);
-  font-size: 1.375rem;
-  line-height: 1.55;
-  transform: rotate(-1.5deg);
-}
-
-/* --- Bas de page --- */
-
-.pied-nom {
-  font-size: 1.125rem;
-  transform: rotate(-3deg);
-}
-
-.pied-liens li:nth-child(odd) {
-  transform: rotate(-2deg);
-}
-
-.pied-liens li:nth-child(even) {
-  transform: rotate(2deg) translateY(2px);
-}
-
-.une-meta {
-  font-size: 1rem;
-  transform: rotate(-6deg);
-}
-
-.publication-meta {
-  border-top: 0;
-  padding-top: 0;
-  font-size: 1rem;
-  transform: rotate(-1deg);
-}
-
-/* Sur petit écran, on garde le désordre mais on rentre tout dans la largeur. */
-@media (max-width: 51.99rem) {
-  .une-resume,
-  .publication-resume,
-  .page-chapo {
-    margin-left: 0.5rem;
-    max-width: calc(100% - 1rem);
-  }
-
-  .une-titre {
-    font-size: clamp(3rem, 14vw, 4.5rem);
-  }
-}
-
-/* --- Le cahier d'écolier : réglure Seyès et marge sous les enquêtes et les pages --- */
-
-.publication.voix-article,
-.page,
-.page-entete {
-  --regle: rgb(0 0 0 / 0.07);
-  --regle-forte: rgb(0 0 0 / 0.16);
-  --marge-cahier: calc(var(--marge) - 0.9rem);
-  background-image:
-    linear-gradient(90deg, transparent var(--marge-cahier), rgb(0 0 0 / 0.45) var(--marge-cahier) calc(var(--marge-cahier) + 2px), transparent calc(var(--marge-cahier) + 2px)),
-    repeating-linear-gradient(to bottom, var(--regle-forte) 0 1px, transparent 1px 32px),
-    repeating-linear-gradient(to bottom, var(--regle) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(to right, var(--regle) 0 1px, transparent 1px 32px);
-}
-
-/* --- Le rouge : une seconde encre, comme un coup de bombe sur le noir et blanc --- */
-
-::selection {
-  background: var(--rouge);
-  color: var(--blanc);
-}
-
-a:hover {
-  background: var(--rouge);
-  color: var(--blanc);
-}
-
-.menu a[aria-current="page"] {
-  background: var(--rouge);
-  color: var(--blanc);
-}
-
-.menu a:hover {
-  border-color: var(--rouge);
-  color: var(--encre);
-}
-
-/* L'explosion de la une et les coulures des grands titres passent au rouge. */
-.une::after,
-.une-titre::after,
-.page-titre::after,
-.publication-titre::after {
-  background: var(--rouge);
-}
-
-.une-meta {
-  box-shadow: 4px 4px 0 var(--rouge);
-}
-
-/* Les gribouillis sous les intertitres. */
-.texte h2::after,
-.bloc-titre::after,
-.duo-titre::after {
-  background: var(--rouge);
-}
-
-/* Les cases de l'accueil projettent une ombre rouge. */
-.duo-colonne {
-  box-shadow: var(--ombre) var(--ombre) 0 var(--rouge);
-}
-
-/* La tache entre les cases est rouge, la lettrine aussi. */
-.duo::after {
-  background: var(--rouge);
-}
-
-.publication .texte > p:first-child::first-letter {
-  color: var(--rouge);
-  text-shadow: 3px 3px 0 var(--fond), 5px 5px 0 var(--encre);
-}
-
-/* Les chiffres en gras sont surlignés au marqueur rouge. */
-.texte strong {
-  background: linear-gradient(transparent 58%, rgb(225 6 0 / 0.55) 58% 92%, transparent 92%);
-  padding: 0 0.1em;
-}
-
-/* Les titres d'articles : relief rouge sous l'encre noire. */
-.une-titre,
-.page-titre,
-.publication-titre {
-  text-shadow: 3px 3px 0 var(--fond), 6px 6px 0 var(--rouge);
-}
-
-/* Les coups de gueule : lettres évidées, ombre rouge. */
-.voix-edito .une-titre,
-.voix-edito .publication-titre,
-.voix-edito .duo-titre {
-  text-shadow: 5px 5px 0 var(--rouge);
-}
-
-/* La bulle et le résumé collé prennent une ombre rouge. */
-.publication-resume,
-.page-chapo {
-  box-shadow: 5px 5px 0 var(--rouge);
-}
-
-.une-resume {
-  box-shadow: 6px 6px 0 var(--rouge);
-}
-
-/* Le cahier : la marge est rouge, comme sur un vrai cahier d'écolier. */
-.publication.voix-article,
-.page,
-.page-entete {
-  background-image:
-    linear-gradient(90deg, transparent var(--marge-cahier), rgb(225 6 0 / 0.7) var(--marge-cahier) calc(var(--marge-cahier) + 2px), transparent calc(var(--marge-cahier) + 2px)),
-    repeating-linear-gradient(to bottom, var(--regle-forte) 0 1px, transparent 1px 32px),
-    repeating-linear-gradient(to bottom, var(--regle) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(to right, var(--regle) 0 1px, transparent 1px 32px);
-}
-
-/* Le pied de page : l'explosion rougeoie. */
-.pied::after {
-  background: var(--rouge);
-  opacity: 0.75;
-}
-
-/* --- Ratures et notes de marge (venues du kit Google Docs) --- */
-
-/* Une rature : le mot reste lisible, barré d'un trait de stylo. */
-.texte del {
-  text-decoration: line-through;
-  text-decoration-color: var(--rouge);
-  text-decoration-thickness: 0.14em;
-  opacity: 0.75;
-}
-
-/* Une note de marge : une source, un nom, un renvoi, griffonné à côté du texte. */
-.texte .marge {
-  margin: -0.5rem 0 var(--paragraphe);
-  font-family: var(--marqueur);
-  font-size: 1rem;
-  color: var(--rouge);
-  transform: rotate(-3deg);
-}
-
-@media (min-width: 64rem) {
-  .texte .marge {
-    float: right;
-    clear: right;
-    width: 11rem;
-    margin: 0.25rem -13rem 1rem 0;
-    text-align: left;
-  }
-}
-
-/* ---------- Impression ---------- */
+/* ---------- Impression : une copie propre ---------- */
 
 @media print {
+  html,
+  body {
+    background: #fff;
+  }
+
+  body::after,
   .entete nav,
   .pied-liens,
   .fil,
   .evitement,
-  body::after,
-  .une::before,
   .une::after,
-  .bloc::before,
   .bloc::after,
-  .duo::before,
-  .duo::after,
-  .publication::before,
   .publication::after,
   .page::after,
-  .page-entete::after,
-  .pied::before,
-  .pied::after {
+  .page-entete::after {
     display: none;
   }
 
-  .ton-blanc,
-  .ton-noir,
-  .pied,
-  .bloc.ton-noir {
-    --fond: #fff;
-    --encre: #000;
-    --encre-douce: #333;
-    background: #fff;
-    color: #000;
+  main {
+    filter: none;
   }
 
+  .bande,
   .duo-colonne {
-    box-shadow: none;
-  }
-
-  .publication.voix-article,
-  .page,
-  .page-entete {
-    background-image: none;
-  }
-
-  .une-titre::after,
-  .page-titre::after,
-  .publication-titre::after {
-    display: none;
-  }
-
-  .une-titre,
-  .page-titre,
-  .publication-titre,
-  .texte > p {
-    text-shadow: none;
+    clip-path: none;
     transform: none;
+    background: #fff;
   }
 
-  .voix-edito .une-titre,
-  .voix-edito .publication-titre {
+  .pied,
+  .pied a,
+  .entete-nom {
     color: #000;
-    -webkit-text-stroke: 0;
   }
 }

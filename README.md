@@ -1,6 +1,6 @@
 # Les cahiers du fond de la glotte
 
-Ce qui nous reste en travers de la gorge, on le met par écrit : des enquêtes chiffrées et des coups de gueule. Un site en HTML et CSS, façon graffiti des années 90 sur cahier d’écolier, en noir et blanc, avec du rouge en seconde encre. Les enquêtes s’affichent en noir sur blanc sur une réglure de cahier, les coups de gueule en blanc sur noir.
+Ce qui nous reste en travers de la gorge, on le met par écrit : des enquêtes chiffrées et des coups de gueule. Un site en HTML et CSS qui ressemble à nos brouillons : des feuilles de copie à marge rouge posées sur une table, écrites au stylo bille bleu, avec leurs ratures et leurs griffonnages. Les enquêtes s’écrivent en cursive, les coups de gueule en capitales, sur des pages de carnet.
 
 Le site publié ne contient que du HTML et du CSS : aucun JavaScript, aucun cookie, aucune police ou ressource chargée depuis un autre site : les polices sont hébergées avec le site. Un petit script, `build.mjs`, assemble les pages à partir des fichiers de `contenu/`. Il n'a besoin d'aucune installation en dehors de Node.js.
 
@@ -34,7 +34,7 @@ contenu/
 gabarits/page.html    le squelette commun à toutes les pages (en-tête, menu, pied de page)
 public/               les fichiers copiés tels quels : styles.css, favicon.svg, images
   crayon/             les motifs dessinés (explosions, hachures, taches, gribouillis, grain)
-  polices/            les trois polices du site et leurs licences (Sedgwick Ave Display, Permanent Marker, Special Elite)
+  polices/            les polices du site et leurs licences (Caveat pour la cursive, Patrick Hand pour les capitales)
 build.mjs             le script qui assemble le site dans dist/
 outils/docs.mjs       le kit qui importe des documents Google Docs dans contenu/
 contenu/docs.json     la liste des documents Google reliés au site
