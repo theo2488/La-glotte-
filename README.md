@@ -137,7 +137,7 @@ Deux personnages dessinés restent en fond. En faisant défiler la page, ils ava
 </section>
 ```
 
-- **Les dessins** : une image par pose et par personnage (PNG à fond transparent ou SVG), en pied, plus haute que large, toutes à la même taille, dans `public/images/`. Le premier dessin de la liste sert de pose de départ.
+- **Les dessins** : une image par pose et par personnage (dessin à l'encre noire : PNG à fond transparent, SVG, ou scan sur papier clair ; il est collé sur un morceau de papier translucide), en pied, plus haute que large, toutes à la même taille, dans `public/images/`. Le premier dessin de la liste sert de pose de départ.
 - **Les poses** : `marche` entre deux répliques, `parle` pour celui qui parle, `ecoute` pour l'autre. Une réplique peut demander autre chose avec `data-pose` (celui qui parle) et `data-pose-autre` (l'autre) ; si la pose demandée n'existe pas, le premier dessin est utilisé.
 - **Les répliques** : `replique a` pour le personnage de gauche, `replique b` pour celui de droite.
 

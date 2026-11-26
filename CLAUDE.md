@@ -102,7 +102,8 @@ Comment c'est rendu sur le site (toujours dans la DA graffiti) :
 Dans un texte, un bloc `<section class="scene">` pose deux personnages dessinés en fond ; le défilement les fait avancer l'un vers l'autre et fait progresser la discussion, bulle après bulle (`public/scene.js` + section « Scène » de `public/styles.css`, mode d'emploi dans le README, modèle dans le brouillon `contenu/articles/exemple-defilement.html`).
 
 - Les dessins définitifs seront fournis par l'artiste du collectif : style sombre, dessin au stylo, façon gribouillis. Les bonshommes `public/images/exemple-perso-*.svg` ne sont que des exemples : ne pas les publier dans un vrai texte.
-- Un dessin par pose (`data-pose="marche"`, `"parle"`, `"ecoute"`, ou tout autre nom), en pied, fond transparent. La réplique choisit la pose de celui qui parle (`data-pose`) et de l'autre (`data-pose-autre`).
+- Un dessin par pose (`data-pose="marche"`, `"parle"`, `"ecoute"`, ou tout autre nom), en pied, à l'encre noire, sur fond transparent ou scanné sur papier clair. La réplique choisit la pose de celui qui parle (`data-pose`) et de l'autre (`data-pose-autre`).
+- Papier collé (essai du 26 novembre 2026, branche `papier-colle`) : chaque personnage est posé sur un morceau de feuille déchirée, translucide pour garder la scène sombre. Le dessin est fondu dans le papier et passé en noir et blanc. La transparence se règle avec `--papier-opacite` sur `.scene` dans `public/styles.css` (0,26 ; plus bas = plus sombre).
 - Le bloc `<section class="defilement">` (texte qui défile devant une image fixe) reste en CSS seul.
 
 ## Données personnelles (RGPD)
