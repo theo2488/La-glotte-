@@ -102,7 +102,7 @@ La page `/donnees-personnelles/` et les mentions légales sont remplies depuis `
 
 ## Mise en ligne
 
-GitHub Pages, publication automatique depuis `main` par `.github/workflows/publier.yml` ; adresse `https://theo2488.github.io/La-glotte-/` (dans `url` de `site.config.json`). Pousser sur `main`, c'est publier : travailler sur une branche et ne fusionner que ce qui est prêt. L'hébergeur (GitHub, États-Unis) est déclaré dans `rgpd.hebergeur`.
+GitHub Pages, publication automatique depuis `main` par `.github/workflows/publier.yml` ; adresse `https://theo2488.github.io/Les-cahiers-de-la-Glotte-/` (dans `url` de `site.config.json` ; le dépôt s'appelle `Les-cahiers-de-la-Glotte-`, anciennement `La-glotte-`). Pousser sur `main`, c'est publier : travailler sur une branche et ne fusionner que ce qui est prêt. L'hébergeur (GitHub, États-Unis) est déclaré dans `rgpd.hebergeur`.
 
 ## Le code couleur des zones de texte
 

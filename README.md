@@ -96,7 +96,7 @@ Le script s'arrête avec un message explicite si un en-tête est mal rempli ou s
 
 ## Mise en ligne
 
-Le site est publié gratuitement sur GitHub Pages, à l'adresse `https://theo2488.github.io/La-glotte-/`. Le fichier `.github/workflows/publier.yml` s'en charge : à chaque modification de la branche `main`, GitHub reconstruit le site avec `node build.mjs` et met en ligne le dossier `dist`. Si la construction échoue (lien cassé, en-tête mal rempli, contenu extérieur non déclaré), rien n'est publié et l'ancienne version reste en ligne.
+Le site est publié gratuitement sur GitHub Pages, à l'adresse `https://theo2488.github.io/Les-cahiers-de-la-Glotte-/`. Le fichier `.github/workflows/publier.yml` s'en charge : à chaque modification de la branche `main`, GitHub reconstruit le site avec `node build.mjs` et met en ligne le dossier `dist`. Si la construction échoue (lien cassé, en-tête mal rempli, contenu extérieur non déclaré), rien n'est publié et l'ancienne version reste en ligne.
 
 Réglage à faire une seule fois, dans GitHub : **Settings > Pages > Build and deployment > Source : « GitHub Actions »**. Le suivi des publications se lit dans l'onglet **Actions** du dépôt ; le bouton « Run workflow » relance une publication à la main.
 
