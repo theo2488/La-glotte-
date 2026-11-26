@@ -1545,6 +1545,33 @@ a:hover {
   }
 }
 
+/* --- Les textes recopiés des carnets --- */
+
+/* Un texte écrit en capitales dans le carnet : il garde sa voix, au feutre. */
+.texte .capitales p {
+  font-family: var(--marqueur);
+  font-size: 1.375rem;
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 52rem) {
+  .texte .capitales p:nth-of-type(odd) {
+    transform: rotate(-0.7deg);
+  }
+
+  .texte .capitales p:nth-of-type(even) {
+    margin-left: 3rem;
+    transform: rotate(0.8deg);
+  }
+}
+
+/* Sur le noir des coups de gueule, la rature reste lisible. */
+.voix-edito .texte del {
+  opacity: 0.6;
+  text-decoration-thickness: 0.12em;
+}
+
 /* ---------- Impression ---------- */
 
 @media print {

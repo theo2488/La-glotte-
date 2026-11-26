@@ -6,20 +6,20 @@ Toujours écrire en français, avec la typographie française (le script corrige
 
 ## Les profils d'écriture
 
-Établis à partir de six photos de pages manuscrites (novembre 2026) et des notes de veille du dossier Drive « Les cahiers du fond de la glotte ». Les deux plumes manuscrites ne sont pas encore nommées : les appeler par leur nom dès que le collectif le donne.
+Établis à partir du texte de six photos de pages manuscrites (novembre 2026) et des notes de veille du dossier Drive « Les cahiers du fond de la glotte ». Les deux plumes manuscrites ne sont pas encore nommées : les appeler par leur nom dès que le collectif le donne.
 
 ### Plume A — « la cursive » (écriture penchée, stylo bleu, beaucoup de ratures)
 
 L'interpellation. Elle parle *à* quelqu'un : un étudiant, un lycéen, « vous » puis « tu ».
 
-- **Adresse directe** : « Et vous, les… ! Vous vous lancez bras ballants, mal armés, dans un système qui va vous broyer. » Passe du « vous » collectif au « tu » qui vise une personne.
+- **Adresse directe** : « Et vous les […] ! Vous vous lancez bras ballants, mal armés dans un système qui va vous broyer. » Passe du « vous » collectif au « tu » qui vise une personne.
 - **Questions rhétoriques et ironie** : « Le système actuel, tu crois qu'il fonctionne ? » ; « Mais l'État vis-à-vis de l'éducation, tu crois qu'il prend des décisions fortes ? »
 - **Slogans retournés** : reprend une injonction officielle pour la vider (« Faites des études ! », « Grimper l'ascenseur social, tout est permis »).
 - **Registre parlé** : « tu brailles tes revendications », « tu gémis », « 900 balles pour aller à la fac », « j'suis », « le hic, c'est que… ».
 - **Témoignage à la première personne** pour asseoir la légitimité : « J'suis un peu sensibilisé à ces sujets, j'suis moi-même un produit de l'université. » ; « Moi, j'aime bien analyser les chiffres qu'on me donne. »
 - **Chiffres comme coups de poing** : un pourcentage, une somme (CVEC de 250 à 900 € l'année de licence, taux de chômage selon le diplôme), puis le retournement (« Mais le hic… »). Toujours vérifier et sourcer ces chiffres avant publication : sur les brouillons, ils sont notés de mémoire.
 - **Chute courte** qui élargit : « Notre société est orientée vers le tertiaire. »
-- **Écrit en se corrigeant** : phrases reprises, mots barrés, tournures resserrées. Les ratures font partie du style (voir la DA).
+- **Écrit en se corrigeant** : phrases reprises, mots barrés, tournures resserrées. Près de la moitié du brouillon est raturée ; sur le site, les ratures restent visibles.
 
 Rubrique naturelle : le **coup de gueule** argumenté, ou l'ouverture d'une **enquête**.
 
@@ -31,7 +31,7 @@ L'incantation. Un texte-manifeste, presque un poème en prose.
 - **Lexique soutenu et rare** : tocsin, linceul, outre-tombe, obscurantisme, désincarnées, terra preta.
 - **Images organiques et corporelles** : poumons, mâchoire béante, bouches édentées, cri animal ; l'arbre (« LES RACINES SONT SAINES, LES BRANCHES POREUSES, LES FEUILLES TOMBÉES »).
 - **Feu et apocalypse** : brasier, explosion, dernier râle, « UNE APOCALYPSE THÉRAPEUTIQUE » (oxymores assumés).
-- **Jeux de mots et de sons** : « CULTURE DE LA TERRA PRETA FACE AUX CULTURES TOUTES-PRÊTES, TOUT PRÊTS-À-PORTER » ; « DES ACTIONS EXTRÊMES CONTRE LES EXTRÊMES… ».
+- **Jeux de mots et de sons** : « CULTURE DE LA TERRA PRETA FACE AUX CULTURES TOUTES-PRÊTES, TOUT PRÊTS-À-PORTER » ; « DES ACTIONS EXTRÊMES CONTRE LES EXTRÊMES ACTANTS » ; rimes internes (« SOCIALE / RÂLE », « IRAN / AMBIANT », « COLOMBE / OUTRE-TOMBE »).
 - **Indignation morale et « nous » de responsabilité** : « CAR NOUS DEVONS ÊTRE TENUS RESPONSABLES DE NOS ERREURS ET MALVEILLANCES » ; écriture inclusive simple (« TOUS ET TOUTES »).
 - **Références en marge** : un nom de sociologue noté à côté du texte (« (PASSERON) »). Sur le site, ces renvois vont dans une note de marge.
 - Phrases longues, ponctuées par des phrases-sentences très courtes (« CAR ILS LE MÉRITENT. »).
@@ -52,12 +52,21 @@ Les notes du dossier Drive (Thème 1) : listes de contexte, questions ouvertes (
 - La colère vise des décisions, des rapports, des systèmes ; pas des personnes.
 - Ne jamais publier une donnée personnelle (nom, numéro de téléphone) vue sur un brouillon ou une photo.
 
-## La direction artistique (d'après les photos)
+## La direction artistique
 
-Des feuilles volantes posées sur une table en bois, sous une lampe : copies simples à grands interlignes bleu-gris et marge rouge, encre bleue de stylo bille, mots barrés, bords arrachés, gribouillis dans la marge (lettres creuses, visage, boucles). Le graffiti y est présent comme griffonnage au Bic, pas comme bombe.
+Graffiti des années 90 sur cahier d'écolier, en noir et blanc avec le rouge en seconde encre. C'est la DA voulue par le collectif : ne pas la remplacer.
 
-- Encre : bleu stylo bille ; rouge réservé à la marge et aux corrections.
-- Papier : blanc cassé, réglure horizontale bleu-gris, marge rouge à gauche.
-- Les cadres de texte sont des feuilles : légèrement de travers, ombre portée, un bord arraché.
-- Ratures visibles (`<del>`), notes de marge (`<aside class="marge">`), soulignés à main levée.
-- Deux écritures : cursive penchée (Plume A, enquêtes) et capitales d'imprimerie (Plume B, coups de gueule).
+- Titres tagués à la bombe (Sedgwick Ave Display) : lettres pleines à relief rouge pour les enquêtes, lettres évidées (« throw-up ») pour les coups de gueule. Coulures rouges sous les grands titres.
+- Étiquettes, intertitres, bulles et notes au feutre (Permanent Marker). Texte des enquêtes à la machine à écrire (Special Elite), sur réglure de cahier à marge rouge. Coups de gueule en blanc sur noir.
+- Explosions hachurées, lignes de vitesse, hachures croisées, taches d'encre, grain : motifs dans `public/crayon/`, colorés par `mask-image`.
+- Rien n'est cadré : titres et cases de travers, paragraphes décalés, résumés collés en bandes.
+- Ratures visibles (`<del>`), notes de marge (`<aside class="marge">`), texte en capitales au feutre (`<div class="capitales">`) pour les textes recopiés des carnets.
+
+Les photos de pages manuscrites envoyées par le collectif servent **uniquement pour leur texte** : on les retranscrit et on en tire les profils d'écriture. Elles ne sont pas un modèle visuel. (Une DA « feuilles de papier sur une table » a été essayée par erreur sur la branche `da-feuilles` ; elle n'a pas été retenue.)
+
+## Les textes recopiés des carnets
+
+- `contenu/editos/faites-des-etudes.html` : brouillon de la Plume A, retranscrit avec ses ratures. Les chiffres (CVEC de 250 à 900, 5,3 %, 14,7 %, 805 000) sont ceux du brouillon : non vérifiés, à sourcer.
+- `contenu/editos/le-temps-de-la-colere.html` : texte de la Plume B, en capitales.
+
+Règle de transcription : fidèle au manuscrit, orthographe corrigée, ratures gardées en `<del>`, mot illisible noté `[…]` plutôt que deviné.
